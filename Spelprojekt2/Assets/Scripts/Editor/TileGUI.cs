@@ -16,6 +16,11 @@ public class TileGUI : Editor
             myTile.PlaceRock();
         }
 
+        if (GUILayout.Button("Place Player"))
+        {
+            myTile.PlacePlayer();
+        }
+
         if (GUILayout.Button("Place Hole"))
         {
             myTile.PlaceHole();
