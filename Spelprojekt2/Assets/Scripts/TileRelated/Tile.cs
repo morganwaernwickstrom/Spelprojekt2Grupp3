@@ -11,8 +11,6 @@ public class Tile : MonoBehaviour
 
     private GameObject myCurrent = null;
 
-    private static bool ourHasPlayer = false;
-
     public void PlaceRock()
     {
         float rockSize = myRock.GetComponent<Renderer>().bounds.size.y;
@@ -34,17 +32,13 @@ public class Tile : MonoBehaviour
 
     public void PlacePlayer()
     {
-        if (!ourHasPlayer)
-        {
-            ourHasPlayer = true;
-            float playerSize = myPlayer.GetComponent<Renderer>().bounds.size.y;
-            float tileSize = GetComponent<Renderer>().bounds.size.y;
+        float playerSize = myPlayer.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
 
-            float tileTop = transform.position.y + tileSize / 2;
-            Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
 
-            myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
-        }
+        myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
     }
 
     public void RemoveCurrent()
