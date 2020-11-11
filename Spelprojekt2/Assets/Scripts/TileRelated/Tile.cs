@@ -6,6 +6,8 @@ public class Tile : MonoBehaviour
     private GameObject myRock = null;
     [SerializeField]
     private GameObject myHole = null;
+    [SerializeField]
+    private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
 
@@ -26,6 +28,17 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
+    }
+
+    public void PlacePlayer()
+    {
+        float playerSize = myPlayer.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
     }
 
     public void RemoveCurrent()

@@ -18,6 +18,7 @@ public class TileEditor : MonoBehaviour
 
     public int MyHeight { get => myHeight; set => myHeight = value; }
     public int MyWidth { get => myWidth; set => myWidth = value; }
+
     private void OnValidate()
     {
         if (FindObjectOfType<Tile>() != null)
