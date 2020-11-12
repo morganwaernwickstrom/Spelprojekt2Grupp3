@@ -9,21 +9,31 @@ public class TileGUI : Editor
         Tile myTile = (Tile)target;
         SerializedObject tileInstance = new SerializedObject(myTile);
 
-        tileInstance.Update();
+        myTile.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
+        myTile.GetComponent<Renderer>().hideFlags = HideFlags.HideInInspector;
+        myTile.GetComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
 
-        if (GUILayout.Button("Place Rock"))
-        {
-            myTile.PlaceRock();
-        }
+        tileInstance.Update();
 
         if (GUILayout.Button("Place Player"))
         {
             myTile.PlacePlayer();
         }
 
+        if (GUILayout.Button("Place Rock"))
+        {
+            myTile.PlaceRock();
+        }
+
         if (GUILayout.Button("Place Hole"))
         {
             myTile.PlaceHole();
+        }
+
+        EditorGUILayout.HelpBox("Place a laser, choose direction below", MessageType.Info);
+        if (GUILayout.Button("Place Laser"))
+        {
+            myTile.PlaceLaser();
         }
 
         if (GUILayout.Button("Remove"))

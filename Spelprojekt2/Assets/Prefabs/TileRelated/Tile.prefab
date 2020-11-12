@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 9116157895302998657}
   - component: {fileID: 896059482722392525}
   - component: {fileID: 8892069681334070220}
-  - component: {fileID: 2765884212462901177}
   - component: {fileID: 520964361963883420}
   m_Layer: 0
   m_Name: Tile
@@ -81,19 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2765884212462901177
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8557512270643707524}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &520964361963883420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,5 +94,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
+  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}

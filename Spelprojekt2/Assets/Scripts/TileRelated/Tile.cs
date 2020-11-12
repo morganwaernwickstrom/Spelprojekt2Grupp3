@@ -7,6 +7,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myHole = null;
     [SerializeField]
+    private GameObject myLaser = null;
+    [SerializeField]
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
@@ -28,6 +30,13 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
+    }
+
+    public void PlaceLaser()
+    {
+        float offset = 0.5f;
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
+        myCurrent = Instantiate(myLaser, newPosition, transform.rotation);
     }
 
     public void PlacePlayer()

@@ -9,8 +9,11 @@ public class TileEditorGUI : Editor
         TileEditor myTileEditor = (TileEditor)target;
         SerializedObject editorInstance = new SerializedObject(myTileEditor);
 
+        myTileEditor.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
+
         editorInstance.Update();
 
+        EditorGUILayout.HelpBox("Generate a tilemap. if you already have an active tilemap, that one will be overwritten", MessageType.Info);
         myTileEditor.MyWidth = EditorGUILayout.IntField("Width", myTileEditor.MyWidth);
         myTileEditor.MyHeight = EditorGUILayout.IntField("Height", myTileEditor.MyHeight);
 
@@ -19,6 +22,7 @@ public class TileEditorGUI : Editor
             myTileEditor.GenerateTiles();
         }
 
+        EditorGUILayout.HelpBox("Clear all existing tiles", MessageType.Info);
         if (GUILayout.Button("Clear Level"))
         {
             myTileEditor.ClearTiles();
