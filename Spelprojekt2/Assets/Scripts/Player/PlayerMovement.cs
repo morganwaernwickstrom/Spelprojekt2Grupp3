@@ -2,42 +2,27 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    Vector3 myDesiredPosition;
-
-    [SerializeField]
-    float mySpeed;
-
-    private void Awake()
-    {
-        myDesiredPosition = transform.position;
-    }
-
     private void Update()
-    {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-
-        Movement();
-    }
-
-    private void Movement()
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            myDesiredPosition += new Vector3(0, 0, 1);
+            float newZ = transform.position.z + 1f;
+            transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            myDesiredPosition += new Vector3(0, 0, -1);
+            float newZ = transform.position.z - 1f;
+            transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            myDesiredPosition += new Vector3(-1, 0, 0);
+            float newX = transform.position.x - 1f;
+            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
-            myDesiredPosition += new Vector3(1, 0, 0);
+            float newX = transform.position.x + 1f;
+            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
         }
-
     }
 }
