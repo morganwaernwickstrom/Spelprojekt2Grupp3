@@ -30,7 +30,6 @@ public class TileGUI : Editor
             myTile.PlaceHole();
         }
 
-        EditorGUILayout.HelpBox("Place a laser, choose direction below", MessageType.Info);
         if (GUILayout.Button("Place Laser"))
         {
             myTile.PlaceLaser();

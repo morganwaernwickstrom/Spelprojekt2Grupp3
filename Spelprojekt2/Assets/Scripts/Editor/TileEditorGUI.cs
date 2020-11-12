@@ -14,8 +14,8 @@ public class TileEditorGUI : Editor
         editorInstance.Update();
 
         EditorGUILayout.HelpBox("Generate a tilemap. if you already have an active tilemap, that one will be overwritten", MessageType.Info);
-        myTileEditor.MyWidth = EditorGUILayout.IntField("Width", myTileEditor.MyWidth);
-        myTileEditor.MyHeight = EditorGUILayout.IntField("Height", myTileEditor.MyHeight);
+        myTileEditor.myWidth = EditorGUILayout.IntField("Width", myTileEditor.myWidth);
+        myTileEditor.myHeight = EditorGUILayout.IntField("Height", myTileEditor.myHeight);
 
         if (GUILayout.Button("Generate Level"))
         {

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6951104298363258265}
   - component: {fileID: 6951104298363258264}
-  - component: {fileID: 6951104298363258267}
+  - component: {fileID: 2213223929517998976}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -50,7 +50,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: f707f6b8a06487c4d8432966673c90a0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -82,7 +82,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.12318909
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -129,7 +129,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &6951104298363258267
+--- !u!114 &2213223929517998976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,3 +141,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e04721890ddac294ebe98cac01520b3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myLaserIndex: 0

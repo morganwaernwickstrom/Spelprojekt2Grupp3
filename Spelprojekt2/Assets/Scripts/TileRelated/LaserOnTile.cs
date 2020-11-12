@@ -4,14 +4,15 @@ public class LaserOnTile : MonoBehaviour
 {
     LineRenderer myLineRenderer = null;
 
-    private void Awake()
+    [ExecuteAlways]
+    private void Start()
     {
-        Vector3 newPos = new Vector3(transform.position.x +9, transform.position.y, transform.position.x);
         myLineRenderer = GetComponent<LineRenderer>();
-        myLineRenderer.startColor = Color.red;
-        myLineRenderer.useWorldSpace = true;
 
-        myLineRenderer.SetPosition(0, transform.position);
-        myLineRenderer.SetPosition(1, newPos);
+        Vector3 firstPos = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
+        Vector3 secondPos = new Vector3(transform.position.x + 5, transform.position.y + 0.25f, transform.position.z);
+        myLineRenderer.useWorldSpace = true;
+        myLineRenderer.SetPosition(0, firstPos);
+        myLineRenderer.SetPosition(1, secondPos);
     }
 }

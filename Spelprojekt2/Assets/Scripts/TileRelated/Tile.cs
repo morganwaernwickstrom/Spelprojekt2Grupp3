@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
+    private eTileType myType = eTileType.Empty;
 
     public void PlaceRock()
     {
@@ -22,6 +23,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myRock, newPosition, transform.rotation);
+        myType = eTileType.Rock;
     }
 
     public void PlaceHole()
@@ -30,6 +32,7 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
+        myType = eTileType.Hole;
     }
 
     public void PlaceLaser()
@@ -37,6 +40,7 @@ public class Tile : MonoBehaviour
         float offset = 0.5f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myLaser, newPosition, transform.rotation);
+        myType = eTileType.Laser;
     }
 
     public void PlacePlayer()
@@ -48,6 +52,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
+        myType = eTileType.Player;
     }
 
     public void RemoveCurrent()
@@ -56,5 +61,10 @@ public class Tile : MonoBehaviour
         {
             DestroyImmediate(myCurrent);
         }
+    }
+
+    public eTileType GetTileType()
+    {
+        return myType;
     }
 }
