@@ -1,50 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum eTileType
-{
-    Empty,
-    Rock,
-    Hole,
-    Laser,
-    Player
-}
-
-public struct Coord
-{
-    public int x;
-    public int y;
-
-    public Coord(int _x, int _y)
-    {
-        x = _x;
-        y = _y;
-    }
-
-    public static bool operator ==(Coord c1, Coord c2)
-    {
-        return c1.x == c2.x && c1.y == c2.y;
-    }
-
-    public static bool operator !=(Coord c1, Coord c2)
-    {
-        return !(c1 == c2);
-    }
-}
-
-public struct _Tile
-{
-    public Coord coord;
-    public eTileType type;
-
-    public _Tile(Coord _coord, eTileType _type)
-    {
-        coord = _coord;
-        type = _type;
-    }
-}
-
-
 public class TileEditor : MonoBehaviour
 {
     [SerializeField]
@@ -54,13 +10,11 @@ public class TileEditor : MonoBehaviour
     [SerializeField]
     private Material mySecondMat = null;
 
-    private int _myWidth;
-    private int _myHeight;
-
     private List<GameObject> myTileContainer;
     private List<_Tile> myTiles;
-    private Vector2 myMapSize;
 
+    private int _myWidth;
+    private int _myHeight;
     public int myHeight { get => _myHeight; set => _myHeight = value; }
     public int myWidth { get => _myWidth; set => _myWidth = value; }
 
@@ -126,15 +80,5 @@ public class TileEditor : MonoBehaviour
             DestroyImmediate(tile.gameObject);
             myTiles.Clear();
         }
-    }
-
-    public void SetWidth(float aWidth)
-    {
-        myMapSize.x = aWidth;
-    }
-
-    public void SetHeight(float aHeight)
-    {
-        myMapSize.y = aHeight;
     }
 }
