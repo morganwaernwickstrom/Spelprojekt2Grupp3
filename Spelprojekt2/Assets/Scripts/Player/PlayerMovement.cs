@@ -22,22 +22,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+
+
+        float distanceToTarget = Vector3.Distance(transform.position, myDesiredPosition);
+        if(distanceToTarget < 0.05f) 
         {
-            myDesiredPosition += new Vector3(0, 0, 1);
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                myDesiredPosition += new Vector3(0, 0, 1);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                myDesiredPosition += new Vector3(0, 0, -1);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                myDesiredPosition += new Vector3(-1, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                myDesiredPosition += new Vector3(1, 0, 0);
+            }
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        else 
         {
-            myDesiredPosition += new Vector3(0, 0, -1);
+            Debug.Log("Not at position");
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            myDesiredPosition += new Vector3(-1, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            myDesiredPosition += new Vector3(1, 0, 0);
-        }
+      
 
     }
 }
