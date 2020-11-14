@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public event Action moveEvent;
+    Vector3 myPreviousPos;
     Vector3 myDesiredPosition;
     private Coord myCoords;
 
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        myPreviousPos = transform.position;
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
         myCoords.x = (int)Mathf.Round(transform.position.x);
         myCoords.y = (int)Mathf.Round(transform.position.z);
