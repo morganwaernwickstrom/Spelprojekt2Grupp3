@@ -1,56 +1,92 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RockMovement : MonoBehaviour
 {
+    public event Func<Coord, bool> MoveEvent;
     private Vector3 myDesiredPosition;
     private float mySpeed = 0.1f;
-    
-    private Coord myPlayerCoords;
-    private Coord myPlayerLastCoords;
     private Coord myCoords;
 
-    private void Start()
+    private void Awake()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
-        FindObjectOfType<PlayerMovement>().moveEvent += Move;
+        FindObjectOfType<PlayerMovement>().MoveEvent += OnPlayerMove;
     }
 
-    private void Move()
+    private void Update()
     {
-        myPlayerCoords = FindObjectOfType<PlayerMovement>().GetCoord();
-        if (myCoords == myPlayerCoords)
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        if (transform.position.y <= 0)
         {
-            if (myPlayerLastCoords.x == myCoords.x - 1)
+            Destroy(gameObject);
+        }
+    }
+
+    private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
+    {
+        if (myCoords == aPlayerCurrentPos)
+        {
+            if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
-                myDesiredPosition += new Vector3(1, 0, 0);
-                myCoords.x += 1;
+                Move(new Coord(1, 0));
             }
-            if (myPlayerLastCoords.x == myCoords.x + 1)
+            if (aPlayerPreviousPos.x == myCoords.x + 1)
             {
-                myDesiredPosition += new Vector3(-1, 0, 0);
-                myCoords.x -= 1;
+                Move(new Coord(-1, 0));
             }
-            if (myPlayerLastCoords.y == myCoords.y - 1)
+            if (aPlayerPreviousPos.y == myCoords.y - 1)
             {
-                myDesiredPosition += new Vector3(0, 0, 1);
-                myCoords.y += 1;
+                Move(new Coord(0, 1));
             }
-            if (myPlayerLastCoords.y == myCoords.y + 1)
+            if (aPlayerPreviousPos.y == myCoords.y + 1)
             {
-                myDesiredPosition += new Vector3(0, 0, -1);
-                myCoords.y -= 1;
+                Move(new Coord(0, -1));
             }
         }
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-        myPlayerLastCoords = myPlayerCoords;
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void Move(Coord aDirection)
+    {
+        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
+        foreach (RockMovement rock in otherRocks)
+        {
+            if ((myCoords + aDirection) == rock.GetCoords())
+            {
+                return;
+            }
+        }
+        myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
+        myCoords += aDirection;
+
+        if (MoveEvent != null)
+        {
+            foreach (Func<Coord, bool> f in MoveEvent.GetInvocationList())
+            {
+                if (f(myCoords))
+                {
+                    myDesiredPosition += new Vector3(0, -1f, 0);
+                }
+            }
+        }
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 
     private void OnDestroy()
     {
         if (FindObjectOfType<PlayerMovement>())
         {
-            FindObjectOfType<PlayerMovement>().moveEvent -= Move;
+            FindObjectOfType<PlayerMovement>().MoveEvent -= OnPlayerMove;
         }
     }
 }

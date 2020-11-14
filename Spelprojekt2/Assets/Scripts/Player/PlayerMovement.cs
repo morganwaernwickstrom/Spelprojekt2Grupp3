@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public event Action moveEvent;
-    Vector3 myPreviousPos;
-    Vector3 myDesiredPosition;
+    public event Func<Coord, Coord, bool> MoveEvent;
+    private Vector3 myDesiredPosition;
     private Coord myCoords;
+    private Coord myPreviousCoords;
 
     [SerializeField]
     float mySpeed = 0.1f;
@@ -19,33 +19,48 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        myPreviousPos = transform.position;
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-        myCoords.x = (int)Mathf.Round(transform.position.x);
-        myCoords.y = (int)Mathf.Round(transform.position.z);
         Movement();
     }
 
     private void Movement()
     {
+        Coord originalCoord = myCoords;
+
+        myPreviousCoords = myCoords;
         if (Input.GetKeyDown(KeyCode.W))
         {
             myDesiredPosition += new Vector3(0, 0, 1);
+            myCoords.y += 1;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             myDesiredPosition += new Vector3(0, 0, -1);
+            myCoords.y -= 1;
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
             myDesiredPosition += new Vector3(-1, 0, 0);
+            myCoords.x -= 1;
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             myDesiredPosition += new Vector3(1, 0, 0);
+            myCoords.x += 1;
         }
 
-        moveEvent?.Invoke();
+        if (myDesiredPosition != transform.position && MoveEvent != null)
+        {
+            foreach(Func<Coord, Coord, bool> f in MoveEvent.GetInvocationList())
+            {
+                if (f(myCoords, myPreviousCoords))
+                {
+                    myDesiredPosition = transform.position;
+                    myCoords = originalCoord;
+                }
+            }
+        }
+        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 
     public Coord GetCoord()

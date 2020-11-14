@@ -45,6 +45,10 @@ public class TileEditor : MonoBehaviour
     }
     public void GenerateTiles()
     {
+        if (myTiles == null)
+        {
+            myTiles = new List<_Tile>();
+        }
         ClearTiles();
         for (int i = 0; i < _myHeight; i++)
         {

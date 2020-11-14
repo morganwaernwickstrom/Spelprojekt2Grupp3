@@ -27,6 +27,11 @@ public struct Coord
     {
         return !(c1 == c2);
     }
+
+    public static Coord operator +(Coord c1, Coord c2)
+    {
+        return new Coord(c1.x + c2.x, c1.y + c2.y);
+    }
 }
 
 public struct _Tile
