@@ -121,112 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &474838
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 474843}
-  - component: {fileID: 474842}
-  - component: {fileID: 474841}
-  - component: {fileID: 474840}
-  - component: {fileID: 474839}
-  m_Layer: 0
-  m_Name: Rock(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &474839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &474840
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474838}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &474841
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474838}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8bc9648bd00fb1e4982d035771c1df60, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &474842
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474838}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &474843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 474838}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7, y: 0.625, z: 5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &12099920
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,7 +168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &12099923
@@ -371,7 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &41992713
@@ -468,7 +360,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &57352242
@@ -518,112 +409,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57352239}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &73487922
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 73487927}
-  - component: {fileID: 73487926}
-  - component: {fileID: 73487925}
-  - component: {fileID: 73487924}
-  - component: {fileID: 73487923}
-  m_Layer: 0
-  m_Name: Rock(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &73487923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73487922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &73487924
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73487922}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &73487925
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73487922}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8bc9648bd00fb1e4982d035771c1df60, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &73487926
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73487922}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &73487927
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73487922}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.625, z: 3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &106469679
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +456,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &106469682
@@ -721,6 +505,125 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 106469679}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &111143225
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 111143231}
+  - component: {fileID: 111143230}
+  - component: {fileID: 111143229}
+  - component: {fileID: 111143228}
+  - component: {fileID: 111143227}
+  - component: {fileID: 111143226}
+  m_Layer: 0
+  m_Name: Rock(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &111143226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b82970e4e25d88458576efa8670f48f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &111143227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &111143228
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &111143229
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8bc9648bd00fb1e4982d035771c1df60, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &111143230
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &111143231
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111143225}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 0.625, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111825757
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +671,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &111825760
@@ -818,6 +720,125 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111825757}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &140451135
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 140451141}
+  - component: {fileID: 140451140}
+  - component: {fileID: 140451139}
+  - component: {fileID: 140451138}
+  - component: {fileID: 140451137}
+  - component: {fileID: 140451136}
+  m_Layer: 0
+  m_Name: Rock(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &140451136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b82970e4e25d88458576efa8670f48f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &140451137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &140451138
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &140451139
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 8bc9648bd00fb1e4982d035771c1df60, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &140451140
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &140451141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140451135}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3, y: 0.625, z: 3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &149657937
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,7 +886,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &149657940
@@ -962,7 +982,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &195250873
@@ -1059,7 +1078,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &268536749
@@ -1156,7 +1174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &275432059
@@ -1253,7 +1270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &285824124
@@ -1324,7 +1340,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &334444060
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1350,12 +1366,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &334444062
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1394,7 +1409,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &334444063
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1447,7 +1462,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &370685682
@@ -1544,7 +1558,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &405171467
@@ -1615,7 +1628,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &442543273
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1641,12 +1654,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &442543275
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1685,7 +1697,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &442543276
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -1738,7 +1750,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &456673633
@@ -1835,7 +1846,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &480864052
@@ -1932,7 +1942,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &520636144
@@ -2029,7 +2038,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &525808526
@@ -2079,112 +2087,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 525808523}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &565693175
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 565693180}
-  - component: {fileID: 565693179}
-  - component: {fileID: 565693178}
-  - component: {fileID: 565693177}
-  - component: {fileID: 565693176}
-  m_Layer: 0
-  m_Name: Rock(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &565693176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565693175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &565693177
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565693175}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &565693178
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565693175}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 8bc9648bd00fb1e4982d035771c1df60, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &565693179
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565693175}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &565693180
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 565693175}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 0.625, z: 6}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &601842554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,7 +2108,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &601842555
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2232,12 +2134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &601842557
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2276,7 +2177,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &601842558
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2329,7 +2230,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &603634705
@@ -2426,7 +2326,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &609563370
@@ -2497,7 +2396,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &681004820
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2523,12 +2422,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &681004822
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2567,7 +2465,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &681004823
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2620,7 +2518,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &684977735
@@ -2809,7 +2706,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &747895630
@@ -2880,7 +2776,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &748674020
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2906,12 +2802,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &748674022
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -2950,7 +2845,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &748674023
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -3003,7 +2898,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &869192077
@@ -3100,7 +2994,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &871084171
@@ -3197,7 +3090,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &907125890
@@ -3294,7 +3186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &957419524
@@ -3420,13 +3311,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.1974229, y: -0, z: -0, w: 0.9803184}
-  m_LocalPosition: {x: 4.21, y: 7.57, z: -10}
+  m_LocalRotation: {x: 0.5013763, y: -0, z: -0, w: 0.8652294}
+  m_LocalPosition: {x: 3.62, y: 7.56, z: -1.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 22.773, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60.182003, y: 0, z: 0}
 --- !u!1 &989257223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,7 +3365,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &989257226
@@ -3571,7 +3461,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &997797445
@@ -3668,7 +3557,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1002226219
@@ -3765,7 +3653,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1027024645
@@ -3862,7 +3749,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1038330908
@@ -3959,7 +3845,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1052756098
@@ -4056,7 +3941,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1054150839
@@ -4153,7 +4037,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1082539937
@@ -4250,7 +4133,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1108424585
@@ -4300,6 +4182,99 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1108424582}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1114530515
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1114530519}
+  - component: {fileID: 1114530518}
+  - component: {fileID: 1114530517}
+  - component: {fileID: 1114530516}
+  m_Layer: 0
+  m_Name: Player(Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1114530516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114530515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b4955f5464bd74ba8fc70b04af9f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySpeed: 0.1
+--- !u!23 &1114530517
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114530515}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b729649238de02b47898b26a5ac79fc1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &1114530518
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114530515}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1114530519
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114530515}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 6, y: 1.125, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1141251507
 GameObject:
   m_ObjectHideFlags: 0
@@ -4321,7 +4296,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1141251508
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4347,12 +4322,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1141251510
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4391,7 +4365,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &1141251511
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -4444,7 +4418,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1176917925
@@ -4541,7 +4514,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1294042868
@@ -4638,7 +4610,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1297432868
@@ -4735,7 +4706,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1303528253
@@ -4832,7 +4802,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1304875028
@@ -4929,7 +4898,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1305526683
@@ -5026,7 +4994,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1318232940
@@ -5097,7 +5064,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1440948505
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5123,12 +5090,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1440948507
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5167,7 +5133,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &1440948508
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5220,7 +5186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1489349944
@@ -5317,7 +5282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1526877423
@@ -5367,99 +5331,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526877420}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1540627559
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1540627563}
-  - component: {fileID: 1540627562}
-  - component: {fileID: 1540627561}
-  - component: {fileID: 1540627560}
-  m_Layer: 0
-  m_Name: Player(Clone)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1540627560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540627559}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b4955f5464bd74ba8fc70b04af9f93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mySpeed: 0.1
---- !u!23 &1540627561
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540627559}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b729649238de02b47898b26a5ac79fc1, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &1540627562
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540627559}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1540627563
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1540627559}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4, y: 1.125, z: 2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552010628
 GameObject:
   m_ObjectHideFlags: 0
@@ -5507,7 +5378,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1552010631
@@ -5604,7 +5474,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1582939163
@@ -5701,7 +5570,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1613071220
@@ -5798,7 +5666,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1628273414
@@ -5869,7 +5736,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1644098528
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5895,12 +5762,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1644098530
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -5939,7 +5805,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &1644098531
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -6067,7 +5933,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1768750434
@@ -6164,7 +6029,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1804897514
@@ -6261,7 +6125,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1900153372
@@ -6332,7 +6195,7 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &1911654101
 Transform:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -6358,12 +6221,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1911654103
 MeshRenderer:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -6402,7 +6264,7 @@ MeshRenderer:
   m_SortingOrder: 0
 --- !u!33 &1911654104
 MeshFilter:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -6455,7 +6317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1943056807
@@ -6552,7 +6413,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2003214598
@@ -6649,7 +6509,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2026863853
@@ -6746,7 +6605,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2038611830
@@ -6843,7 +6701,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2093252472
@@ -6940,7 +6797,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myRock: {fileID: 4843673542374375374, guid: 50f7d34d92c578f4ca0e78f20b104352, type: 3}
   myHole: {fileID: 1346039786623803918, guid: 928d5a68f42ac6e4ab0c9d5229a8690a, type: 3}
-  myLaser: {fileID: 6951104298363258266, guid: 346554d2abcfafb41802c65aad7aa245, type: 3}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2127547439

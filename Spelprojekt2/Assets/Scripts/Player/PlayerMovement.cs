@@ -1,22 +1,26 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
+    public event Action moveEvent;
     Vector3 myDesiredPosition;
+    private Coord myCoords;
 
     [SerializeField]
-    float mySpeed;
+    float mySpeed = 0.1f;
 
     private void Awake()
     {
+        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
     }
 
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-
+        myCoords.x = (int)Mathf.Round(transform.position.x);
+        myCoords.y = (int)Mathf.Round(transform.position.z);
         Movement();
     }
 
@@ -39,5 +43,11 @@ public class PlayerMovement : MonoBehaviour
             myDesiredPosition += new Vector3(1, 0, 0);
         }
 
+        moveEvent?.Invoke();
+    }
+
+    public Coord GetCoord()
+    {
+        return myCoords;
     }
 }
