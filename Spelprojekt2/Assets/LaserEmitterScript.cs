@@ -28,15 +28,13 @@ public class LaserEmitterScript : MonoBehaviour
         }
 
         myLasers.Clear();
-       
+
         int amount = (int)myLaserDistance;
 
         if (myLaserDistance > 0.9f && myLaserDistance < 1f)
         {
-            amount = 1;        }
-        
-        Debug.LogError("Distance: " + myLaserDistance);
-        Debug.LogError("Amount: " + amount);
+            amount = 1;
+        }
 
         if (amount > 0)
         {
@@ -46,22 +44,24 @@ public class LaserEmitterScript : MonoBehaviour
                 myOrigin.Translate(Vector3.forward * 1, Space.Self);
             }
         }
-        
+
     }
 
     private void Update()
     {
+        int layerMask = 1 << 8;
+        layerMask = ~layerMask;
+
         myPreviousLaserDistance = myLaserDistance;
 
         RaycastHit hit;
 
-        if (Physics.Raycast(myRaycastOrigin.position, myRaycastOrigin.forward, out hit, Mathf.Infinity))
+        if (Physics.Raycast(myRaycastOrigin.position, myRaycastOrigin.forward, out hit, Mathf.Infinity, layerMask))
         {
             myLaserDistance = hit.distance;
         }
         else
         {
-            //myLaserDistance = myPreviousLaserDistance;
             myLaserDistance = 0f;
         }
 
