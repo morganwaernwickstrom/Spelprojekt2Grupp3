@@ -91,7 +91,7 @@ public class EventHandler : MonoBehaviour
         switch (aType)
         {
             case eEventType.RockMove:
-                foreach (RockMovement _i in FindObjectsOfType<RockMovement>())
+                foreach (RockMovement _ in FindObjectsOfType<RockMovement>())
                 {
                     onRockMoveEvent -= aFunc;
                 }
