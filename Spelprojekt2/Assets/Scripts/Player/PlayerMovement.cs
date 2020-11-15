@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public event Func<Coord, Coord, bool> MoveEvent;
     private Vector3 myDesiredPosition;
     private Coord myCoords;
     private Coord myPreviousCoords;
@@ -49,22 +48,11 @@ public class PlayerMovement : MonoBehaviour
             myCoords.x += 1;
         }
 
-        if (myDesiredPosition != transform.position && MoveEvent != null)
+        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
-            foreach(Func<Coord, Coord, bool> f in MoveEvent.GetInvocationList())
-            {
-                if (f(myCoords, myPreviousCoords))
-                {
-                    myDesiredPosition = transform.position;
-                    myCoords = originalCoord;
-                }
-            }
+            myDesiredPosition = transform.position;
+            myCoords = originalCoord;
         }
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
-    }
-
-    public Coord GetCoord()
-    {
-        return myCoords;
     }
 }

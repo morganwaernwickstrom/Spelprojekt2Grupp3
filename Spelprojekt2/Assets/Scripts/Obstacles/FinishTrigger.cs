@@ -9,7 +9,7 @@ public class FinishTrigger : MonoBehaviour
     private void Awake()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
-        FindObjectOfType<PlayerMovement>().MoveEvent += OnPlayerMove;
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     private void Update()
@@ -28,10 +28,7 @@ public class FinishTrigger : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FindObjectOfType<PlayerMovement>())
-        {
-            FindObjectOfType<PlayerMovement>().MoveEvent -= OnPlayerMove;
-        }
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
 }

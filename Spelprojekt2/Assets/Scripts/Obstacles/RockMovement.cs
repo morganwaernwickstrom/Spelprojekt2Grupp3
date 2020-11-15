@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class RockMovement : MonoBehaviour
 {
-    public event Func<Coord, bool> MoveEvent;
     private Vector3 myDesiredPosition;
     private float mySpeed = 0.1f;
     private Coord myCoords;
@@ -12,7 +11,7 @@ public class RockMovement : MonoBehaviour
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
-        FindObjectOfType<PlayerMovement>().MoveEvent += OnPlayerMove;
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     private void Update()
@@ -65,15 +64,9 @@ public class RockMovement : MonoBehaviour
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
 
-        if (MoveEvent != null)
+        if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            foreach (Func<Coord, bool> f in MoveEvent.GetInvocationList())
-            {
-                if (f(myCoords))
-                {
-                    myDesiredPosition += new Vector3(0, -1f, 0);
-                }
-            }
+            myDesiredPosition += new Vector3(0, -1f, 0);
         }
     }
 
@@ -84,9 +77,6 @@ public class RockMovement : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FindObjectOfType<PlayerMovement>())
-        {
-            FindObjectOfType<PlayerMovement>().MoveEvent -= OnPlayerMove;
-        }
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 }

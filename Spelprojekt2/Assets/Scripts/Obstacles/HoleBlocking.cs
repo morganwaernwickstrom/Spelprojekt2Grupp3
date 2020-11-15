@@ -3,24 +3,13 @@
 public class HoleBlocking : MonoBehaviour
 {
     private Coord myCoords;
-    private bool myShouldDestroy = false;
 
     private void Awake()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
-        FindObjectOfType<PlayerMovement>().MoveEvent += OnPlayerMove;
-        foreach (var rock in FindObjectsOfType<RockMovement>())
-        {
-            rock.MoveEvent += OnRockMove;
-        }
-    }
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
 
-    private void Update()
-    {
-        if (myShouldDestroy)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
@@ -32,7 +21,7 @@ public class HoleBlocking : MonoBehaviour
     {
         if (aRockCurrentPos == myCoords)
         {
-            myShouldDestroy = true;
+            Destroy(gameObject);
             return true;
         }
         return false;
@@ -40,13 +29,7 @@ public class HoleBlocking : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (FindObjectOfType<PlayerMovement>())
-        {
-            FindObjectOfType<PlayerMovement>().MoveEvent -= OnPlayerMove;
-        }
-        foreach (var rock in FindObjectsOfType<RockMovement>())
-        {
-            rock.MoveEvent -= OnRockMove;
-        }
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
 }
