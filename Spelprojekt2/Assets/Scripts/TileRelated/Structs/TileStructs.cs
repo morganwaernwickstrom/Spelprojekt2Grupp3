@@ -4,6 +4,7 @@
     Rock,
     Hole,
     Laser,
+    Finish,
     Player
 }
 

@@ -7,6 +7,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myHole = null;
     [SerializeField]
+    private GameObject myFinish = null;
+    [SerializeField]
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
@@ -31,6 +33,15 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
         myType = eTileType.Hole;
+    }
+
+    public void PlaceFinish()
+    {
+        // Use offset to make sure it's visible on all materials.
+        float offset = 0.01f;
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
+        myCurrent = Instantiate(myFinish, newPosition, transform.rotation);
+        myType = eTileType.Finish;
     }
 
     public void PlacePlayer()

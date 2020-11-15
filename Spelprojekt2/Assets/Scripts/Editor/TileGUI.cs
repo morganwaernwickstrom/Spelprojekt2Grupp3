@@ -30,6 +30,11 @@ public class TileGUI : Editor
             myTile.PlaceHole();
         }
 
+        if (GUILayout.Button("Place Finish"))
+        {
+            myTile.PlaceFinish();
+        }
+
         if (GUILayout.Button("Remove"))
         {
             myTile.RemoveCurrent();
