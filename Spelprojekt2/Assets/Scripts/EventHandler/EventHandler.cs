@@ -4,7 +4,8 @@ using UnityEngine;
 public enum eEventType
 {
     PlayerMove,
-    RockMove
+    RockMove,
+    ButtonPressed
 }
 
 public class EventHandler : MonoBehaviour
@@ -12,6 +13,7 @@ public class EventHandler : MonoBehaviour
     public static EventHandler current;
     public event Func<Coord, Coord, bool> onPlayerMoveEvent;
     public event Func<Coord, bool> onRockMoveEvent;
+    public event Func<bool> onButtonPressed;
 
     private void Awake()
     {
@@ -39,6 +41,33 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent += aFunc;
                 }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void Subscribe(eEventType aType, Func<bool> aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.ButtonPressed:
+                for (int i = 0; i < FindObjectsOfType<Button>().Length; i++)
+                {
+                    onButtonPressed += aFunc;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void UnSubscribe(eEventType aType, Func<bool> aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.ButtonPressed:
+                onButtonPressed -= aFunc;
                 break;
             default:
                 break;
@@ -78,10 +107,7 @@ public class EventHandler : MonoBehaviour
         {
             foreach (Func<Coord, Coord, bool> f in onPlayerMoveEvent.GetInvocationList())
             {
-                if (f(aPlayerCoord, aPlayerPreviousCoord))
-                {
-                    return true;
-                }
+                if (f(aPlayerCoord, aPlayerPreviousCoord)) return true;
             }
         }
         return false;
@@ -93,10 +119,19 @@ public class EventHandler : MonoBehaviour
         {
             foreach (Func<Coord, bool> f in onRockMoveEvent.GetInvocationList())
             {
-                if (f(aRockCoord))
-                {
-                    return true;
-                }
+                if (f(aRockCoord)) return true;
+            }
+        }
+        return false;
+    }
+
+    public bool ButtonPressedEvent()
+    {
+        if (onButtonPressed != null)
+        {
+            foreach (Func<bool> f in onButtonPressed.GetInvocationList())
+            {
+                if (f()) return true;
             }
         }
         return false;

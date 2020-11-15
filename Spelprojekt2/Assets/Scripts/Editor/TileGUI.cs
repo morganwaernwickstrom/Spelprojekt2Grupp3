@@ -35,6 +35,21 @@ public class TileGUI : Editor
             myTile.PlaceFinish();
         }
 
+        if (GUILayout.Button("Place Button"))
+        {
+            myTile.PlaceButton();
+        }
+
+        if (GUILayout.Button("Place a Vertical Door"))
+        {
+            myTile.PlaceDoor(true);
+        }
+
+        if (GUILayout.Button("Place a Horizontal Door"))
+        {
+            myTile.PlaceDoor(false);
+        }
+
         if (GUILayout.Button("Remove"))
         {
             myTile.RemoveCurrent();

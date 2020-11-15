@@ -9,6 +9,10 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myFinish = null;
     [SerializeField]
+    private GameObject myButton = null;
+    [SerializeField]
+    private GameObject myDoor = null;
+    [SerializeField]
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
@@ -42,6 +46,39 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myFinish, newPosition, transform.rotation);
         myType = eTileType.Finish;
+    }
+
+    public void PlaceButton()
+    {
+        float buttonSize = myButton.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + buttonSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myButton, newPosition, transform.rotation);
+        myType = eTileType.Button;
+    }
+
+    public void PlaceDoor(bool aVertical)
+    {
+        float doorSize = myDoor.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + doorSize / 2, transform.position.z);
+
+        if (aVertical)
+        {
+            
+            myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
+            myCurrent.transform.Rotate(0, 90, 0, Space.World);
+        }
+        else
+        {
+            myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
+        }
+        myType = eTileType.Door;
     }
 
     public void PlacePlayer()

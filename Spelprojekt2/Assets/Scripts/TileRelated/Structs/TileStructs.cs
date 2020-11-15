@@ -5,6 +5,8 @@
     Hole,
     Laser,
     Finish,
+    Button,
+    Door,
     Player
 }
 
