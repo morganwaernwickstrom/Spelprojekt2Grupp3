@@ -5,32 +5,41 @@ using UnityEngine;
 public class LaserDetectionScript : MonoBehaviour
 {
     public bool myIsHit = false;
-    public bool myIsLocked = false;
-
+    public Collider myIncomingLaserCollider;
     [SerializeField] private LaserDetectionScript myOtherSide;
 
-    private void OnTriggerEnter(Collider anOther)
+    private void OnTriggerStay(Collider anOther)
     {
         if (!myOtherSide.myIsHit)
         {
-            if (anOther.CompareTag("Laser") && !myIsLocked)
+            if (anOther.CompareTag("Laser"))
             {
                 myIsHit = true;
-                myIsLocked = true;
+                
+                myIncomingLaserCollider = anOther;
             }
         }
-        else
-        {
-            myIsLocked = true;
-        }       
     }
-
-    private void OnTriggerExit(Collider anOther)
+    private void CheckIfExited()
     {
-        if (anOther.CompareTag("Laser"))
+        // funkar inte, först blir detection box 1 "hit" och sen byter den med detection box 2. Fattar nada
+        if (myIsHit && !myIncomingLaserCollider)
         {
             myIsHit = false;
-            myIsLocked = false;
+            Debug.Log(gameObject.name + " not hit anymore");
+        }
+    }
+    
+    float timer = 1f;
+
+    void Update()
+    {
+        timer -= Time.deltaTime;
+
+        if (timer <= 0)
+        {
+            CheckIfExited();
+            timer = 1f;
         }
     }
 }

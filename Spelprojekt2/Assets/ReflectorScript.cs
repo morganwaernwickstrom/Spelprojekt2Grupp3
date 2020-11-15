@@ -36,7 +36,7 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private LaserDetectionScript myRightDetectionBox;
 
     // --- Is the reflector hit by laser as well as which direction it should take --- //
-    private bool myIsHit;
+    [SerializeField] private bool myIsHit;
     private Direction myDirection = Direction.Null;
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
@@ -50,9 +50,6 @@ public class ReflectorScript : MonoBehaviour
         {
             amount = 1;
         }
-
-        Debug.LogWarning("AMOUNT: " + amount);
-        Debug.LogWarning("DISTANCE: " + myLaserDistance);
 
         if (amount > 0 && (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
         {
@@ -70,8 +67,11 @@ public class ReflectorScript : MonoBehaviour
     // Can probably be made more performance friendly and only check at specific times instead of every frame...
     private void Update()
     {
-        myIsHit = (myLeftDetectionBox.myIsHit || myRightDetectionBox.myIsHit) ? true : false;
-       
+        bool leftHit = myLeftDetectionBox.myIsHit;
+        bool rightHit = myRightDetectionBox.myIsHit;
+
+        myIsHit = (leftHit || rightHit) ? true : false;
+
         myPreviousLaserDistance = myLaserDistance;
 
         if (myIsHit)
@@ -80,19 +80,15 @@ public class ReflectorScript : MonoBehaviour
             {
                 myFirstOrigin.position = myRightOrigin.position;
                 myFirstOrigin.rotation = myRightOrigin.rotation;
-
                 myLaserRotation = myRightLaserRotation;
                 myDirection = Direction.Right;
-                Debug.Log("GO RIGHT!!");
             }
             else if (myRightDetectionBox.myIsHit)
             {
                 myFirstOrigin.position = myLeftOrigin.position;
                 myFirstOrigin.rotation = myLeftOrigin.rotation;
-
                 myLaserRotation = myLeftLaserRotation;
                 myDirection = Direction.Left;
-                Debug.Log("GO LEFT!!");
             }
 
             myOrigin.position = myFirstOrigin.position;
@@ -130,11 +126,10 @@ public class ReflectorScript : MonoBehaviour
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
 
+        RaycastHit hit;
+
         if (myDirection == Direction.Left)
         {
-            Debug.LogError("Hit by laser! Reflecting to left");
-            RaycastHit hit;
-
             if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
             {
                 myLaserDistance = hit.distance;
@@ -146,9 +141,6 @@ public class ReflectorScript : MonoBehaviour
         }
         else if (myDirection == Direction.Right)
         {
-            Debug.LogError("Hit by laser! Reflecting to right");
-            RaycastHit hit;
-
             if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
             {
                 myLaserDistance = hit.distance;
