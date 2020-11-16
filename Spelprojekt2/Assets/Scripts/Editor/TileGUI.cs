@@ -25,6 +25,11 @@ public class TileGUI : Editor
             myTile.PlaceRock();
         }
 
+        if (GUILayout.Button("Place Wall"))
+        {
+            myTile.PlaceImpassable();
+        }
+
         if (GUILayout.Button("Place Hole"))
         {
             myTile.PlaceHole();
