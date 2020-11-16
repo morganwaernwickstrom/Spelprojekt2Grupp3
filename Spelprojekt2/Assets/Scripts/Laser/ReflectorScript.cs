@@ -91,14 +91,8 @@ public class ReflectorScript : MonoBehaviour
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
-        ClearLaser();
-
-        int amount = (int)myLaserDistance;
-
-        if (myLaserDistance > 0.9f && myLaserDistance < 1f)
-        {
-            amount = 1;
-        }
+        ClearLaser();       
+        int amount = (int)Mathf.Round(myLaserDistance);
 
         if (amount > 0 && (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
         {

@@ -35,12 +35,7 @@ public class LaserEmitterScript : MonoBehaviour
         myOrigin.position = myFirstOrigin.position;
         ClearLaser();
 
-        int amount = (int)myLaserDistance;
-
-        if (myLaserDistance > 0.9f && myLaserDistance < 1f)
-        {
-            amount = 1;
-        }
+        int amount = (int)Mathf.Round(myLaserDistance);
 
         if (amount > 0)
         {
