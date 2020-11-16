@@ -4,30 +4,36 @@ using UnityEngine;
 
 public class LaserEmitterScript : MonoBehaviour
 {
+    // --- Origin points for raycast and laser objects --- //
     [SerializeField] private Transform myRaycastOrigin;
     [SerializeField] private Transform myOrigin;
     [SerializeField] private Transform myFirstOrigin;
 
+    // --- Laser Rotation, reference and list to hold all lasers in --- //
     [SerializeField] private Transform myLaserRotation;
     [SerializeField] private GameObject myLaser;
+    private List<GameObject> myLasers = new List<GameObject>();
 
-    [SerializeField] List<GameObject> myLasers;
+    // --- Distances to draw laser with --- //
     [SerializeField] float myPreviousLaserDistance = 0;
     [SerializeField] float myLaserDistance = 0;
 
+    // --- Every frame, check distance to ray-casted object, if it has changed, draw the laser --- //
+    private void Update()
+    {
+        CheckDistance();
+
+        if (myPreviousLaserDistance != myLaserDistance)
+        {
+            DrawLaser();
+        }
+    }
+
+    // --- Draws the laser based on information gathered from Raycast and more in CheckDistance function --- //
     private void DrawLaser()
     {
         myOrigin.position = myFirstOrigin.position;
-
-        if (myLasers.Count > 0)
-        {
-            foreach (GameObject laser in myLasers)
-            {
-                Destroy(laser);
-            }
-        }
-
-        myLasers.Clear();
+        ClearLaser();
 
         int amount = (int)myLaserDistance;
 
@@ -46,8 +52,21 @@ public class LaserEmitterScript : MonoBehaviour
         }
 
     }
+    private void ClearLaser()
+    {
+        // --- Go through list of laser-objects and destroy them before re-drawing the laser --- //
+        if (myLasers.Count > 0)
+        {
+            foreach (GameObject laser in myLasers)
+            {
+                Destroy(laser);
+            }
+        }
 
-    private void Update()
+        myLasers.Clear();
+    }   
+
+    private void CheckDistance()
     {
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
@@ -63,11 +82,6 @@ public class LaserEmitterScript : MonoBehaviour
         else
         {
             myLaserDistance = 0f;
-        }
-
-        if (myPreviousLaserDistance != myLaserDistance)
-        {
-            DrawLaser();
         }
     }
 }

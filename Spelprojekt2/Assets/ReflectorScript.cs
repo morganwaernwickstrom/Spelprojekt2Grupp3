@@ -26,11 +26,11 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private Transform myFirstOrigin;       // Is at the same position as myOrigin at the first laser object, used to see where laser should start at Re-draw
     [SerializeField] private Transform myLeftOrigin;        // The static/not moving origin point for laser going left
     [SerializeField] private Transform myRightOrigin;       // The static/not moving origin point for laser going right
-   
+
     [SerializeField] private Transform myLeftLaserRotation;     // Rotation for instantiated laser objects going left
     [SerializeField] private Transform myRightLaserRotation;    // Rotation for instantiated laser objects going right
     private Transform myLaserRotation;                          // Is assigned to be either myLeftLaserRotation or myRighLaserRotation
-   
+
     // --- Detection boxes to determine where the laser is coming from --- //
     [SerializeField] private LaserDetectionScript myLeftDetectionBox;
     [SerializeField] private LaserDetectionScript myRightDetectionBox;
@@ -39,36 +39,15 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private bool myIsHit;
     private Direction myDirection = Direction.Null;
 
-    // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
-    private void DrawLaser()
-    {
-        ClearLaser();
 
-        int amount = (int)myLaserDistance;
-
-        if (myLaserDistance > 0.9f && myLaserDistance < 1f)
-        {
-            amount = 1;
-        }
-
-        if (amount > 0 && (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
-        {
-            for (int count = 1; count <= amount; ++count)
-            {
-                myLasers.Add(Instantiate(myLaser, myOrigin.position, myLaserRotation.rotation));
-                myOrigin.Translate(Vector3.forward * 1, Space.Self);
-            }
-        }
-
-    }
-
-    // --- Every frame the reflector checks if it is hit my laser and if so do everything needed for laser to go the correct way --- //
-   
-    // Can probably be made more performance friendly and only check at specific times instead of every frame...
+    // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
     private void Update()
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
+         
+        myLeftDetectionBox.CheckIfExited();
+        myRightDetectionBox.CheckIfExited();
 
         myIsHit = (leftHit || rightHit) ? true : false;
 
@@ -96,20 +75,45 @@ public class ReflectorScript : MonoBehaviour
 
             CheckDistance();
 
-            if (myPreviousLaserDistance != myLaserDistance)     // Only draw laser if the distance has changed
+            if ((myPreviousLaserDistance != myLaserDistance))     // Only draw laser if the distance has changed
             {
                 DrawLaser();
-                Debug.Log("Drawing laser");
             }
         }
         else
         {
+            CheckDistance();
             myDirection = Direction.Null;
+            ClearLaser();
         }
-    }   
-    
+    }
+
+    // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
+    private void DrawLaser()
+    {
+        ClearLaser();
+
+        int amount = (int)myLaserDistance;
+
+        if (myLaserDistance > 0.9f && myLaserDistance < 1f)
+        {
+            amount = 1;
+        }
+
+        if (amount > 0 && (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
+        {
+            for (int count = 1; count <= amount; ++count)
+            {
+                myLasers.Add(Instantiate(myLaser, myOrigin.position, myLaserRotation.rotation));
+                myOrigin.Translate(Vector3.forward * 1, Space.Self);
+            }
+        }
+
+    }
+
     private void ClearLaser()
     {
+        // --- Go through list of laser-objects and destroy them before re-drawing the laser --- //
         if (myLasers.Count > 0)
         {
             foreach (GameObject laser in myLasers)
@@ -123,32 +127,41 @@ public class ReflectorScript : MonoBehaviour
 
     private void CheckDistance()
     {
+        // --- Layermask for raycast to ignore collision with laser-layer --- //
         int layerMask = 1 << 8;
         layerMask = ~layerMask;
 
         RaycastHit hit;
 
-        if (myDirection == Direction.Left)
+        if (myIsHit)
         {
-            if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
+            // --- If reflector is hit by a laser then send out a raycast to determine length to draw laser with --- //
+            if (myDirection == Direction.Left)
             {
-                myLaserDistance = hit.distance;
+                if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
+                {
+                    myLaserDistance = hit.distance;
+                }
+                else
+                {
+                    myLaserDistance = 0f;
+                }
             }
-            else
+            else if (myDirection == Direction.Right)
             {
-                myLaserDistance = 0f;
+                if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
+                {
+                    myLaserDistance = hit.distance;
+                }
+                else
+                {
+                    myLaserDistance = 0f;
+                }
             }
         }
-        else if (myDirection == Direction.Right)
+        else
         {
-            if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
-            {
-                myLaserDistance = hit.distance;
-            }
-            else
-            {
-                myLaserDistance = 0f;
-            }
+            myLaserDistance = 0f;
         }
     }
 }
