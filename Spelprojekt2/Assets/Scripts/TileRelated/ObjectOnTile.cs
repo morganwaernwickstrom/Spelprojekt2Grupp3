@@ -6,4 +6,9 @@ public class ObjectOnTile : MonoBehaviour
     {
         DestroyImmediate(gameObject);
     }
+
+    public void Rotate()
+    {
+        gameObject.transform.Rotate(0, 90, 0, Space.World);
+    }
 }

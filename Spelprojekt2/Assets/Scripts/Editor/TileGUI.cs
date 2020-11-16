@@ -40,14 +40,22 @@ public class TileGUI : Editor
             myTile.PlaceButton();
         }
 
-        if (GUILayout.Button("Place a Vertical Door"))
+        if (GUILayout.Button("Place Door"))
         {
-            myTile.PlaceDoor(true);
+            myTile.PlaceDoor();
         }
 
-        if (GUILayout.Button("Place a Horizontal Door"))
+        if (GUILayout.Button("Place Laser Emitter"))
         {
-            myTile.PlaceDoor(false);
+            myTile.PlaceLaserEmitter();
+        }
+        if (GUILayout.Button("Place Laser Reflector"))
+        {
+            myTile.PlaceLaserReflector();
+        }
+        if (GUILayout.Button("Place Laser Receiver"))
+        {
+            myTile.PlaceLaserReceiver();
         }
 
         if (GUILayout.Button("Remove"))

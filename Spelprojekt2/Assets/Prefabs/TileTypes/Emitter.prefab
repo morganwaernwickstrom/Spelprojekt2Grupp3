@@ -242,6 +242,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7843619419635416841}
   - component: {fileID: 7026132603029814642}
+  - component: {fileID: 6918654207152795257}
   m_Layer: 0
   m_Name: Emitter
   m_TagString: Untagged
@@ -286,9 +287,20 @@ MonoBehaviour:
   myFirstOrigin: {fileID: 7967965903185511280}
   myLaserRotation: {fileID: 5575850821926465718}
   myLaser: {fileID: 8285329762448097923, guid: 36f7deabf50d4ae49979cf34ba426a02, type: 3}
-  myLasers: []
   myPreviousLaserDistance: 0
   myLaserDistance: 0
+--- !u!114 &6918654207152795257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1951685967780191447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 590a277b63b99ab419bed91213c4fe5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7417511973609038045
 GameObject:
   m_ObjectHideFlags: 0

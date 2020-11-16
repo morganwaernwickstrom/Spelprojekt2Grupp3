@@ -47,11 +47,11 @@ public class PlayerMovement : MonoBehaviour
             myCoords.x += 1;
         }
 
-        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
-        {
-            myDesiredPosition = transform.position;
-            myCoords = originalCoord;
-        }
+        //if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
+        //{
+        //    myDesiredPosition = transform.position;
+        //    myCoords = originalCoord;
+        //}
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 }
