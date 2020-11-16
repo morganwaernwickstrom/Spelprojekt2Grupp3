@@ -9,14 +9,30 @@ public class LaserEmitterScript : MonoBehaviour
     [SerializeField] private Transform myOrigin;
     [SerializeField] private Transform myFirstOrigin;
 
-    // --- Laser Rotation, reference and list to hold all lasers in --- //
+    // --- Laser Rotation after the way emitter points --- //
     [SerializeField] private Transform myLaserRotation;
-    [SerializeField] private GameObject myLaser;
-    private List<GameObject> myLasers = new List<GameObject>();
+
+    // --- Laser Object pool --- //
+    public GameObject myLaser;
+    private List<GameObject> myLaserPool;
+    private int myAmountOfLasers = 20;
 
     // --- Distances to draw laser with --- //
     [SerializeField] float myPreviousLaserDistance = 0;
     [SerializeField] float myLaserDistance = 0;
+
+
+    private void Start()
+    {
+        myLaserPool = new List<GameObject>();
+
+        for (int i = 0; i < myAmountOfLasers; ++i)
+        {
+            GameObject temp = Instantiate(myLaser);
+            temp.SetActive(false);
+            myLaserPool.Add(temp);
+        }
+    }
 
     // --- Every frame, check distance to ray-casted object, if it has changed, draw the laser --- //
     private void Update()
@@ -37,29 +53,21 @@ public class LaserEmitterScript : MonoBehaviour
 
         int amount = (int)Mathf.Round(myLaserDistance);
 
-        if (amount > 0)
+        for (int count = 0; count < amount; ++count)
         {
-            for (int count = 1; count <= amount; ++count)
-            {
-                myLasers.Add(Instantiate(myLaser, myOrigin.position, myLaserRotation.rotation));
-                myOrigin.Translate(Vector3.forward * 1, Space.Self);
-            }
+            myLaserPool[count].SetActive(true);
+            myLaserPool[count].transform.position = myOrigin.position;
+            myLaserPool[count].transform.rotation = myLaserRotation.rotation;
+            myOrigin.Translate(Vector3.forward * 1, Space.Self);
         }
-
     }
     private void ClearLaser()
     {
-        // --- Go through list of laser-objects and destroy them before re-drawing the laser --- //
-        if (myLasers.Count > 0)
+        foreach (GameObject laser in myLaserPool)
         {
-            foreach (GameObject laser in myLasers)
-            {
-                Destroy(laser);
-            }
+            laser.SetActive(false);
         }
-
-        myLasers.Clear();
-    }   
+    }
 
     private void CheckDistance()
     {

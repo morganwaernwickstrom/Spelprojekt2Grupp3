@@ -24,7 +24,7 @@ public class LaserDetectionScript : MonoBehaviour
     // --- OnTriggerExit doesn't work so this substitutes it --- //
     public void CheckIfExited()
     {
-        if (myIsHit && !myIncomingLaserCollider)
+        if (myIsHit && !myIncomingLaserCollider.gameObject.activeInHierarchy)
         {
             myIsHit = false;
         }
