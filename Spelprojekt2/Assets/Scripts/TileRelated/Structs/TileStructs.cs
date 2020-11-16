@@ -7,6 +7,9 @@
     Finish,
     Button,
     Door,
+    Emitter,
+    Reflector,
+    Receiver,
     Player
 }
 

@@ -13,6 +13,12 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myDoor = null;
     [SerializeField]
+    private GameObject myEmitter = null;
+    [SerializeField]
+    private GameObject myReflector = null;
+    [SerializeField]
+    private GameObject myReceiver = null;
+    [SerializeField]
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
@@ -60,7 +66,7 @@ public class Tile : MonoBehaviour
         myType = eTileType.Button;
     }
 
-    public void PlaceDoor(bool aVertical)
+    public void PlaceDoor()
     {
         float doorSize = myDoor.GetComponent<Renderer>().bounds.size.y;
         float tileSize = GetComponent<Renderer>().bounds.size.y;
@@ -68,16 +74,7 @@ public class Tile : MonoBehaviour
         float tileTop = transform.position.y + tileSize / 2;
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + doorSize / 2, transform.position.z);
 
-        if (aVertical)
-        {
-            
-            myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
-            myCurrent.transform.Rotate(0, 90, 0, Space.World);
-        }
-        else
-        {
-            myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
-        }
+        myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
         myType = eTileType.Door;
     }
 
@@ -91,6 +88,43 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
         myType = eTileType.Player;
+    }
+
+    public void PlaceLaserEmitter()
+    {
+        float emitterSizeY = myEmitter.transform.Find("Base").GetComponent<Renderer>().bounds.size.y;
+
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + emitterSizeY / 2, transform.position.z);
+
+        myCurrent = Instantiate(myEmitter, newPosition, transform.rotation);
+        myType = eTileType.Emitter;
+    }
+
+    public void PlaceLaserReflector()
+    {
+        float reflectorSize = myReflector.transform.Find("Base").GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + reflectorSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myReflector, newPosition, transform.rotation);
+        myType = eTileType.Reflector;
+    }
+
+    public void PlaceLaserReceiver()
+    {
+        float receiverSize = myReceiver.transform.Find("Base").GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + receiverSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myReceiver, newPosition, transform.rotation);
+        myType = eTileType.Receiver;
     }
 
     public void RemoveCurrent()

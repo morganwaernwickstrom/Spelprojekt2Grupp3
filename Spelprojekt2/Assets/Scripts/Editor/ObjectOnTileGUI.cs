@@ -12,5 +12,10 @@ public class ObjectOnTileGUI : Editor
         {
             myTileObject.Remove();
         }
+
+        if (GUILayout.Button("Rotate"))
+        {
+            myTileObject.Rotate();
+        }
     }
 }

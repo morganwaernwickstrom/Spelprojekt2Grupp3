@@ -44,6 +44,7 @@ public class LaserEmitterScript : MonoBehaviour
                 myLasers.Add(Instantiate(myLaser, myOrigin.position, myLaserRotation.rotation));
                 myOrigin.Translate(Vector3.forward * 1, Space.Self);
             }
+            Debug.Log("Drawing!");
         }
 
     }
