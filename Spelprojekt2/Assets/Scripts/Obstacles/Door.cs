@@ -34,6 +34,11 @@ public class Door : MonoBehaviour
         return (myCoords == aPlayerCurrentPos);
     }
 
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
+
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.ButtonPressed, OnButtonPressed);
