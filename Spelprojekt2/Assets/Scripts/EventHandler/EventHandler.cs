@@ -4,16 +4,22 @@ using UnityEngine;
 public enum eEventType
 {
     PlayerMove,
+    PlayerInteract,
     RockMove,
-    ButtonPressed
+    RockInteract,
+    ButtonPressed,
+    ButtonUp
 }
 
 public class EventHandler : MonoBehaviour
 {
     public static EventHandler current;
     public event Func<Coord, Coord, bool> onPlayerMoveEvent;
+    public event Func<Coord, Coord, bool> onPlayerInteractEvent;
     public event Func<Coord, bool> onRockMoveEvent;
+    public event Func<Coord, Coord, bool> onRockInteractEvent;
     public event Func<bool> onButtonPressed;
+    public event Func<bool> onButtonUp;
 
     private void Start()
     {
@@ -31,6 +37,12 @@ public class EventHandler : MonoBehaviour
         {
             case eEventType.PlayerMove:
                 onPlayerMoveEvent += aFunc;
+                break;
+            case eEventType.PlayerInteract:
+                onPlayerInteractEvent += aFunc;
+                break;
+            case eEventType.RockInteract:
+                onRockInteractEvent += aFunc;
                 break;
             default:
                 break;
@@ -57,10 +69,10 @@ public class EventHandler : MonoBehaviour
         switch (aType)
         {
             case eEventType.ButtonPressed:
-                for (int i = 0; i < FindObjectsOfType<Button>().Length; i++)
-                {
-                    onButtonPressed += aFunc;
-                }
+                onButtonPressed += aFunc;    
+                break;
+            case eEventType.ButtonUp:
+                onButtonUp += aFunc;
                 break;
             default:
                 break;
@@ -74,6 +86,9 @@ public class EventHandler : MonoBehaviour
             case eEventType.ButtonPressed:
                 onButtonPressed -= aFunc;
                 break;
+            case eEventType.ButtonUp:
+                onButtonUp -= aFunc;
+                break;
             default:
                 break;
         }
@@ -85,6 +100,12 @@ public class EventHandler : MonoBehaviour
         {
             case eEventType.PlayerMove:
                 onPlayerMoveEvent -= aFunc;
+                break;
+            case eEventType.PlayerInteract:
+                onPlayerInteractEvent -= aFunc;
+                break;
+            case eEventType.RockInteract:
+                onRockInteractEvent -= aFunc;
                 break;
             default:
                 break;
@@ -118,6 +139,18 @@ public class EventHandler : MonoBehaviour
         return false;
     }
 
+    public bool PlayerInteractEvent(Coord aPlayerCoord, Coord aPlayerPreviousCoord)
+    {
+        if (onPlayerInteractEvent != null)
+        {
+            foreach (Func<Coord, Coord, bool> f in onPlayerInteractEvent.GetInvocationList())
+            {
+                if (f(aPlayerCoord, aPlayerPreviousCoord)) return true;
+            }
+        }
+        return false;
+    }
+
     public bool RockMoveEvent(Coord aRockCoord)
     {
         if (onRockMoveEvent != null)
@@ -130,11 +163,35 @@ public class EventHandler : MonoBehaviour
         return false;
     }
 
+    public bool RockInteractEvent(Coord aRockCoord, Coord aRockPreviousCoord)
+    {
+        if (onRockInteractEvent != null)
+        {
+            foreach (Func<Coord, Coord, bool> f in onRockInteractEvent.GetInvocationList())
+            {
+                if (f(aRockCoord, aRockPreviousCoord)) return true;
+            }
+        }
+        return false;
+    }
+
     public bool ButtonPressedEvent()
     {
         if (onButtonPressed != null)
         {
             foreach (Func<bool> f in onButtonPressed.GetInvocationList())
+            {
+                if (f()) return true;
+            }
+        }
+        return false;
+    }
+
+    public bool ButtonUpEvent()
+    {
+        if (onButtonUp != null)
+        {
+            foreach (Func<bool> f in onButtonUp.GetInvocationList())
             {
                 if (f()) return true;
             }

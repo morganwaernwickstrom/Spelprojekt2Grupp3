@@ -52,6 +52,7 @@ public class RockMovement : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        Coord previousCoords = myCoords;
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
@@ -85,6 +86,7 @@ public class RockMovement : MonoBehaviour
         {
             myDesiredPosition += new Vector3(0, -1f, 0);
         }
+        EventHandler.current.RockInteractEvent(myCoords, previousCoords);
     }
 
     public Coord GetCoords()

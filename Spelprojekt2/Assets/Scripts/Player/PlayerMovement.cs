@@ -52,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
             myDesiredPosition = transform.position;
             myCoords = originalCoord;
         }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
+
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 }
