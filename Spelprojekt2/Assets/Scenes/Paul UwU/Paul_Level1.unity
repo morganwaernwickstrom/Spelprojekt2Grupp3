@@ -173,6 +173,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &11841370
@@ -327,6 +330,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &45780789
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7532191084917302670, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
+        type: 3}
+      propertyPath: m_Name
+      value: EventHandler
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 62d6dc1a911338f439dcc8e5d9ad97a5, type: 3}
 --- !u!1 &58462172
 GameObject:
   m_ObjectHideFlags: 0
@@ -379,6 +451,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &58462175
@@ -480,6 +555,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &98596236
@@ -587,6 +665,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &140722150
@@ -688,6 +769,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &148370133
@@ -789,6 +873,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &210108834
@@ -995,6 +1082,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &239108171
@@ -1201,6 +1291,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &274589518
@@ -1302,6 +1395,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &275754113
@@ -1403,6 +1499,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &292553910
@@ -1504,6 +1603,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &334613584
@@ -1605,6 +1707,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &344373131
@@ -1706,6 +1811,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &366178400
@@ -1807,6 +1915,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &428111057
@@ -1908,6 +2019,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &447888517
@@ -2114,6 +2228,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &475949462
@@ -2215,6 +2332,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &483694661
@@ -2316,6 +2436,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &539996469
@@ -2417,6 +2540,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &578852511
@@ -2518,6 +2644,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &617246975
@@ -2619,6 +2748,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &650760216
@@ -2825,6 +2957,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &743193817
@@ -3031,6 +3166,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &805622497
@@ -3132,6 +3270,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &829729444
@@ -3233,6 +3374,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &860183944
@@ -3334,6 +3478,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &861558420
@@ -3435,6 +3582,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &865508089
@@ -3536,6 +3686,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &971774480
@@ -3742,6 +3895,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1016240134
@@ -3843,6 +3999,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1016661681
@@ -3944,6 +4103,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1059792741
@@ -4242,6 +4404,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1093238833
@@ -4567,6 +4732,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1191346426
@@ -4616,75 +4784,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1191346423}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1001 &1218817793
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302668, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7532191084917302670, guid: 62d6dc1a911338f439dcc8e5d9ad97a5,
-        type: 3}
-      propertyPath: m_Name
-      value: EventHandler
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 62d6dc1a911338f439dcc8e5d9ad97a5, type: 3}
 --- !u!1 &1253261975
 GameObject:
   m_ObjectHideFlags: 0
@@ -4856,6 +4955,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1270416668
@@ -4957,6 +5059,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1319086102
@@ -5058,6 +5163,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1369456171
@@ -5159,6 +5267,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1390884853
@@ -5260,6 +5371,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1453173349
@@ -5361,6 +5475,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1482755265
@@ -5462,6 +5579,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1511186464
@@ -5563,6 +5683,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1535147049
@@ -5783,6 +5906,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1585916058
@@ -5884,6 +6010,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1596068673
@@ -5985,6 +6114,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1623099282
@@ -6179,6 +6311,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1688348875
@@ -6399,6 +6534,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1755976927
@@ -6500,6 +6638,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1761975119
@@ -6601,6 +6742,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1778781698
@@ -6702,6 +6846,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1793462730
@@ -6922,6 +7069,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1795140912
@@ -7116,13 +7266,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1858681868}
-  m_LocalRotation: {x: 0.6410144, y: -0, z: -0, w: 0.7675289}
-  m_LocalPosition: {x: 2.08, y: 10.98, z: 1.93}
+  m_LocalRotation: {x: 0.5794274, y: -0, z: -0, w: 0.8150238}
+  m_LocalPosition: {x: 2.08, y: 10.56, z: 0.52}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 79.735, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 70.82101, y: 0, z: 0}
 --- !u!1 &1884245283
 GameObject:
   m_ObjectHideFlags: 0
@@ -7175,6 +7325,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1884245286
@@ -7276,6 +7429,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1884798226
@@ -7377,6 +7533,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1890606700
@@ -7478,6 +7637,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1907006443
@@ -7579,6 +7741,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1961044735
@@ -7680,6 +7845,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &1969807025
@@ -7781,6 +7949,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2026000369
@@ -7987,6 +8158,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2053999126
@@ -8088,6 +8262,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2068706550
@@ -8189,6 +8366,9 @@ MonoBehaviour:
   myButton: {fileID: 8266317840027715560, guid: b3f72a73917b70843b231938deabbe7d,
     type: 3}
   myDoor: {fileID: 701108879172187805, guid: 4a66c466b499a72458f0f2b3caca7e94, type: 3}
+  myEmitter: {fileID: 0}
+  myReflector: {fileID: 0}
+  myReceiver: {fileID: 0}
   myPlayer: {fileID: 5725830208638415480, guid: be778b7601f9b944c8c3ddbca2245f7f,
     type: 3}
 --- !u!23 &2070498363
