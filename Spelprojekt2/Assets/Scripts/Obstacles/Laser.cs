@@ -4,11 +4,11 @@ public class Laser : MonoBehaviour
 {
     private Coord myCoords;
 
-    //private void Awake()
-    //{
-    //    myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-    //    EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-    //}
+    private void Awake()
+    {
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+    }
 
     private void OnEnable()
     {
@@ -20,7 +20,6 @@ public class Laser : MonoBehaviour
     {
         return (aPlayerCurrentPos == myCoords);
     }
-
 
     private void OnDisable()
     {
