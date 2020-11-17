@@ -15,7 +15,12 @@ public class EventHandler : MonoBehaviour
     public event Func<Coord, bool> onRockMoveEvent;
     public event Func<bool> onButtonPressed;
 
-    private void Awake()
+    private void Start()
+    {
+        current = this;
+    }
+
+    private void OnEnable()
     {
         current = this;
     }

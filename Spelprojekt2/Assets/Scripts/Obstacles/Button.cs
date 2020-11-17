@@ -4,7 +4,7 @@ public class Button : MonoBehaviour
 {
     private Coord myCoords;
 
-    private void Awake()
+    private void Start()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);

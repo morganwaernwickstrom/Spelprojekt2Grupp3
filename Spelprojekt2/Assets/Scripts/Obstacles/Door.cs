@@ -6,7 +6,7 @@ public class Door : MonoBehaviour
     private float mySpeed = 0.1f;
     private Coord myCoords;
 
-    private void Awake()
+    private void Start()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;

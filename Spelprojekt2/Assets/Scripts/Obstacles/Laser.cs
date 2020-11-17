@@ -4,7 +4,7 @@ public class Laser : MonoBehaviour
 {
     private Coord myCoords;
 
-    private void Awake()
+    private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);

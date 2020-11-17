@@ -6,7 +6,7 @@ public class FinishTrigger : MonoBehaviour
     private Coord myCoords;
     private bool myShouldReset = false;
 
-    private void Awake()
+    private void Start()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -30,5 +30,4 @@ public class FinishTrigger : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
-
 }
