@@ -5,6 +5,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myRock = null;
     [SerializeField]
+    private GameObject myImpassable = null;
+    [SerializeField]
     private GameObject myHole = null;
     [SerializeField]
     private GameObject myFinish = null;
@@ -34,6 +36,18 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myRock, newPosition, transform.rotation);
         myType = eTileType.Rock;
+    }
+
+    public void PlaceImpassable()
+    {
+        float impassableSize = myImpassable.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + impassableSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myImpassable, newPosition, transform.rotation);
+        myType = eTileType.Impassable;
     }
 
     public void PlaceHole()

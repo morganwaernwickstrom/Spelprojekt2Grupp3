@@ -10,6 +10,7 @@
     Emitter,
     Reflector,
     Receiver,
+    Impassable,
     Player
 }
 
