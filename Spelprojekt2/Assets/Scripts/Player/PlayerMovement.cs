@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 swipeDelta, startTouch;
     private float lastTap;
     private float sqrDeadzone;
+    private float percentage;
 
     public bool Tap { get { return tap; } }
     public bool DoubleTap { get { return doubleTap; } }
@@ -34,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         sqrDeadzone = myDeadzone * myDeadzone;
+        percentage = 0.0f;
     }
 
     private void Update()
@@ -45,8 +47,20 @@ public class PlayerMovement : MonoBehaviour
         Movement();
         WasdMovement();
 
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.fixedDeltaTime);
+        
 
+       
+
+        if (percentage > 1.0f)
+        {
+            transform.position = myDesiredPosition;
+        }
+        else 
+        {
+            percentage += Time.deltaTime * mySpeed;
+
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
+        }
     }
 
     //Movement using mouse
@@ -170,21 +184,25 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(0, 0, 1);
                 myCoords.y += 1;
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(0, 0, -1);
                 myCoords.y -= 1;
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(-1, 0, 0);
                 myCoords.x -= 1;
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(1, 0, 0);
                 myCoords.x += 1;
             }
