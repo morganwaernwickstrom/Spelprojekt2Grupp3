@@ -30,6 +30,11 @@ public class TileGUI : Editor
             myTile.PlaceImpassable();
         }
 
+        if (GUILayout.Button("Place Sliding Block"))
+        {
+            myTile.PlaceSlidingBlock();
+        }
+
         if (GUILayout.Button("Place Hole"))
         {
             myTile.PlaceHole();

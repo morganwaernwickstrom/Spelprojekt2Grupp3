@@ -7,6 +7,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private GameObject myImpassable = null;
     [SerializeField]
+    private GameObject mySlidingBlock = null;
+    [SerializeField]
     private GameObject myHole = null;
     [SerializeField]
     private GameObject myFinish = null;
@@ -48,6 +50,18 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myImpassable, newPosition, transform.rotation);
         myType = eTileType.Impassable;
+    }
+
+    public void PlaceSlidingBlock()
+    {
+        float slidingBlockSize = mySlidingBlock.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + slidingBlockSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(mySlidingBlock, newPosition, transform.rotation);
+        myType = eTileType.Sliding;
     }
 
     public void PlaceHole()

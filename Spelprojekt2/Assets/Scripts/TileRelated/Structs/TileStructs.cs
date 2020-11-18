@@ -11,6 +11,7 @@
     Reflector,
     Receiver,
     Impassable,
+    Sliding,
     Player
 }
 
