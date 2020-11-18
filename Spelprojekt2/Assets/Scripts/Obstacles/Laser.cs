@@ -8,12 +8,16 @@ public class Laser : MonoBehaviour
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     private void OnEnable()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        if (EventHandler.current != null)
+        {
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        }
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
