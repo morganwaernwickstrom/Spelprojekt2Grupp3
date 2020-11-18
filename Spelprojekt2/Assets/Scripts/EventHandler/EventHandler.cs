@@ -13,7 +13,7 @@ public enum eEventType
 
 public class EventHandler : MonoBehaviour
 {
-    public static EventHandler current;
+    public static EventHandler current = null;
     public event Func<Coord, Coord, bool> onPlayerMoveEvent;
     public event Func<Coord, Coord, bool> onPlayerInteractEvent;
     public event Func<Coord, bool> onRockMoveEvent;
@@ -23,12 +23,12 @@ public class EventHandler : MonoBehaviour
 
     private void Start()
     {
-        current = this;
+        if (current == null) current = this;
     }
 
     private void OnEnable()
     {
-        current = this;
+        if (current == null) current = this;
     }
 
     public void Subscribe(eEventType aType, Func<Coord, Coord, bool> aFunc)
