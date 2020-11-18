@@ -108,7 +108,7 @@ public class Tile : MonoBehaviour
 
     public void PlacePlayer()
     {
-        float playerSize = myPlayer.GetComponent<Renderer>().bounds.size.y;
+        float playerSize = myPlayer.transform.Find("Blockout").GetComponent<Renderer>().bounds.size.y;
         float tileSize = GetComponent<Renderer>().bounds.size.y;
 
         float tileTop = transform.position.y + tileSize / 2;
