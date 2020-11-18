@@ -4,6 +4,7 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private float mySpeed = 0.01f;
+    private int myLimitedChecks = 10;
     private Coord myCoords;
     private bool myHitObstacle = false;
     private void Start()
@@ -80,7 +81,7 @@ public class SlidingRockMovement : MonoBehaviour
             }
         }
 
-        while (!myHitObstacle)
+        while (!myHitObstacle && myLimitedChecks > 0)
         {
             if (aDirection.x > 0)
             {
@@ -139,8 +140,11 @@ public class SlidingRockMovement : MonoBehaviour
                     aDirection.y += 1;
                 }
             }
+            myLimitedChecks--;
         }
 
+        myLimitedChecks = 10;
+        myHitObstacle = false;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
