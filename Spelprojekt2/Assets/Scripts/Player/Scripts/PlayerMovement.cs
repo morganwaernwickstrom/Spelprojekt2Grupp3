@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     private Coord myPreviousCoords;
 
     [SerializeField]
+    GameObject myCharacterModel;
+
+    [SerializeField]
     float mySpeed = 0.1f;
 
     [SerializeField] private float myDeadzone = 100.0f;
@@ -16,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 swipeDelta, startTouch;
     private float lastTap;
     private float sqrDeadzone;
+    private float percentage;
 
     public bool Tap { get { return tap; } }
     public bool DoubleTap { get { return doubleTap; } }
@@ -24,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
     public bool SwipeRight { get { return swipeRight; } }
     public bool SwipeUp { get { return swipeUp; } }
     public bool SwipeDown { get { return swipeDown; } }
-
 
     private void Awake()
     {
@@ -35,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         sqrDeadzone = myDeadzone * myDeadzone;
+        percentage = 0.0f;
     }
 
     private void Update()
@@ -44,11 +48,25 @@ public class PlayerMovement : MonoBehaviour
         UpdateMobile();
         UpdateStandalone();
         Movement();
+        WasdMovement();
 
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        
 
+       
+
+        if (percentage > 1.0f)
+        {
+            transform.position = myDesiredPosition;
+        }
+        else 
+        {
+            percentage += Time.fixedDeltaTime * mySpeed;
+
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
+        }
     }
 
+    //Movement using mouse
     private void UpdateStandalone()
     {
         if (Input.GetMouseButtonDown(0))
@@ -101,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Movement using mobile controls
     private void UpdateMobile()
     {
         if (Input.touches.Length != 0)
@@ -157,33 +176,48 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void Movement()
+    //Movement using WASD 
+    private void WasdMovement()
     {
         Coord originalCoord = myCoords;
 
         myPreviousCoords = myCoords;
 
+        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+
         if (transform.position == myDesiredPosition)
         {
-            if (swipeUp)
+            if (Input.GetKeyDown(KeyCode.W))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(0, 0, 1);
+                myRotation = Quaternion.Euler(0, 0, 0);
                 myCoords.y += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
-            if (swipeDown)
+            if (Input.GetKeyDown(KeyCode.S))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(0, 0, -1);
                 myCoords.y -= 1;
+                myRotation = Quaternion.Euler(0, 180, 0);
+                myCharacterModel.transform.rotation = myRotation;
             }
-            if (swipeLeft)
+            if (Input.GetKeyDown(KeyCode.A))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(-1, 0, 0);
+                myRotation = Quaternion.Euler(0, -90, 0);
                 myCoords.x -= 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
-            if (swipeRight)
+            if (Input.GetKeyDown(KeyCode.D))
             {
+                percentage = 0;
                 myDesiredPosition += new Vector3(1, 0, 0);
+                myRotation = Quaternion.Euler(0, 90, 0);
                 myCoords.x += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
         }
 
@@ -193,6 +227,64 @@ public class PlayerMovement : MonoBehaviour
             myDesiredPosition = transform.position;
             myCoords = originalCoord;
         }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
+
+        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
+    }
+
+    private void Movement()
+    {
+        Coord originalCoord = myCoords;
+
+        myPreviousCoords = myCoords;
+
+        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+
+        if (transform.position == myDesiredPosition)
+        {
+            if (swipeUp)
+            {
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, 1);
+                myRotation = Quaternion.Euler(0, 0, 0);
+                myCoords.y += 1;
+                myCharacterModel.transform.rotation = myRotation;
+            }
+            if (swipeDown)
+            {
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, -1);
+                myCoords.y -= 1;
+                myRotation = Quaternion.Euler(0, 180, 0);
+                myCharacterModel.transform.rotation = myRotation;
+            }
+            if (swipeLeft)
+            {
+                percentage = 0;
+                myDesiredPosition += new Vector3(-1, 0, 0);
+                myRotation = Quaternion.Euler(0, -90, 0);
+                myCoords.x -= 1;
+                myCharacterModel.transform.rotation = myRotation;
+            }
+            if (swipeRight)
+            {
+                percentage = 0;
+                myDesiredPosition += new Vector3(1, 0, 0);
+                myRotation = Quaternion.Euler(0, 90, 0);
+                myCoords.x += 1;
+                myCharacterModel.transform.rotation = myRotation;
+            }
+
+            
+        }
+
+
+        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
+        {
+            myDesiredPosition = transform.position;
+            myCoords = originalCoord;
+        }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }

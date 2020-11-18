@@ -32,7 +32,7 @@ public struct Coord
 
     public static bool operator !=(Coord c1, Coord c2)
     {
-        return !(c1 == c2);
+        return (c1.x != c2.x || c1.y != c2.y);
     }
 
     public static Coord operator +(Coord c1, Coord c2)
