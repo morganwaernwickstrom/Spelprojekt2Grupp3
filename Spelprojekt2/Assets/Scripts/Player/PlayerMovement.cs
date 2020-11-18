@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         Movement();
         WasdMovement();
 
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.fixedDeltaTime);
 
     }
 
