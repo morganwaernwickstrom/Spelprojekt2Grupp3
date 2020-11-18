@@ -25,6 +25,46 @@ public class PlayerMovement : MonoBehaviour
     public bool SwipeUp { get { return swipeUp; } }
     public bool SwipeDown { get { return swipeDown; } }
 
+    private void WasdMovement()
+    {
+        Coord originalCoord = myCoords;
+
+        myPreviousCoords = myCoords;
+
+        if (transform.position == myDesiredPosition)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                myDesiredPosition += new Vector3(0, 0, 1);
+                myCoords.y += 1;
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                myDesiredPosition += new Vector3(0, 0, -1);
+                myCoords.y -= 1;
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                myDesiredPosition += new Vector3(-1, 0, 0);
+                myCoords.x -= 1;
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                myDesiredPosition += new Vector3(1, 0, 0);
+                myCoords.x += 1;
+            }
+        }
+
+
+        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
+        {
+            myDesiredPosition = transform.position;
+            myCoords = originalCoord;
+        }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
+
+        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
+    }
 
     private void Awake()
     {
@@ -44,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         UpdateMobile();
         UpdateStandalone();
         Movement();
+        WasdMovement();
 
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
 
