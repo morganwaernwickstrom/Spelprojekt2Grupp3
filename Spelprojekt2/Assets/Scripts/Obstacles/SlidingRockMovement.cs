@@ -58,6 +58,7 @@ public class SlidingRockMovement : MonoBehaviour
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
+        SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -76,6 +77,13 @@ public class SlidingRockMovement : MonoBehaviour
         foreach (var wall in otherWalls)
         {
             if ((myCoords + aDirection) == wall.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var slideRock in otherSlidingRocks)
+        {
+            if ((myCoords + aDirection) == slideRock.GetCoords())
             {
                 return;
             }
@@ -117,6 +125,13 @@ public class SlidingRockMovement : MonoBehaviour
             foreach (var wall in otherWalls)
             {
                 if ((myCoords + aDirection) == wall.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var slideRock in otherSlidingRocks)
+            {
+                if ((myCoords + aDirection) == slideRock.GetCoords())
                 {
                     myHitObstacle = true;
                 }
