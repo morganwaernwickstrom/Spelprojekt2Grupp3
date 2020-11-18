@@ -8,7 +8,7 @@ public class Door : MonoBehaviour
 
     private void Start()
     {
-        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.ButtonPressed, OnButtonPressed);
         EventHandler.current.Subscribe(eEventType.ButtonUp, OnButtonUp);

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserEmitterScript : MonoBehaviour
@@ -21,6 +20,8 @@ public class LaserEmitterScript : MonoBehaviour
     [SerializeField] float myPreviousLaserDistance = 0;
     [SerializeField] float myLaserDistance = 0;
 
+    // Coordinates to use for collision checking
+    private Coord myCoords;
 
     private void Start()
     {
@@ -32,6 +33,8 @@ public class LaserEmitterScript : MonoBehaviour
             temp.SetActive(false);
             myLaserPool.Add(temp);
         }
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     // --- Every frame, check distance to ray-casted object, if it has changed, draw the laser --- //
@@ -86,5 +89,15 @@ public class LaserEmitterScript : MonoBehaviour
         {
             myLaserDistance = 0f;
         }
+    }
+
+    private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
+    {
+        return (myCoords == aPlayerCurrentPos);
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 }

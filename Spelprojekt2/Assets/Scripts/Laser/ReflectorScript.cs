@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ReflectorScript : MonoBehaviour
@@ -42,6 +41,9 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private bool myIsHit;
     private Direction myDirection = Direction.Null;
 
+    // Coordinates to use for collision checking
+    private Coord myCoords;
+
     void Start()
     {
         myLaserPool = new List<GameObject>();
@@ -52,6 +54,9 @@ public class ReflectorScript : MonoBehaviour
             temp.SetActive(false);
             myLaserPool.Add(temp);
         }
+
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
@@ -166,5 +171,15 @@ public class ReflectorScript : MonoBehaviour
         {
             myLaserDistance = 0f;
         }
+    }
+
+    private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
+    {
+        return (myCoords == aPlayerCurrentPos);
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 }
