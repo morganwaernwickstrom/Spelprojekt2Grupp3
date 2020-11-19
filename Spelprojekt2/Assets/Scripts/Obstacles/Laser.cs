@@ -59,6 +59,7 @@ public class Laser : MonoBehaviour
     private IEnumerator RestartAfterDeath() 
     {
         myPlayer.GetComponentInChildren<Animator>().SetBool("Die", true);
+        myPlayer.GetComponent<PlayerMovement>().enabled = false;
         Debug.Log("Working");
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
