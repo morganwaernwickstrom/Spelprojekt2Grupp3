@@ -9,7 +9,7 @@ public class TileGUI : Editor
         Tile myTile = (Tile)target;
         SerializedObject tileInstance = new SerializedObject(myTile);
 
-        myTile.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
+        //myTile.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
         myTile.GetComponent<Renderer>().hideFlags = HideFlags.HideInInspector;
         myTile.GetComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
 
