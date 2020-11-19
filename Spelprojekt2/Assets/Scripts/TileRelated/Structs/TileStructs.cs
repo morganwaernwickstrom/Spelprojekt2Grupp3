@@ -5,6 +5,7 @@
     Hole,
     Laser,
     Finish,
+    Rail,
     Button,
     Door,
     Emitter,
