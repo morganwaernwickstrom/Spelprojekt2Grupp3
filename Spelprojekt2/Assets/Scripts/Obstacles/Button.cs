@@ -6,7 +6,7 @@ public class Button : MonoBehaviour
 
     private void Start()
     {
-        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerInteract, OnPlayerInteract);
         EventHandler.current.Subscribe(eEventType.RockInteract, OnRockInteract);
     }
