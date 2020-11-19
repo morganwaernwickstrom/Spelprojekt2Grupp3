@@ -3,10 +3,14 @@
 public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.01f;
+    private Vector3 myCurrentPosition;
+    private float mySpeed = 0.03f;
+    private float myFallingSpeed = 0.0000001f;
     private int myLimitedChecks = 10;
     private Coord myCoords;
     private bool myHitObstacle = false;
+    private bool myHitHole = false;
+    private bool myFallingDown = false;
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -17,6 +21,18 @@ public class SlidingRockMovement : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+
+        myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
+        
+
+        if (myCurrentPosition == myDesiredPosition && myFallingDown)
+        {
+            myDesiredPosition += new Vector3 ( 0, -1, 0 );
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myFallingSpeed* Time.deltaTime);
+            myFallingDown = false;
+            myHitHole = false;
+        }
+
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
@@ -59,6 +75,7 @@ public class SlidingRockMovement : MonoBehaviour
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
         SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
+        HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -84,6 +101,13 @@ public class SlidingRockMovement : MonoBehaviour
         foreach (var slideRock in otherSlidingRocks)
         {
             if ((myCoords + aDirection) == slideRock.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var hole in otherHoles)
+        {
+            if ((myCoords + aDirection) == hole.GetCoords())
             {
                 return;
             }
@@ -136,7 +160,15 @@ public class SlidingRockMovement : MonoBehaviour
                     myHitObstacle = true;
                 }
             }
-            if (myHitObstacle)
+            foreach (var hole in otherHoles)
+            {
+                if ((myCoords + aDirection) == hole.GetCoords())
+                {
+                    myHitHole = true;
+                    myHitObstacle = true;
+                }
+            }
+            if (myHitObstacle && !myHitHole)
             {
                 if (aDirection.x > 0)
                 {
@@ -166,7 +198,8 @@ public class SlidingRockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myDesiredPosition += new Vector3(0, -1f, 0);
+            myFallingDown = true;
+            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
     }
