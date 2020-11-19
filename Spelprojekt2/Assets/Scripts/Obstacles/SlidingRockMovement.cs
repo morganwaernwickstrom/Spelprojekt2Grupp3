@@ -4,6 +4,7 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private float mySpeed = 0.01f;
+    private int myLimitedChecks = 10;
     private Coord myCoords;
     private bool myHitObstacle = false;
     private void Start()
@@ -57,6 +58,7 @@ public class SlidingRockMovement : MonoBehaviour
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
+        SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -79,8 +81,15 @@ public class SlidingRockMovement : MonoBehaviour
                 return;
             }
         }
+        foreach (var slideRock in otherSlidingRocks)
+        {
+            if ((myCoords + aDirection) == slideRock.GetCoords())
+            {
+                return;
+            }
+        }
 
-        while (!myHitObstacle)
+        while (!myHitObstacle && myLimitedChecks > 0)
         {
             if (aDirection.x > 0)
             {
@@ -120,6 +129,13 @@ public class SlidingRockMovement : MonoBehaviour
                     myHitObstacle = true;
                 }
             }
+            foreach (var slideRock in otherSlidingRocks)
+            {
+                if ((myCoords + aDirection) == slideRock.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
             if (myHitObstacle)
             {
                 if (aDirection.x > 0)
@@ -139,8 +155,11 @@ public class SlidingRockMovement : MonoBehaviour
                     aDirection.y += 1;
                 }
             }
+            myLimitedChecks--;
         }
 
+        myLimitedChecks = 10;
+        myHitObstacle = false;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
