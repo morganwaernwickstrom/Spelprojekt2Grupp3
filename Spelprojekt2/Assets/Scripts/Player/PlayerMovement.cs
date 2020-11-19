@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
     private Coord myCoords;
     private Coord myPreviousCoords;
 
+    private Animator myAnimator;
+
     [SerializeField]
     GameObject myCharacterModel;
 
@@ -39,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
     {
         sqrDeadzone = myDeadzone * myDeadzone;
         percentage = 0.0f;
+        myAnimator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -49,10 +52,6 @@ public class PlayerMovement : MonoBehaviour
         UpdateStandalone();
         Movement();
         WasdMovement();
-
-        
-
-       
 
         if (percentage > 1.0f)
         {
@@ -183,10 +182,13 @@ public class PlayerMovement : MonoBehaviour
 
         myPreviousCoords = myCoords;
 
+        float distance = Vector3.Distance(transform.position, myDesiredPosition);
+
         Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
 
         if (transform.position == myDesiredPosition)
         {
+
             if (Input.GetKeyDown(KeyCode.W))
             {
                 percentage = 0;
@@ -220,6 +222,18 @@ public class PlayerMovement : MonoBehaviour
                 myCharacterModel.transform.rotation = myRotation;
             }
         }
+        
+
+        if(distance < 0.1) 
+        {
+            myAnimator.SetBool("Walk", false);
+        }
+        else 
+        {
+            myAnimator.SetBool("Walk", true);
+        }
+            
+        
 
 
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
