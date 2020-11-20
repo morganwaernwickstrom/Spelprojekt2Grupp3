@@ -21,4 +21,16 @@ public class sceneChange : MonoBehaviour
     {
         SceneManager.LoadScene("mainMenu");
     }
+    public void LevelOne()
+    {
+        SceneManager.LoadScene("Paul_Level1");
+    }
+    public void LevelTwo()
+    {
+        SceneManager.LoadScene("Paul_Level2");
+    }
+    public void LevelThree()
+    {
+        SceneManager.LoadScene("Bana_3");
+    }
 }
