@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ReflectorScript : MonoBehaviour
@@ -21,26 +20,32 @@ public class ReflectorScript : MonoBehaviour
     private float myLaserDistance = 0;
 
     // --- Transforms used to determine where raycasts should originate from --- //
-    [SerializeField] private Transform myRaycastOriginLeft;
-    [SerializeField] private Transform myRaycastOriginRight;
+    [SerializeField] private Transform myRaycastOriginLeft = null;
+    [SerializeField] private Transform myRaycastOriginRight = null;
 
     // --- Origin points for lasers --- //
-    [SerializeField] private Transform myOrigin;            // The moving origin point from which lasers instantiate. Both myOrigin and myFirstOrigin depend on myLeftOrigin & myRighOrigin
-    [SerializeField] private Transform myFirstOrigin;       // Is at the same position as myOrigin at the first laser object, used to see where laser should start at Re-draw
-    [SerializeField] private Transform myLeftOrigin;        // The static/not moving origin point for laser going left
-    [SerializeField] private Transform myRightOrigin;       // The static/not moving origin point for laser going right
+    [SerializeField] private Transform myOrigin = null;            // The moving origin point from which lasers instantiate. Both myOrigin and myFirstOrigin depend on myLeftOrigin & myRighOrigin
+    [SerializeField] private Transform myFirstOrigin = null;       // Is at the same position as myOrigin at the first laser object, used to see where laser should start at Re-draw
+    [SerializeField] private Transform myLeftOrigin = null;        // The static/not moving origin point for laser going left
+    [SerializeField] private Transform myRightOrigin = null;       // The static/not moving origin point for laser going right
 
-    [SerializeField] private Transform myLeftLaserRotation;     // Rotation for instantiated laser objects going left
-    [SerializeField] private Transform myRightLaserRotation;    // Rotation for instantiated laser objects going right
+    [SerializeField] private Transform myLeftLaserRotation = null;     // Rotation for instantiated laser objects going left
+    [SerializeField] private Transform myRightLaserRotation = null;    // Rotation for instantiated laser objects going right
     private Transform myLaserRotation;                          // Is assigned to be either myLeftLaserRotation or myRighLaserRotation
 
     // --- Detection boxes to determine where the laser is coming from --- //
-    [SerializeField] private LaserDetectionScript myLeftDetectionBox;
-    [SerializeField] private LaserDetectionScript myRightDetectionBox;
+    [SerializeField] private LaserDetectionScript myLeftDetectionBox = null;
+    [SerializeField] private LaserDetectionScript myRightDetectionBox = null;
 
     // --- Is the reflector hit by laser as well as which direction it should take --- //
     [SerializeField] private bool myIsHit;
     private Direction myDirection = Direction.Null;
+
+    // Coordinates to use for collision checking
+    private Coord myCoords;
+
+    private Vector3 myDesiredPosition;
+    private float mySpeed = 0.1f;
 
     void Start()
     {
@@ -52,6 +57,10 @@ public class ReflectorScript : MonoBehaviour
             temp.SetActive(false);
             myLaserPool.Add(temp);
         }
+
+        myDesiredPosition = transform.position;
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
@@ -100,13 +109,18 @@ public class ReflectorScript : MonoBehaviour
             myDirection = Direction.Null;
             ClearLaser();
         }
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        if (transform.position.y <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
         ClearLaser();       
-        int amount = (int)Mathf.Round(myLaserDistance);
+        int amount = Mathf.RoundToInt(myLaserDistance);
 
         if ((myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
         {
@@ -166,5 +180,77 @@ public class ReflectorScript : MonoBehaviour
         {
             myLaserDistance = 0f;
         }
+    }
+
+    private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
+    {
+        if (myCoords == aPlayerCurrentPos)
+        {
+            if (aPlayerPreviousPos.x == myCoords.x - 1)
+            {
+                Move(new Coord(1, 0));
+            }
+            if (aPlayerPreviousPos.x == myCoords.x + 1)
+            {
+                Move(new Coord(-1, 0));
+            }
+            if (aPlayerPreviousPos.y == myCoords.y - 1)
+            {
+                Move(new Coord(0, 1));
+            }
+            if (aPlayerPreviousPos.y == myCoords.y + 1)
+            {
+                Move(new Coord(0, -1));
+            }
+        }
+        else
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private void Move(Coord aDirection)
+    {
+        Coord previousCoords = myCoords;
+        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
+        Door[] otherDoors = FindObjectsOfType<Door>();
+        Impassable[] otherWalls = FindObjectsOfType<Impassable>();
+        // TODO: Add Lookup map of to check if tile is empty!
+        foreach (var rock in otherRocks)
+        {
+            if ((myCoords + aDirection) == rock.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var door in otherDoors)
+        {
+            if ((myCoords + aDirection) == door.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var wall in otherWalls)
+        {
+            if ((myCoords + aDirection) == wall.GetCoords())
+            {
+                return;
+            }
+        }
+
+        myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
+        myCoords += aDirection;
+
+        if (EventHandler.current.RockMoveEvent(myCoords))
+        {
+            myDesiredPosition += new Vector3(0, -1f, 0);
+        }
+        EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 }
