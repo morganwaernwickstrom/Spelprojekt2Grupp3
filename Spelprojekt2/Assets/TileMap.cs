@@ -4,60 +4,52 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
-    const int myColumns = 10;
-    const int myRows = 7;
+    const int myColumns = 7;
+    const int myRows = 10;
 
-    //public _Tile[,] tileMap = new _Tile[myRows, myColumns];
-    public Tile[,] tileMap = new Tile[myColumns, myRows];
-    Tile[] allTiles;
-
-    public int amount = 0;
-
-    public int i = 0;
-    public int j = 0;
+    public _Tile[,] tileMap = new _Tile[myRows, myColumns];
+    //public Tile[,] tileMap = new Tile[myColumns, myRows];
 
     private void Start()
     {
+        Tile[] allTiles;
         allTiles = FindObjectsOfType<Tile>();
-        amount = allTiles.Length;
+        int amount = allTiles.Length;
 
-        for (i = 0; i < myColumns; ++i)
+        // Sort tiles after how they were added to the scene
+        for (int i = 0; i < amount; ++i)
         {
-            for (j = 0; j < myRows; ++j)
+            for (int j = i + 1; j < amount; ++j)
             {
-                int index = amount - 1;
-                //tileMap[j, i] = new _Tile(new Coord(i, j), allTiles[counter - 1].GetTileType());
-                tileMap[i, j] = allTiles[index];
-                amount -= 1;
+
+                Tile temp = allTiles[j];
+                allTiles[j] = allTiles[i];
+                allTiles[i] = temp;
+
             }
         }
 
-        //StartCoroutine(CycleTrough());
-
-        //float x = tileMap[1, 1].transform.position.x;
-        //float z = tileMap[1, 1].transform.position.z;
-
-        tileMap[0, 0].gameObject.SetActive(false);
-
-        //Debug.Log("Last tile -  X: " + x + " Z: " + z);
-    }
-
-    IEnumerator CycleTrough()
-    {
-        // j = Column tile (x cord)
-        // i = Row tile    (y/z cord)
-
-        for (i = 0; i < myColumns; ++i)
+        // Sort tiles after (row - column) instead of (column - tile)
+        for (int i = 0; i < amount; ++i)
         {
-            for (j = 0; j < myRows; ++j)
+            for (int j = i + 1; j < amount; ++j)
             {
-                int index = amount - 1;
-                //tileMap[j, i] = new _Tile(new Coord(i, j), allTiles[counter - 1].GetTileType());
-                tileMap[j, i] = allTiles[index];
-                tileMap[j, i].gameObject.SetActive(false);
-                amount -= 1;
-                yield return new WaitForSeconds(0.0001f);
-                
+                if (allTiles[j].transform.position.x < allTiles[i].transform.position.x || allTiles[j].transform.position.z < allTiles[i].transform.position.z)
+                {
+                    Tile temp = allTiles[i];
+                    allTiles[i] = allTiles[j];
+                    allTiles[j] = temp;
+                }
+            }
+        }
+
+        int counter = 0;
+
+        for (int column = 0; column < myColumns; ++column)
+        {
+            for (int row = 0; row < myRows; ++row)
+            {
+                tileMap[column, row] = allTiles[counter++];
             }
         }
     }
