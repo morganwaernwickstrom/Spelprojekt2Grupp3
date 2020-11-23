@@ -58,6 +58,10 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent += aFunc;
                 }
+                for (int i = 0; i < FindObjectsOfType<SlidingRockMovement>().Length; i++)
+                {
+                    onRockMoveEvent += aFunc;
+                }
                 break;
             default:
                 break;

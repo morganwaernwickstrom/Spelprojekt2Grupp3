@@ -1,10 +1,13 @@
 ﻿using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
 
 public class Laser : MonoBehaviour
 {
     private Coord myCoords;
     private bool myShouldReset = false;
+    private bool myCoroutineRunning = false;
+    private GameObject myPlayer;
 
     private void Start()
     {
@@ -15,9 +18,16 @@ public class Laser : MonoBehaviour
 
     private void Update()
     {
+
+        myPlayer = GameObject.FindGameObjectWithTag("Player");
+
         if (myShouldReset)
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            if(!myCoroutineRunning)
+            {
+                StartCoroutine(RestartAfterDeath());
+                myCoroutineRunning = true;
+            }
         }
     }
 
@@ -44,5 +54,14 @@ public class Laser : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+    }
+
+    private IEnumerator RestartAfterDeath() 
+    {
+        myPlayer.GetComponentInChildren<Animator>().SetBool("Die", true);
+        myPlayer.GetComponent<PlayerMovement>().enabled = false;
+        Debug.Log("Working");
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
