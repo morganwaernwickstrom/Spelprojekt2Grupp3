@@ -26,7 +26,16 @@ public class Tile : MonoBehaviour
     private GameObject myPlayer = null;
 
     private GameObject myCurrent = null;
+
     private eTileType myType = eTileType.Empty;
+    private _Tile myTileData;
+
+    private void Start()
+    {
+        // check whats on tile at start
+
+        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), myType);
+    }
 
     public void PlaceRock()
     {
@@ -37,7 +46,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myRock, newPosition, transform.rotation);
-        myType = eTileType.Rock;
+        myTileData.type = eTileType.Rock;
     }
 
     public void PlaceImpassable()
@@ -49,7 +58,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + impassableSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myImpassable, newPosition, transform.rotation);
-        myType = eTileType.Impassable;
+        myTileData.type = eTileType.Impassable;
     }
 
     public void PlaceSlidingBlock()
@@ -61,7 +70,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + slidingBlockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(mySlidingBlock, newPosition, transform.rotation);
-        myType = eTileType.Sliding;
+        myTileData.type = eTileType.Sliding;
     }
 
     public void PlaceHole()
@@ -70,7 +79,7 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
-        myType = eTileType.Hole;
+        myTileData.type = eTileType.Hole;
     }
 
     public void PlaceFinish()
@@ -79,7 +88,7 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myFinish, newPosition, transform.rotation);
-        myType = eTileType.Finish;
+        myTileData.type = eTileType.Finish;
     }
 
     public void PlaceButton()
@@ -91,7 +100,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + buttonSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myButton, newPosition, transform.rotation);
-        myType = eTileType.Button;
+        myTileData.type = eTileType.Button;
     }
 
     public void PlaceDoor()
@@ -103,7 +112,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + doorSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
-        myType = eTileType.Door;
+        myTileData.type = eTileType.Door;
     }
 
     public void PlacePlayer()
@@ -115,7 +124,7 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
-        myType = eTileType.Player;
+        myTileData.type = eTileType.Player;
     }
 
     public void PlaceLaserEmitter()
@@ -129,6 +138,7 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myEmitter, newPosition, transform.rotation);
         myType = eTileType.Emitter;
+        myTileData.type = myType;
     }
 
     public void PlaceLaserReflector()
@@ -141,6 +151,7 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myReflector, newPosition, transform.rotation);
         myType = eTileType.Reflector;
+        myTileData.type = myType;
     }
 
     public void PlaceLaserReceiver()
@@ -153,6 +164,7 @@ public class Tile : MonoBehaviour
 
         myCurrent = Instantiate(myReceiver, newPosition, transform.rotation);
         myType = eTileType.Receiver;
+        myTileData.type = myType;
     }
 
     public void RemoveCurrent()
@@ -166,5 +178,10 @@ public class Tile : MonoBehaviour
     public eTileType GetTileType()
     {
         return myType;
+    }
+
+    public _Tile GetTile()
+    {
+        return myTileData;
     }
 }

@@ -4,28 +4,28 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
-    const int myColumns = 7;
-    const int myRows = 10;
+    // TODO: find tiletype at all times it is changed
 
-    public _Tile[,] tileMap = new _Tile[myRows, myColumns];
-    //public Tile[,] tileMap = new Tile[myColumns, myRows];
+    const int myRows = 10;
+    const int myColumns = 7;
+
+    private _Tile[,] myTileMap = new _Tile[myRows, myColumns];
+
+    Tile[] myTiles;
 
     private void Start()
     {
-        Tile[] allTiles;
-        allTiles = FindObjectsOfType<Tile>();
-        int amount = allTiles.Length;
+        myTiles = FindObjectsOfType<Tile>();
+        int amount = myTiles.Length;
 
         // Sort tiles after how they were added to the scene
         for (int i = 0; i < amount; ++i)
         {
             for (int j = i + 1; j < amount; ++j)
             {
-
-                Tile temp = allTiles[j];
-                allTiles[j] = allTiles[i];
-                allTiles[i] = temp;
-
+                Tile temp = myTiles[j];
+                myTiles[j] = myTiles[i];
+                myTiles[i] = temp;
             }
         }
 
@@ -34,23 +34,82 @@ public class TileMap : MonoBehaviour
         {
             for (int j = i + 1; j < amount; ++j)
             {
-                if (allTiles[j].transform.position.x < allTiles[i].transform.position.x || allTiles[j].transform.position.z < allTiles[i].transform.position.z)
+                if (myTiles[j].transform.position.x < myTiles[i].transform.position.x || myTiles[j].transform.position.z < myTiles[i].transform.position.z)
                 {
-                    Tile temp = allTiles[i];
-                    allTiles[i] = allTiles[j];
-                    allTiles[j] = temp;
+                    Tile temp = myTiles[i];
+                    myTiles[i] = myTiles[j];
+                    myTiles[j] = temp;
                 }
             }
         }
 
+        ReDefineMap();
+    }
+    private void Update()  // Change to event driven
+    {
+        ReDefineMap();
+    }
+    private void LateUpdate()
+    {
+        PrintTileInfo(0, 0);
+        //PrintTileInfo(1, 0);
+        //PrintTileInfo(0, 1);
+        //PrintTileInfo(1, 1);
+    }
+
+    void ReDefineMap()
+    {
         int counter = 0;
 
-        for (int column = 0; column < myColumns; ++column)
+        for (int row = 0; row < myRows; ++row)
         {
-            for (int row = 0; row < myRows; ++row)
+            for (int column = 0; column < myColumns; ++column)
             {
-                tileMap[column, row] = allTiles[counter++];
+                myTileMap[row, column] = myTiles[counter++].GetTile();
             }
         }
+    }
+
+    void PrintTileInfo(int aRow, int aColumn)
+    {
+        string tileName = "Empty";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Rock)
+            tileName = "Rock";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Impassable)       
+            tileName = "Impassable";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Sliding)
+            tileName = "Sliding";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Hole)
+            tileName = "Hole";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Finish)
+            tileName = "Finish";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Button)
+            tileName = "Button";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Door)
+            tileName = "Door";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Emitter)
+            tileName = "Emitter";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Reflector)
+            tileName = "Reflector";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Receiver)
+            tileName = "Receiver";
+
+        if (myTileMap[aRow, aColumn].type == eTileType.Player)
+            tileName = "Player";
+
+        int x = myTileMap[aRow, aColumn].coord.x;
+        int z = myTileMap[aRow, aColumn].coord.y;
+
+        Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
     }
 }
