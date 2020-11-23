@@ -72,6 +72,11 @@ public class TileGUI : Editor
             myTile.PlaceRail();
         }
 
+        if (GUILayout.Button("Place Train"))
+        {
+            myTile.PlaceTrain();
+        }
+
         if (GUILayout.Button("Remove"))
         {
             myTile.RemoveCurrent();

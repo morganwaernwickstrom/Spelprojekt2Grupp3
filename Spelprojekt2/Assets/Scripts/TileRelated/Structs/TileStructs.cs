@@ -6,6 +6,7 @@
     Laser,
     Finish,
     Rail,
+    Train,
     Button,
     Door,
     Emitter,
