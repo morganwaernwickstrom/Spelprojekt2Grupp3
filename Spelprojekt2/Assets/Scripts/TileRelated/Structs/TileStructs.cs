@@ -1,4 +1,5 @@
-﻿public enum eTileType
+﻿// All structs for tiles
+public enum eTileType
 {
     Empty,
     Rock,
