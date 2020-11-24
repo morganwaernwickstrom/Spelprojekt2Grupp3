@@ -352,14 +352,15 @@ public class PlayerMovement : MonoBehaviour
 
         foreach(GameObject aTile in myTiles)
         {
-            print(aTile.transform.position);
 
-            if(aPosition == aTile.transform.position) 
+            if(aPosition.x == aTile.transform.position.x && aPosition.z == aTile.transform.position.z) 
             {
+                print("can walk");
                 return true;
                 
             }
         }
+        print("cannot walk");
         return false;
         
     }
