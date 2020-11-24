@@ -8,7 +8,8 @@ public enum eEventType
     RockMove,
     RockInteract,
     ButtonPressed,
-    ButtonUp
+    ButtonUp,
+    GoalReached
 }
 
 public class EventHandler : MonoBehaviour
@@ -20,6 +21,7 @@ public class EventHandler : MonoBehaviour
     public event Func<Coord, Coord, bool> onRockInteractEvent;
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
+    public event Func<Coord, bool> onGoalReached;
 
     private void Start()
     {
@@ -58,6 +60,13 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent += aFunc;
                 }
+                for (int i = 0; i < FindObjectsOfType<SlidingRockMovement>().Length; i++)
+                {
+                    onRockMoveEvent += aFunc;
+                }
+                break;
+            case eEventType.GoalReached:
+                onGoalReached += aFunc;
                 break;
             default:
                 break;
@@ -196,6 +205,19 @@ public class EventHandler : MonoBehaviour
                 if (f()) return true;
             }
         }
+        return false;
+    }
+
+    public bool GoalReachedEvent(Coord aGoalCoord)
+    {
+        if (onGoalReached != null)
+        {
+            foreach (Func<Coord, bool> f in onGoalReached.GetInvocationList())
+            {
+                if(f(aGoalCoord)) return true;
+            }
+        }
+        Debug.Log("No Canvas?");
         return false;
     }
 }
