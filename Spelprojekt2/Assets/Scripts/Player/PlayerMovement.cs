@@ -302,4 +302,9 @@ public class PlayerMovement : MonoBehaviour
 
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }

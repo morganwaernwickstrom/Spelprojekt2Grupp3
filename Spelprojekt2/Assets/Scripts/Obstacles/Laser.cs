@@ -19,6 +19,8 @@ public class Laser : MonoBehaviour
     private void Update()
     {
 
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+
         myPlayer = GameObject.FindGameObjectWithTag("Player");
 
         if (myShouldReset)
@@ -63,5 +65,10 @@ public class Laser : MonoBehaviour
         Debug.Log("Working");
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 }

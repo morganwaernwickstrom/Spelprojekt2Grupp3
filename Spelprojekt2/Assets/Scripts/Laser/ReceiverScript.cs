@@ -55,4 +55,9 @@ public class ReceiverScript : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
+
 }

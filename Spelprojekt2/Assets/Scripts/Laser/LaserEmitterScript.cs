@@ -100,4 +100,9 @@ public class LaserEmitterScript : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }

@@ -253,4 +253,8 @@ public class ReflectorScript : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }
