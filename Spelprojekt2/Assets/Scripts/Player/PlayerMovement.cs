@@ -17,6 +17,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
 
+    [SerializeField] private int myMaxXCoordinate;
+    [SerializeField] private int myMaxZCoordinate;
+    [SerializeField] private int myMinXCoordinate;
+    [SerializeField] private int myMinZCoordinate;
+
     private GameObject[] myTiles;
 
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
@@ -196,7 +201,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.W))
             {
 
-                if (TileAhead(myPlayerPosition += new Vector3(0, -1, 1)))
+                if (TileAhead(myPlayerPosition += new Vector3(0, 0, 1)))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, 1);
@@ -208,7 +213,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.S))
             {
 
-                if (TileAhead(myPlayerPosition += new Vector3(0, -1, -1)))
+                if (TileAhead(myPlayerPosition += new Vector3(0, 0, -1)))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, -1);
@@ -221,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.A))
             {
 
-                if (TileAhead(myPlayerPosition += new Vector3(-1, -1, 0)))
+                if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(-1, 0, 0);
@@ -234,7 +239,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.D))
             {
 
-                if (TileAhead(myPlayerPosition += new Vector3(1, -1, 0)))
+                if (TileAhead(myPlayerPosition += new Vector3(1, 0, 0)))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(1, 0, 0);
@@ -285,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
             if (swipeUp)
             {
                 
-                if(TileAhead(myPlayerPosition += new Vector3(0, -1, 1))) 
+                if(TileAhead(myPlayerPosition += new Vector3(0, 0, 1))) 
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, 1);
@@ -297,7 +302,7 @@ public class PlayerMovement : MonoBehaviour
             if (swipeDown)
             {
                 
-                if(TileAhead(myPlayerPosition += new Vector3(0, -1, -1))) 
+                if(TileAhead(myPlayerPosition += new Vector3(0, 0, -1))) 
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, -1);
@@ -310,7 +315,7 @@ public class PlayerMovement : MonoBehaviour
             if (swipeLeft)
             {
                 
-                if (TileAhead(myPlayerPosition += new Vector3(-1, -1, 0)))
+                if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(-1, 0, 0);
@@ -323,7 +328,7 @@ public class PlayerMovement : MonoBehaviour
             if (swipeRight)
             {
                 
-                if(TileAhead(myPlayerPosition += new Vector3(1, -1, 0))) 
+                if(TileAhead(myPlayerPosition += new Vector3(1, 0, 0))) 
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(1, 0, 0);
@@ -350,17 +355,21 @@ public class PlayerMovement : MonoBehaviour
     bool TileAhead(Vector3 aPosition)
     {
 
+        print(aPosition);
+
+        Vector3 myDesPos = new Vector3(aPosition.x, transform.position.y - 1, aPosition.z);
+
+
         foreach(GameObject aTile in myTiles)
         {
-
-            if(aPosition.x == aTile.transform.position.x && aPosition.z == aTile.transform.position.z) 
+            float myDistance = Vector3.Distance(myDesPos, aTile.transform.position);
+            if (myDistance <= 0.1f) 
             {
-                print("can walk");
                 return true;
                 
             }
         }
-        print("cannot walk");
+
         return false;
         
     }

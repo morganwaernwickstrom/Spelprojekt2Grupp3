@@ -59,6 +59,11 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene("LevelSelect");
     }
+    
+    public void ChangePauseState() 
+    {
+        myGamePaused = !myGamePaused;
+    }
 
 
 }
