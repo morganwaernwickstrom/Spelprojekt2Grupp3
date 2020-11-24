@@ -17,8 +17,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
 
-    private GameObject[] myTiles;
-
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
     private Vector2 swipeDelta, startTouch;
     private float lastTap;
@@ -44,7 +42,6 @@ public class PlayerMovement : MonoBehaviour
         sqrDeadzone = myDeadzone * myDeadzone;
         percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
-        myTiles = GameObject.FindGameObjectsWithTag("Tile");
     }
 
     private void Update()
@@ -187,68 +184,47 @@ public class PlayerMovement : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, myDesiredPosition);
 
-        Vector3 myPlayerPosition = transform.position;
-
         Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
 
         if (transform.position == myDesiredPosition)
         {
+
             if (Input.GetKeyDown(KeyCode.W))
             {
-
-                if (TileAhead(myPlayerPosition += new Vector3(0, -1, 1)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, 1);
-                    myRotation = Quaternion.Euler(0, 0, 0);
-                    myCoords.y += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, 1);
+                myRotation = Quaternion.Euler(0, 0, 0);
+                myCoords.y += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-
-                if (TileAhead(myPlayerPosition += new Vector3(0, -1, -1)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, -1);
-                    myCoords.y -= 1;
-                    myRotation = Quaternion.Euler(0, 180, 0);
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, -1);
+                myCoords.y -= 1;
+                myRotation = Quaternion.Euler(0, 180, 0);
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-
-                if (TileAhead(myPlayerPosition += new Vector3(-1, -1, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(-1, 0, 0);
-                    myRotation = Quaternion.Euler(0, -90, 0);
-                    myCoords.x -= 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-
+                percentage = 0;
+                myDesiredPosition += new Vector3(-1, 0, 0);
+                myRotation = Quaternion.Euler(0, -90, 0);
+                myCoords.x -= 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-
-                if (TileAhead(myPlayerPosition += new Vector3(1, -1, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(1, 0, 0);
-                    myRotation = Quaternion.Euler(0, 90, 0);
-                    myCoords.x += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
+                percentage = 0;
+                myDesiredPosition += new Vector3(1, 0, 0);
+                myRotation = Quaternion.Euler(0, 90, 0);
+                myCoords.x += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
-
-
         }
+        
 
-
-        if (distance < 0.1) 
+        if(distance < 0.1) 
         {
             myAnimator.SetBool("Walk", false);
         }
@@ -278,59 +254,39 @@ public class PlayerMovement : MonoBehaviour
 
         Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
 
-        Vector3 myPlayerPosition = transform.position;
-
         if (transform.position == myDesiredPosition)
         {
             if (swipeUp)
             {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(0, -1, 1))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, 1);
-                    myRotation = Quaternion.Euler(0, 0, 0);
-                    myCoords.y += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, 1);
+                myRotation = Quaternion.Euler(0, 0, 0);
+                myCoords.y += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (swipeDown)
             {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(0, -1, -1))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, -1);
-                    myCoords.y -= 1;
-                    myRotation = Quaternion.Euler(0, 180, 0);
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-               
+                percentage = 0;
+                myDesiredPosition += new Vector3(0, 0, -1);
+                myCoords.y -= 1;
+                myRotation = Quaternion.Euler(0, 180, 0);
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (swipeLeft)
             {
-                
-                if (TileAhead(myPlayerPosition += new Vector3(-1, -1, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(-1, 0, 0);
-                    myRotation = Quaternion.Euler(0, -90, 0);
-                    myCoords.x -= 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-               
+                percentage = 0;
+                myDesiredPosition += new Vector3(-1, 0, 0);
+                myRotation = Quaternion.Euler(0, -90, 0);
+                myCoords.x -= 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
             if (swipeRight)
             {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(1, -1, 0))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(1, 0, 0);
-                    myRotation = Quaternion.Euler(0, 90, 0);
-                    myCoords.x += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
+                percentage = 0;
+                myDesiredPosition += new Vector3(1, 0, 0);
+                myRotation = Quaternion.Euler(0, 90, 0);
+                myCoords.x += 1;
+                myCharacterModel.transform.rotation = myRotation;
             }
 
             
@@ -345,22 +301,5 @@ public class PlayerMovement : MonoBehaviour
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
-    }
-
-    bool TileAhead(Vector3 aPosition)
-    {
-
-        foreach(GameObject aTile in myTiles)
-        {
-            print(aTile.transform.position);
-
-            if(aPosition == aTile.transform.position) 
-            {
-                return true;
-                
-            }
-        }
-        return false;
-        
     }
 }
