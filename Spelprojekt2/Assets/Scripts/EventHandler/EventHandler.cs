@@ -21,7 +21,7 @@ public class EventHandler : MonoBehaviour
     public event Func<Coord, Coord, bool> onRockInteractEvent;
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
-    public event Func<Coord, bool> onGoalReached;
+    public event Func<Coord, bool> onGoalReachedEvent;
 
     private void Start()
     {
@@ -66,7 +66,7 @@ public class EventHandler : MonoBehaviour
                 }
                 break;
             case eEventType.GoalReached:
-                onGoalReached += aFunc;
+                onGoalReachedEvent += aFunc;
                 break;
             default:
                 break;
@@ -130,6 +130,9 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent -= aFunc;
                 }
+                break;
+            case eEventType.GoalReached:
+                onGoalReachedEvent -= aFunc;
                 break;
             default:
                 break;
@@ -210,9 +213,9 @@ public class EventHandler : MonoBehaviour
 
     public bool GoalReachedEvent(Coord aGoalCoord)
     {
-        if (onGoalReached != null)
+        if (onGoalReachedEvent != null)
         {
-            foreach (Func<Coord, bool> f in onGoalReached.GetInvocationList())
+            foreach (Func<Coord, bool> f in onGoalReachedEvent.GetInvocationList())
             {
                 if(f(aGoalCoord)) return true;
             }
