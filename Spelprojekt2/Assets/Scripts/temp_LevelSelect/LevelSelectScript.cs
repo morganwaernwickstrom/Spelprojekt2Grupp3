@@ -3,9 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class LevelSelectScript : MonoBehaviour
 {
-    public void ActivateLevelClear()
+    private void Start()
     {
-        gameObject.SetActive(true);
+        gameObject.SetActive(false);
+        EventHandler.current.Subscribe(eEventType.GoalReached, OnGoalReached);
+    }
+    private bool OnGoalReached(Coord aGoalCoord)
+    {
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+            return true;
+        }
+        return false;
     }
 
     public void NextLevel()
@@ -22,5 +32,10 @@ public class LevelSelectScript : MonoBehaviour
     public void LevelSelect()
     {
         //Load the scene the Level Select is on
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.GoalReached, OnGoalReached);
     }
 }
