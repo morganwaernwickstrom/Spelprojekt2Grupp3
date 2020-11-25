@@ -6,18 +6,16 @@ public class TileMap : MonoBehaviour
 {
     // TODO: find tiletype at all times it is changed
 
-    const int myRows = 10;
-    const int myColumns = 7;
+    const int myColumns = 7; // x
+    const int myRows = 10;   // y
 
-    private _Tile[,] myTileMap = new _Tile[myRows, myColumns];
+    private _Tile[,] myTileMap = new _Tile[myColumns, myRows];
     Tile[] myTiles;
 
     public static TileMap Instance = null;
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-
         if (!Instance)
         {
             Instance = this;
@@ -56,7 +54,7 @@ public class TileMap : MonoBehaviour
 
     void SetAllTiles()
     {
-        // TODO: MIGHT NEED REFACTORING
+        // MIGHT NEED REFACTORING
         RockMovement[] allRocks = FindObjectsOfType<RockMovement>();
         SlidingRockMovement[] allSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         Impassable[] allImpassables = FindObjectsOfType<Impassable>();
@@ -154,34 +152,59 @@ public class TileMap : MonoBehaviour
         return myTileMap[aCoord.x, aCoord.y].type;
     }
 
-    //int GetDistance(Coord aPosition, Coord aDirection, bool isLaser = true)
-    //{
-    //    int distance = 0;
-    //    // från pos till dir
-    //    //
-    //    if (isLaser)
-    //    {
-    //        while (true)
-    //        {
-    //            if (!currentTile == eTileType.Empty)
+    public int GetDistance(Coord aPosition, Coord aDirection, bool isLaser = true)
+    {
+        int distance = 0;
+        bool hasFound = false;
+        //List<eTileType> targets = new List<eTileType>();
+        Coord current = aPosition;
 
+        if (isLaser)
+        {
+            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
+            //targets.AddRange(laserTargets);
 
-    //                if (aStatement)
-    //                {
-    //                    break;
-    //                }
-    //        }
+            // --- Used for the for-loop to work without going out of index bounds, is allways the right size based on direction --- //
+            int maxRange = 0;
 
-    //        // start myTileMap[aPosition.x, aPosition.y]
-    //        // + aDirection i loop
-    //        // Get
-    //    }
-    //    else
-    //    {
+            if (aDirection.x != 0)
+            {
+                maxRange = 6;
+            }
+            else if (aDirection.y != 0)
+            {
+                maxRange = 9;
+            }
 
-    //    }
-    //    return distance;
-    //}
+            // --- Check for all tiles in the direction --- //
+            for (int i = 0; i < maxRange; ++i)
+            {
+                current += aDirection;
+
+                foreach (eTileType target in laserTargets)
+                {
+                    // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
+                    if (myTileMap[current.x, current.y].type == target)
+                    {
+                        hasFound = true;
+                        break;
+                    }
+                }
+
+                // --- If a target has been found, then break from loop and return distance --- //
+                if (hasFound)
+                {
+                    break;
+                }
+                else
+                {
+                    ++distance;
+                }
+            }
+        }
+
+        return distance;
+    }
 
     void PrintTileInfo(int aRow, int aColumn)
     {

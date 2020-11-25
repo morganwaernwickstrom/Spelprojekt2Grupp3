@@ -74,21 +74,30 @@ public class LaserEmitterScript : MonoBehaviour
 
     private void CheckDistance()
     {
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
+        Coord direction = new Coord(0, 0);
 
-        myPreviousLaserDistance = myLaserDistance;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(myRaycastOrigin.position, myRaycastOrigin.forward, out hit, Mathf.Infinity, layerMask))
+        if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
         {
-            myLaserDistance = hit.distance;
+            direction.x = 0;
+            direction.y = 1;
         }
-        else
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
         {
-            myLaserDistance = 0f;
+            direction.x = 1;
+            direction.y = 0;
         }
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+        {
+            direction.x = 0;
+            direction.y = -1;
+        }
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+        {
+            direction.x = -1;
+            direction.y = 0;
+        }
+
+        myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)

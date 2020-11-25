@@ -68,7 +68,7 @@ public class ReflectorScript : MonoBehaviour
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
-         
+
         myLeftDetectionBox.CheckIfExited();
         myRightDetectionBox.CheckIfExited();
 
@@ -119,7 +119,7 @@ public class ReflectorScript : MonoBehaviour
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
-        ClearLaser();       
+        ClearLaser();
         int amount = Mathf.RoundToInt(myLaserDistance);
 
         if ((myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
@@ -144,37 +144,59 @@ public class ReflectorScript : MonoBehaviour
 
     private void CheckDistance()
     {
-        // --- Layermask for raycast to ignore collision with laser-layer --- //
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
-
-        RaycastHit hit;
-
+        // --- If hit by laser, decide the direction the laser is being drawn towards, based on object rotation --- //
         if (myIsHit)
         {
-            // --- If reflector is hit by a laser then send out a raycast to determine length to draw laser with --- //
+            Coord direction = new Coord(0, 0);
+
             if (myDirection == Direction.Left)
             {
-                if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 0;
+                    direction.y = 1;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
                 }
             }
             else if (myDirection == Direction.Right)
             {
-                if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 1;
+                    direction.y = 0;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = 0;
+                    direction.y = 1;
                 }
             }
+
+            myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
         }
         else
         {
