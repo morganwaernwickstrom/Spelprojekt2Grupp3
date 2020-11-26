@@ -18,11 +18,15 @@ public class HoleBlocking : MonoBehaviour
 
     private bool OnRockMove(Coord aRockCurrentPos)
     {
-        if (aRockCurrentPos == myCoords)
+        if (this != null)
         {
-            Destroy(gameObject);
-            return true;
+            if (aRockCurrentPos == myCoords)
+            {
+                Destroy(gameObject);
+                return true;
+            }
         }
+        
         return false;
     }
 
