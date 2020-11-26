@@ -3,7 +3,7 @@
 public class RockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
     private Coord myCoords;
 
     private void Start()
@@ -15,7 +15,8 @@ public class RockMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
@@ -66,7 +67,7 @@ public class RockMovement : MonoBehaviour
         }
         foreach (var door in otherDoors)
         {
-            if ((myCoords + aDirection) == door.GetCoords())
+            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
             {
                 return;
             }

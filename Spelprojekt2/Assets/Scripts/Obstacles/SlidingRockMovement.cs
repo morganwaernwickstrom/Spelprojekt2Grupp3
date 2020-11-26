@@ -4,7 +4,7 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private float mySpeed = 0.03f;
+    private float mySpeed = 5f;
     private float myFallingSpeed = 0.0000001f;
     private int myLimitedChecks = 10;
     private Coord myCoords;
@@ -20,7 +20,7 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
         
@@ -69,7 +69,6 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
-
         Coord previousCoords = myCoords;
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
@@ -86,7 +85,7 @@ public class SlidingRockMovement : MonoBehaviour
         }
         foreach (var door in otherDoors)
         {
-            if ((myCoords + aDirection) == door.GetCoords())
+            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
             {
                 return;
             }

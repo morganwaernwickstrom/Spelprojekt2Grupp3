@@ -45,7 +45,7 @@ public class ReflectorScript : MonoBehaviour
     private Coord myCoords;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
 
     void Start()
     {
@@ -109,7 +109,7 @@ public class ReflectorScript : MonoBehaviour
             myDirection = Direction.Null;
             ClearLaser();
         }
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
@@ -227,7 +227,7 @@ public class ReflectorScript : MonoBehaviour
         }
         foreach (var door in otherDoors)
         {
-            if ((myCoords + aDirection) == door.GetCoords())
+            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
             {
                 return;
             }
