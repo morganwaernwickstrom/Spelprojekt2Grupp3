@@ -156,35 +156,74 @@ public class TileMap : MonoBehaviour
     {
         int distance = 0;
         bool hasFound = false;
-        //List<eTileType> targets = new List<eTileType>();
+        List<eTileType> targets = new List<eTileType>();
         Coord current = aPosition;
+
+        // --- Used for the for-loop to work without going out of index bounds, is allways the right size based on direction --- //
+        int maxRange = 0;
+
+        if (aDirection.x != 0)
+        {
+            maxRange = 6;
+        }
+        else if (aDirection.y != 0)
+        {
+            maxRange = 9;
+        }
+
 
         if (isLaser)
         {
             eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
-            //targets.AddRange(laserTargets);
-
-            // --- Used for the for-loop to work without going out of index bounds, is allways the right size based on direction --- //
-            int maxRange = 0;
-
-            if (aDirection.x != 0)
-            {
-                maxRange = 6;
-            }
-            else if (aDirection.y != 0)
-            {
-                maxRange = 9;
-            }
+            targets.AddRange(laserTargets);
 
             // --- Check for all tiles in the direction --- //
             for (int i = 0; i < maxRange; ++i)
             {
                 current += aDirection;
 
-                foreach (eTileType target in laserTargets)
+                foreach (eTileType target in targets)
                 {
                     // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
                     if (myTileMap[current.x, current.y].type == target)
+                    {
+                        hasFound = true;
+                        break;
+                    }
+                }
+
+                // --- If a target has been found, then break from loop and return distance --- //
+                if (hasFound)
+                {
+                    break;
+                }
+                else
+                {
+                    ++distance;
+                }
+            }
+        }
+        else
+        {
+            eTileType[] slidingTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
+            targets.AddRange(slidingTargets);
+
+            // --- Check for all tiles in the direction --- //
+            for (int i = 0; i < maxRange; ++i)
+            {
+                current += aDirection;
+
+                foreach (eTileType target in targets)
+                {
+                    // --- Special case for holes to stop earlier with --- //
+                    if (myTileMap[current.x, current.y].type == eTileType.Hole)
+                    {
+                        hasFound = true;
+                        ++distance;         // make distance match with hole position
+                        break;
+                    }
+                    // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
+                    else if (myTileMap[current.x, current.y].type == target)
                     {
                         hasFound = true;
                         break;
