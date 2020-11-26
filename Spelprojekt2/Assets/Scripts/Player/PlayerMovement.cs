@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        mySpeed = 0.1f;
         sqrDeadzone = myDeadzone * myDeadzone;
         percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();

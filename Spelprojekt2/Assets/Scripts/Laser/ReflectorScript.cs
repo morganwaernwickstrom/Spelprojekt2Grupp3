@@ -216,6 +216,7 @@ public class ReflectorScript : MonoBehaviour
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
+        HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -234,6 +235,13 @@ public class ReflectorScript : MonoBehaviour
         foreach (var wall in otherWalls)
         {
             if ((myCoords + aDirection) == wall.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var hole in otherHoles)
+        {
+            if ((myCoords + aDirection) == hole.GetCoords())
             {
                 return;
             }
