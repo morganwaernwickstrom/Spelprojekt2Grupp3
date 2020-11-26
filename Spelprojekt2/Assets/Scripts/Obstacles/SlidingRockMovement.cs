@@ -4,7 +4,7 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private float mySpeed = 5f;
+    private float mySpeed = 3f;
     private float myFallingSpeed = 0.0000001f;
     private int myLimitedChecks = 10;
     private Coord myCoords;

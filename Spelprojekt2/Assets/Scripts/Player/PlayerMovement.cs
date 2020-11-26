@@ -12,7 +12,7 @@ public class PlayerMovement : MonoBehaviour
     GameObject myCharacterModel;
 
     [SerializeField]
-    float mySpeed = 0.1f;
+    float mySpeed = 3f;
 
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        mySpeed = 0.1f;
+        mySpeed = 3f;
         sqrDeadzone = myDeadzone * myDeadzone;
         percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
