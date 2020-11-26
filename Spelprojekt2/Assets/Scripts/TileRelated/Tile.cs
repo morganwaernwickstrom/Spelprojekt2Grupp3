@@ -24,9 +24,35 @@ public class Tile : MonoBehaviour
     private GameObject myReceiver = null;
     [SerializeField]
     private GameObject myPlayer = null;
+    [SerializeField]
+    private GameObject myRail = null;
+    [SerializeField]
+    private GameObject myTrain = null;
 
     private GameObject myCurrent = null;
     private eTileType myType = eTileType.Empty;
+
+    public void PlaceRail()
+    {
+        // Use offset to make sure it's visible on all materials.
+        float offset = 0.01f;
+        Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
+        myCurrent = Instantiate(myRail, newPosition, transform.rotation);
+        myType = eTileType.Rail;
+    }
+
+    public void PlaceTrain()
+    {
+        // Use offset to make sure it's visible on all materials.
+        float rockSize = myTrain.GetComponent<Renderer>().bounds.size.y;
+        float tileSize = GetComponent<Renderer>().bounds.size.y;
+
+        float tileTop = transform.position.y + tileSize / 2;
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2, transform.position.z);
+
+        myCurrent = Instantiate(myTrain, newPosition, transform.rotation);
+        myType = eTileType.Train;
+    }
 
     public void PlaceRock()
     {

@@ -6,6 +6,8 @@ public enum eTileType
     Hole,
     Laser,
     Finish,
+    Rail,
+    Train,
     Button,
     Door,
     Emitter,

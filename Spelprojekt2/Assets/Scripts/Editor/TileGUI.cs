@@ -67,6 +67,15 @@ public class TileGUI : Editor
         {
             myTile.PlaceLaserReceiver();
         }
+        if (GUILayout.Button("Place Rail"))
+        {
+            myTile.PlaceRail();
+        }
+
+        if (GUILayout.Button("Place Train"))
+        {
+            myTile.PlaceTrain();
+        }
 
         if (GUILayout.Button("Remove"))
         {
