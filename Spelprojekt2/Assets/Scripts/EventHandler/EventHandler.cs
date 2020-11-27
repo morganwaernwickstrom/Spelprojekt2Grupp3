@@ -23,12 +23,20 @@ public class EventHandler : MonoBehaviour
 
     private void Start()
     {
-        if (current == null) current = this;
+        if (current == null)
+        {
+            current = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     private void OnEnable()
     {
-        if (current == null) current = this;
+        if (current == null)
+        {
+            current = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     public void Subscribe(eEventType aType, Func<Coord, Coord, bool> aFunc)

@@ -13,7 +13,7 @@ public class LaserEmitterScript : MonoBehaviour
 
     // --- Laser Object pool --- //
     public GameObject myLaser;
-    private List<GameObject> myLaserPool;
+    private List<GameObject> myLaserPool = null;
     private int myAmountOfLasers = 20;
 
     // --- Distances to draw laser with --- //
@@ -26,7 +26,6 @@ public class LaserEmitterScript : MonoBehaviour
     private void Start()
     {
         myLaserPool = new List<GameObject>();
-
         for (int i = 0; i < myAmountOfLasers; ++i)
         {
             GameObject temp = Instantiate(myLaser);
@@ -36,16 +35,17 @@ public class LaserEmitterScript : MonoBehaviour
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-        UpdateLaser();
     }
 
     private void UpdateLaser()
     {
+        myPreviousLaserDistance = myLaserDistance;
         CheckDistance();
-        if (myPreviousLaserDistance != myLaserDistance)
-        {
-            DrawLaser();
-        }
+        //if (myPreviousLaserDistance != myLaserDistance)
+        //{
+        //    DrawLaser();
+        //}
+        DrawLaser();
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in CheckDistance function --- //
@@ -54,7 +54,7 @@ public class LaserEmitterScript : MonoBehaviour
         myOrigin.position = myFirstOrigin.position;
         ClearLaser();
 
-        int amount = (int)Mathf.Round(myLaserDistance);
+        int amount = Mathf.RoundToInt(myLaserDistance);
 
         for (int count = 0; count < amount; ++count)
         {
@@ -106,8 +106,9 @@ public class LaserEmitterScript : MonoBehaviour
         return false;
     }
 
-    private bool OnRockMove(Coord aRockPreviousPos)
+    private bool OnRockMove(Coord aRockPos)
     {
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser) ClearLaser();
         UpdateLaser();
         return false;
     }

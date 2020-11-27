@@ -12,15 +12,15 @@ public class Laser : MonoBehaviour
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        //EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        //EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+
 
     private void Update()
     {
 
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-
         myPlayer = GameObject.FindGameObjectWithTag("Player");
 
         if (myShouldReset)
@@ -62,7 +62,6 @@ public class Laser : MonoBehaviour
     {
         myPlayer.GetComponentInChildren<Animator>().SetBool("Die", true);
         myPlayer.GetComponent<PlayerMovement>().enabled = false;
-        Debug.Log("Working");
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

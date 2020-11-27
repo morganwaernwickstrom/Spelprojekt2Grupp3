@@ -49,7 +49,6 @@ public class ReflectorScript : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Commit Log!");
         myLaserPool = new List<GameObject>();
 
         for (int i = 0; i < myAmountOfLasers; ++i)
@@ -233,6 +232,7 @@ public class ReflectorScript : MonoBehaviour
 
     private bool OnRockMove(Coord aRockPos)
     {
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser) ClearLaser();
         UpdateLaser();
         return false;
     }
