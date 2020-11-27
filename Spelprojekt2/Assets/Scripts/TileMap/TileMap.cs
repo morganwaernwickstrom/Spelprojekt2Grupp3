@@ -363,44 +363,44 @@ public class TileMap : MonoBehaviour
     {
         string tileName = "Empty";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Rock)
+        if (myTileMap[aColumn, aRow].type == eTileType.Rock)
             tileName = "Rock";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Impassable)
+        if (myTileMap[aColumn, aRow].type == eTileType.Impassable)
             tileName = "Impassable";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Sliding)
+        if (myTileMap[aColumn, aRow].type == eTileType.Sliding)
             tileName = "Sliding";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Hole)
+        if (myTileMap[aColumn, aRow].type == eTileType.Hole)
             tileName = "Hole";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Finish)
+        if (myTileMap[aColumn, aRow].type == eTileType.Finish)
             tileName = "Finish";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Button)
+        if (myTileMap[aColumn, aRow].type == eTileType.Button)
             tileName = "Button";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Door)
+        if (myTileMap[aColumn, aRow].type == eTileType.Door)
             tileName = "Door";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Emitter)
+        if (myTileMap[aColumn, aRow].type == eTileType.Emitter)
             tileName = "Emitter";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Reflector)
+        if (myTileMap[aColumn, aRow].type == eTileType.Reflector)
             tileName = "Reflector";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Receiver)
+        if (myTileMap[aColumn, aRow].type == eTileType.Receiver)
             tileName = "Receiver";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Player)
+        if (myTileMap[aColumn, aRow].type == eTileType.Player)
             tileName = "Player";
 
-        if (myTileMap[aRow, aColumn].type == eTileType.Laser)
+        if (myTileMap[aColumn, aRow].type == eTileType.Laser)
             tileName = "Laser";
 
-        int x = myTileMap[aRow, aColumn].coord.x;
-        int z = myTileMap[aRow, aColumn].coord.y;
+        int x = myTileMap[aColumn, aRow].coord.x;
+        int z = myTileMap[aColumn, aRow].coord.y;
 
         Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
     }
