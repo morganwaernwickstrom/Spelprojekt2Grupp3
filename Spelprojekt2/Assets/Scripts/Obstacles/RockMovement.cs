@@ -112,6 +112,13 @@ public class RockMovement : MonoBehaviour
                 return;
             }
         }
+        foreach (var receiver in otherReceivers)
+        {
+            if ((myCoords + aDirection) == receiver.GetCoords())
+            {
+                return;
+            }
+        }
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
 
