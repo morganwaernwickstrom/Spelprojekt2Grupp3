@@ -270,10 +270,19 @@ public class TileMap : MonoBehaviour
 
                 foreach (eTileType target in targets)
                 {
-                    //int x = Mathf.Clamp(current.x, 0, 6);
-                    //int y = Mathf.Clamp(current.y, 0, 9);
+                    int x = Mathf.Clamp(current.x, 0, 6);
+                    int y = Mathf.Clamp(current.y, 0, 9);
+                    // --- Should look outside of the bounds of the map
+
+                    if (x == 7 || x == -1 || y == 9 || y == -1)
+                    {
+                        hasFound = true;
+                        ++distance;
+                        break;
+                    }
+
                     // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
-                    if (myTileMap[current.x, current.y].type == target)
+                    else if (myTileMap[x, y].type == target)
                     {
                         hasFound = true;
                         break;

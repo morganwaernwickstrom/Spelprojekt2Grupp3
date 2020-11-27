@@ -41,11 +41,10 @@ public class LaserEmitterScript : MonoBehaviour
     {
         myPreviousLaserDistance = myLaserDistance;
         CheckDistance();
-        //if (myPreviousLaserDistance != myLaserDistance)
-        //{
-        //    DrawLaser();
-        //}
-        DrawLaser();
+        if (myPreviousLaserDistance != myLaserDistance)
+        {
+            DrawLaser();
+        }
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in CheckDistance function --- //
@@ -96,7 +95,6 @@ public class LaserEmitterScript : MonoBehaviour
             direction.x = -1;
             direction.y = 0;
         }
-
         myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
     }
 
