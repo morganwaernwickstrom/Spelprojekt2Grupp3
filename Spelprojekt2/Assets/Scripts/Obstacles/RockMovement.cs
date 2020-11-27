@@ -55,8 +55,13 @@ public class RockMovement : MonoBehaviour
     {
         Coord previousCoords = myCoords;
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
+        SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
+        Train[] otherTrain = FindObjectsOfType<Train>();
+        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
+        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
+        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -79,7 +84,34 @@ public class RockMovement : MonoBehaviour
                 return;
             }
         }
-
+        foreach (var train in otherTrain)
+        {
+            if ((myCoords + aDirection) == train.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var slideRock in otherSlidingRocks)
+        {
+            if ((myCoords + aDirection) == slideRock.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var reflector in otherReflectors)
+        {
+            if ((myCoords + aDirection) == reflector.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var emittor in otherEmittors)
+        {
+            if ((myCoords + aDirection) == emittor.GetCoords())
+            {
+                return;
+            }
+        }
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
 

@@ -95,7 +95,10 @@ public class LaserEmitterScript : MonoBehaviour
     {
         return (myCoords == aPlayerCurrentPos);
     }
-
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
