@@ -30,15 +30,19 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-
-    }
-
     public void Update()
     {
-        Debug.Log("Music Volume " + myMusicAudioSource.volume);
-        Debug.Log("Effects Volume " + myEffectsAudioSource.volume);
+
+        if (!myMusicClips[SceneManager.GetActiveScene().buildIndex]) 
+        {
+            myMusicAudioSource.clip = myDefaultMusicClip;
+        }
+        else 
+        {
+            myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
+        }
+
+        myMusicAudioSource.Play();
     }
 
     public void PlayRockSound() 
