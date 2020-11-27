@@ -49,6 +49,7 @@ public class ReflectorScript : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Commit Log!");
         myLaserPool = new List<GameObject>();
 
         for (int i = 0; i < myAmountOfLasers; ++i)
