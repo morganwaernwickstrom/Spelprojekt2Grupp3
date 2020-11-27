@@ -50,6 +50,21 @@ public class TileMap : MonoBehaviour
         }
 
         SetAllTiles();
+        Debug.Log(myTileMap.Length);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            for (int i = 0; i < myRows; i++)
+            {
+                for (int j = 0; j < myColumns; j++)
+                {
+                    PrintTileInfo(j, i);
+                }
+            }
+        }
     }
 
     void SetAllTiles()
@@ -68,10 +83,18 @@ public class TileMap : MonoBehaviour
         Laser[] allLasers = FindObjectsOfType<Laser>();
         PlayerMovement[] allPlayer = FindObjectsOfType<PlayerMovement>();
 
+        Debug.Log("Rows: " + myRows);
+        Debug.Log("Columns: " + myColumns);
         for (int row = 0; row < myRows; ++row)
         {
             for (int column = 0; column < myColumns; ++column)
             {
+                foreach (var i in myTiles)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Empty;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
                 foreach (var i in allRocks)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rock;
@@ -145,6 +168,97 @@ public class TileMap : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void DebugTiles()
+    {
+        string map = "\n";
+        for (int i = 0; i < myRows; ++i)
+        {
+            for (int j = 0; j < myColumns; ++j)
+            {
+                if (myTileMap[j, i].type == eTileType.Rock)
+                {
+                    map += " R ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Impassable)
+                {
+                    map += " W ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Sliding)
+                {
+                    map += " S ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Hole)
+                {
+                    map += " O ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Finish)
+                {
+                    map += " F ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Button)
+                {
+                    map += " B ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Door)
+                {
+                    map += " D ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Emitter)
+                {
+                    map += " E ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Reflector)
+                {
+                    map += " r ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Receiver)
+                {
+                    map += " r ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Player)
+                {
+                    map += " p ";
+                    break;
+                }
+
+                if (myTileMap[j, i].type == eTileType.Laser)
+                {
+                    map += " L ";
+                    break;
+                }
+
+                map += " # ";
+            }
+            map += "\n";
+        }
+        Debug.Log(map);
+    }
+
+    public void UpdateTiles()
+    {
+
     }
 
     public eTileType Get(Coord aCoord)

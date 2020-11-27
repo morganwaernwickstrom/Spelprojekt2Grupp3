@@ -27,15 +27,13 @@ public class Tile : MonoBehaviour
 
     private GameObject myCurrent = null;
 
-    private eTileType myType = eTileType.Null;
-    private _Tile myTileData;
+    private eTileType myType = eTileType.Empty;
+    private Coord myCoords;
+    //private _Tile myTileData;
 
     private void Start()
     {
-        if (myTileData.type == eTileType.Null)
-        {
-            myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Empty, true);
-        }
+        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
     }
 
     public void PlaceRock()
@@ -47,8 +45,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myRock, newPosition, transform.rotation);
-        myType = eTileType.Rock;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Rock, true);
+        //myType = eTileType.Rock;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Rock, true);
     }
 
     public void PlaceImpassable()
@@ -60,8 +58,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + impassableSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myImpassable, newPosition, transform.rotation);
-        myType = eTileType.Impassable;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Impassable, true);
+        //myType = eTileType.Impassable;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Impassable, true);
     }
 
     public void PlaceSlidingBlock()
@@ -73,8 +71,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + slidingBlockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(mySlidingBlock, newPosition, transform.rotation);
-        myType = eTileType.Sliding;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Sliding, true);
+        //myType = eTileType.Sliding;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Sliding, true);
     }
 
     public void PlaceHole()
@@ -83,8 +81,8 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myHole, newPosition, transform.rotation);
-        myType = eTileType.Hole;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Hole, true);
+        //myType = eTileType.Hole;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Hole, true);
     }
 
     public void PlaceFinish()
@@ -93,8 +91,8 @@ public class Tile : MonoBehaviour
         float offset = 0.01f;
         Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + offset, transform.position.z);
         myCurrent = Instantiate(myFinish, newPosition, transform.rotation);
-        myType = eTileType.Finish;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Finish, true);
+        //myType = eTileType.Finish;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Finish, true);
     }
 
     public void PlaceButton()
@@ -106,8 +104,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + buttonSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myButton, newPosition, transform.rotation);
-        myType = eTileType.Button;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Button, true);
+        //myType = eTileType.Button;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Button, true);
     }
 
     public void PlaceDoor()
@@ -119,8 +117,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + doorSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
-        myType = eTileType.Door;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Door, true);
+        //myType = eTileType.Door;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Door, true);
     }
 
     public void PlacePlayer()
@@ -132,8 +130,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + playerSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myPlayer, newPosition, transform.rotation);
-        myType = eTileType.Player;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Player, true);
+        //myType = eTileType.Player;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Player, true);
     }
 
     public void PlaceLaserEmitter()
@@ -146,8 +144,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + emitterSizeY / 2, transform.position.z);
 
         myCurrent = Instantiate(myEmitter, newPosition, transform.rotation);
-        myType = eTileType.Emitter;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Emitter, true);
+        //myType = eTileType.Emitter;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Emitter, true);
     }
 
     public void PlaceLaserReflector()
@@ -159,8 +157,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + reflectorSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myReflector, newPosition, transform.rotation);
-        myType = eTileType.Reflector;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Reflector, true);
+        //myType = eTileType.Reflector;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Reflector, true);
     }
 
     public void PlaceLaserReceiver()
@@ -172,8 +170,8 @@ public class Tile : MonoBehaviour
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + receiverSize / 2, transform.position.z);
 
         myCurrent = Instantiate(myReceiver, newPosition, transform.rotation);
-        myType = eTileType.Receiver;
-        myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Receiver, true);
+        //myType = eTileType.Receiver;
+        //myTileData = new _Tile(new Coord((int)(transform.position.x), (int)(transform.position.z)), eTileType.Receiver, true);
     }
 
     public void RemoveCurrent()
@@ -184,13 +182,18 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
+
     public eTileType GetTileType()
     {
         return myType;
     }
 
-    public _Tile GetTile()
-    {
-        return myTileData;
-    }
+    //public _Tile GetTile()
+    //{
+    //    return myTileData;
+    //}
 }
