@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TileMap : MonoBehaviour
@@ -16,47 +15,32 @@ public class TileMap : MonoBehaviour
 
     private void Start()
     {
-        if (!Instance)
-        {
-            Instance = this;
-        }
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        InitializeTileMap();
+    }
 
-        myTiles = FindObjectsOfType<Tile>();
-        int amount = myTiles.Length;
-
-        // Sort tiles after how they were added to the scene
-        for (int i = 0; i < amount; ++i)
-        {
-            for (int j = i + 1; j < amount; ++j)
-            {
-                Tile temp = myTiles[j];
-                myTiles[j] = myTiles[i];
-                myTiles[i] = temp;
-            }
-        }
-
-        // Sort tiles after (row - column) instead of (column - tile)
-        for (int i = 0; i < amount; ++i)
-        {
-            for (int j = i + 1; j < amount; ++j)
-            {
-                if (myTiles[j].transform.position.x < myTiles[i].transform.position.x || myTiles[j].transform.position.z < myTiles[i].transform.position.z)
-                {
-                    Tile temp = myTiles[i];
-                    myTiles[i] = myTiles[j];
-                    myTiles[j] = temp;
-                }
-            }
-        }
-
-        //SetAllTiles();
+    private void OnEnable()
+    {
+        InitializeTileMap();
     }
 
     private void Update()
     {
-        SetAllTiles();
         if (Input.GetKeyDown(KeyCode.Space))
             DebugTiles();
+    }
+
+    bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
+    {
+        SetAllTiles();
+        return false;
+    }
+
+    bool OnRockMove(Coord aRockPos)
+    {
+        SetAllTiles();
+        return false;
     }
 
     void SetAllTiles()
@@ -127,6 +111,12 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
+                foreach (var i in allLasers)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
                 foreach (var i in allEmitters)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Emitter;
@@ -142,12 +132,6 @@ public class TileMap : MonoBehaviour
                 foreach (var i in allReceivers)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Receiver;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
-                foreach (var i in allLasers)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
@@ -210,7 +194,41 @@ public class TileMap : MonoBehaviour
         Debug.Log(map);
     }
 
-    public void UpdateTiles()
+    private void InitializeTileMap()
+    {
+        if (Instance == null) Instance = this;
+
+        myTiles = FindObjectsOfType<Tile>();
+        int amount = myTiles.Length;
+
+        // Sort tiles after how they were added to the scene
+        for (int i = 0; i < amount; ++i)
+        {
+            for (int j = i + 1; j < amount; ++j)
+            {
+                Tile temp = myTiles[j];
+                myTiles[j] = myTiles[i];
+                myTiles[i] = temp;
+            }
+        }
+
+        // Sort tiles after (row - column) instead of (column - tile)
+        for (int i = 0; i < amount; ++i)
+        {
+            for (int j = i + 1; j < amount; ++j)
+            {
+                if (myTiles[j].transform.position.x < myTiles[i].transform.position.x || myTiles[j].transform.position.z < myTiles[i].transform.position.z)
+                {
+                    Tile temp = myTiles[i];
+                    myTiles[i] = myTiles[j];
+                    myTiles[j] = temp;
+                }
+            }
+        }
+        SetAllTiles();
+    }
+
+    public void UpdateTileMap()
     {
 
     }
@@ -242,7 +260,7 @@ public class TileMap : MonoBehaviour
 
         if (isLaser)
         {
-            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
+            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
             targets.AddRange(laserTargets);
 
             // --- Check for all tiles in the direction --- //
@@ -252,6 +270,7 @@ public class TileMap : MonoBehaviour
 
                 foreach (eTileType target in targets)
                 {
+                    //if (current.x > 6 || current.x < 0 || current.y > 9 || current.y < 0) break;
                     // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
                     if (myTileMap[current.x, current.y].type == target)
                     {
@@ -357,5 +376,11 @@ public class TileMap : MonoBehaviour
         int z = myTileMap[aColumn, aRow].coord.y;
 
         Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
 }

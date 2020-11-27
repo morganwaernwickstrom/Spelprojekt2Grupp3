@@ -61,10 +61,11 @@ public class ReflectorScript : MonoBehaviour
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        UpdateLaser();
     }
 
-    // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
-    private void Update()
+    private void UpdateLaser()
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
@@ -72,7 +73,7 @@ public class ReflectorScript : MonoBehaviour
         myLeftDetectionBox.CheckIfExited();
         myRightDetectionBox.CheckIfExited();
 
-        myIsHit = (leftHit || rightHit) ? true : false;
+        myIsHit = (leftHit || rightHit);
 
         myPreviousLaserDistance = myLaserDistance;
 
@@ -98,7 +99,7 @@ public class ReflectorScript : MonoBehaviour
 
             CheckDistance();
 
-            if ((myPreviousLaserDistance != myLaserDistance))     // Only draw laser if the distance has changed
+            if (myPreviousLaserDistance != myLaserDistance)     // Only draw laser if the distance has changed
             {
                 DrawLaser();
             }
@@ -110,10 +111,6 @@ public class ReflectorScript : MonoBehaviour
             ClearLaser();
         }
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-        if (transform.position.y <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
@@ -122,7 +119,7 @@ public class ReflectorScript : MonoBehaviour
         ClearLaser();
         int amount = Mathf.RoundToInt(myLaserDistance);
 
-        if ((myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
+        if (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation)
         {
             for (int count = 0; count < amount; ++count)
             {
@@ -206,6 +203,7 @@ public class ReflectorScript : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        UpdateLaser();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -230,6 +228,12 @@ public class ReflectorScript : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    private bool OnRockMove(Coord aRockPos)
+    {
+        UpdateLaser();
+        return false;
     }
 
     private void Move(Coord aDirection)
@@ -274,6 +278,7 @@ public class ReflectorScript : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
     public Coord GetCoords()
     {

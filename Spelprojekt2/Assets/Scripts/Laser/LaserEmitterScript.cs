@@ -35,13 +35,13 @@ public class LaserEmitterScript : MonoBehaviour
         }
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        UpdateLaser();
     }
 
-    // --- Every frame, check distance to ray-casted object, if it has changed, draw the laser --- //
-    private void Update()
+    private void UpdateLaser()
     {
         CheckDistance();
-
         if (myPreviousLaserDistance != myLaserDistance)
         {
             DrawLaser();
@@ -102,12 +102,20 @@ public class LaserEmitterScript : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        return (myCoords == aPlayerCurrentPos);
+        UpdateLaser();
+        return false;
+    }
+
+    private bool OnRockMove(Coord aRockPreviousPos)
+    {
+        UpdateLaser();
+        return false;
     }
 
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
 
     public Coord GetCoords()
