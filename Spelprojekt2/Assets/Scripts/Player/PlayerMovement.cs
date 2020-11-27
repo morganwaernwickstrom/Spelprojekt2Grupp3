@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -12,7 +14,9 @@ public class PlayerMovement : MonoBehaviour
     GameObject myCharacterModel;
 
     [SerializeField]
-    float mySpeed = 3f;
+    float myMovementSpeed = 3f;
+
+    private float mySpeed = 0f;
 
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
@@ -46,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        mySpeed = 3f;
+        mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
         percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
@@ -68,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else 
         {
-            percentage += Time.fixedDeltaTime * mySpeed;
+            percentage += Time.deltaTime * mySpeed;
 
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
         }
@@ -201,7 +205,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-
                 if (TileAhead(myPlayerPosition += new Vector3(0, 0, 1)))
                 {
                     percentage = 0;
@@ -213,7 +216,6 @@ public class PlayerMovement : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-
                 if (TileAhead(myPlayerPosition += new Vector3(0, 0, -1)))
                 {
                     percentage = 0;
@@ -222,11 +224,9 @@ public class PlayerMovement : MonoBehaviour
                     myRotation = Quaternion.Euler(0, 180, 0);
                     myCharacterModel.transform.rotation = myRotation;
                 }
-
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-
                 if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
                 {
                     percentage = 0;
@@ -235,11 +235,9 @@ public class PlayerMovement : MonoBehaviour
                     myCoords.x -= 1;
                     myCharacterModel.transform.rotation = myRotation;
                 }
-
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-
                 if (TileAhead(myPlayerPosition += new Vector3(1, 0, 0)))
                 {
                     percentage = 0;
@@ -249,10 +247,7 @@ public class PlayerMovement : MonoBehaviour
                     myCharacterModel.transform.rotation = myRotation;
                 }
             }
-
-
         }
-
 
         if (distance < 0.1) 
         {
@@ -262,8 +257,6 @@ public class PlayerMovement : MonoBehaviour
         {
             myAnimator.SetBool("Walk", true);
         }
-            
-        
 
 
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
@@ -290,7 +283,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (swipeUp)
             {
-                
                 if(TileAhead(myPlayerPosition += new Vector3(0, 0, 1))) 
                 {
                     percentage = 0;
@@ -302,7 +294,6 @@ public class PlayerMovement : MonoBehaviour
             }
             if (swipeDown)
             {
-                
                 if(TileAhead(myPlayerPosition += new Vector3(0, 0, -1))) 
                 {
                     percentage = 0;
@@ -311,11 +302,9 @@ public class PlayerMovement : MonoBehaviour
                     myRotation = Quaternion.Euler(0, 180, 0);
                     myCharacterModel.transform.rotation = myRotation;
                 }
-               
             }
             if (swipeLeft)
             {
-                
                 if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
                 {
                     percentage = 0;
@@ -324,11 +313,9 @@ public class PlayerMovement : MonoBehaviour
                     myCoords.x -= 1;
                     myCharacterModel.transform.rotation = myRotation;
                 }
-               
             }
             if (swipeRight)
             {
-                
                 if(TileAhead(myPlayerPosition += new Vector3(1, 0, 0))) 
                 {
                     percentage = 0;
@@ -337,29 +324,24 @@ public class PlayerMovement : MonoBehaviour
                     myCoords.x += 1;
                     myCharacterModel.transform.rotation = myRotation;
                 }
-            }
-
-            
+            }            
         }
-
 
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
             myDesiredPosition = transform.position;
             myCoords = originalCoord;
         }
-        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 
     bool TileAhead(Vector3 aPosition)
     {
-
         print(aPosition);
 
         Vector3 myDesPos = new Vector3(aPosition.x, transform.position.y - 1, aPosition.z);
-
 
         foreach(GameObject aTile in myTiles)
         {
@@ -367,11 +349,9 @@ public class PlayerMovement : MonoBehaviour
             if (myDistance <= 0.1f) 
             {
                 return true;
-                
             }
         }
 
         return false;
-        
     }
 }
