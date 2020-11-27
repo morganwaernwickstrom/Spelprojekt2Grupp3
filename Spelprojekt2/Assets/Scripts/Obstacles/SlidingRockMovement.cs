@@ -136,7 +136,14 @@ public class SlidingRockMovement : MonoBehaviour
                 return;
             }
         }
-
+        foreach (var hole in otherHoles)
+        {
+            if ((myCoords + aDirection) == hole.GetCoords())
+            {
+                myHitHole = true;
+                myHitObstacle = true;
+            }
+        }
         while (!myHitObstacle && myLimitedChecks > 0)
         {
             if (aDirection.x > 0)
