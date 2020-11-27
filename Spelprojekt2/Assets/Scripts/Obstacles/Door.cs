@@ -3,9 +3,10 @@
 public class Door : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
     private Coord myCoords;
     private bool myIsOpened = false;
+    private bool myShouldClose = true;
 
     private void Start()
     {
@@ -19,7 +20,10 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        if (transform.position != myDesiredPosition)
+        {
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
     }
 
     public bool Open()
@@ -30,6 +34,7 @@ public class Door : MonoBehaviour
     private bool OnButtonPressed()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
         myDesiredPosition += new Vector3(0, -1f, 0);
         myIsOpened = true;
         return true;
@@ -37,8 +42,20 @@ public class Door : MonoBehaviour
 
     private bool OnButtonUp()
     {
-        myDesiredPosition += new Vector3(0, 1f, 0);
-        myIsOpened = false;
+        //EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        //EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+
+        // kolla med TileMap om något finns på samma tile
+        // if (TileMap.Instance.Get(myCoords.x, myCoords.y) != eTileType.Door)
+        // myShouldClose = false;
+
+
+        if (myShouldClose)
+        {
+            Debug.LogWarning("Closing!");
+            myDesiredPosition += new Vector3(0, 1f, 0);
+            myIsOpened = false;
+        }
         return true;
     }
 
@@ -62,5 +79,6 @@ public class Door : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.ButtonPressed, OnButtonPressed);
         EventHandler.current.UnSubscribe(eEventType.ButtonUp, OnButtonUp);
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
 }
