@@ -85,6 +85,9 @@ public class Train : MonoBehaviour
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
         SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
+        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
+        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
+        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -117,6 +120,27 @@ public class Train : MonoBehaviour
         foreach (var hole in otherHoles)
         {
             if ((myCoords + aDirection) == hole.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var emitter in otherEmittors)
+        {
+            if ((myCoords + aDirection) == emitter.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var reflector in otherReflectors)
+        {
+            if ((myCoords + aDirection) == reflector.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var receiver in otherReceivers)
+        {
+            if ((myCoords + aDirection) == receiver.GetCoords())
             {
                 return;
             }

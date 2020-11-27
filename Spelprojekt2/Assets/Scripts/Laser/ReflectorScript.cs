@@ -217,6 +217,10 @@ public class ReflectorScript : MonoBehaviour
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
         HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
+        Train[] otherTrains = FindObjectsOfType<Train>();
+        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
+        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
+        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -246,6 +250,34 @@ public class ReflectorScript : MonoBehaviour
                 return;
             }
         }
+        foreach (var train in otherTrains)
+        {
+            if ((myCoords + aDirection) == train.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var reflector in otherReflectors)
+        {
+            if ((myCoords + aDirection) == reflector.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var emittor in otherEmittors)
+        {
+            if ((myCoords + aDirection) == emittor.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var receiver in otherReceivers)
+        {
+            if ((myCoords + aDirection) == receiver.GetCoords())
+            {
+                return;
+            }
+        }
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
@@ -255,6 +287,11 @@ public class ReflectorScript : MonoBehaviour
             myDesiredPosition += new Vector3(0, -1f, 0);
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 
     private void OnDestroy()

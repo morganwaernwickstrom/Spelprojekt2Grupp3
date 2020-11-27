@@ -50,7 +50,10 @@ public class ReceiverScript : MonoBehaviour
     {
         return (myCoords == aPlayerCurrentPos);
     }
-
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);

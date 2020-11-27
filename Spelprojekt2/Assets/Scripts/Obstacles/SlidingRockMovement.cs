@@ -75,6 +75,10 @@ public class SlidingRockMovement : MonoBehaviour
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
         SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
+        Train[] otherTrain = FindObjectsOfType<Train>();
+        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
+        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
+        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -100,6 +104,34 @@ public class SlidingRockMovement : MonoBehaviour
         foreach (var slideRock in otherSlidingRocks)
         {
             if ((myCoords + aDirection) == slideRock.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var train in otherTrain)
+        {
+            if ((myCoords + aDirection) == train.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var emittor in otherEmittors)
+        {
+            if ((myCoords + aDirection) == emittor.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var reflector in otherReflectors)
+        {
+            if ((myCoords + aDirection) == reflector.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var receiver in otherReceivers)
+        {
+            if ((myCoords + aDirection) == receiver.GetCoords())
             {
                 return;
             }
@@ -133,7 +165,7 @@ public class SlidingRockMovement : MonoBehaviour
             }
             foreach (var door in otherDoors)
             {
-                if ((myCoords + aDirection) == door.GetCoords())
+                if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
                 {
                     myHitObstacle = true;
                 }
@@ -157,6 +189,34 @@ public class SlidingRockMovement : MonoBehaviour
                 if ((myCoords + aDirection) == hole.GetCoords())
                 {
                     myHitHole = true;
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var emittor in otherEmittors)
+            {
+                if ((myCoords + aDirection) == emittor.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var reflector in otherReflectors)
+            {
+                if ((myCoords + aDirection) == reflector.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var train in otherTrain)
+            {
+                if ((myCoords + aDirection) == train.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var receiver in otherReceivers)
+            {
+                if ((myCoords + aDirection) == receiver.GetCoords())
+                {
                     myHitObstacle = true;
                 }
             }
