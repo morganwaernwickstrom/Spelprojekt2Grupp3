@@ -49,22 +49,14 @@ public class TileMap : MonoBehaviour
             }
         }
 
-        SetAllTiles();
-        Debug.Log(myTileMap.Length);
+        //SetAllTiles();
     }
 
     private void Update()
     {
+        SetAllTiles();
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            for (int i = 0; i < myRows; i++)
-            {
-                for (int j = 0; j < myColumns; j++)
-                {
-                    PrintTileInfo(j, i);
-                }
-            }
-        }
+            DebugTiles();
     }
 
     void SetAllTiles()
@@ -83,8 +75,6 @@ public class TileMap : MonoBehaviour
         Laser[] allLasers = FindObjectsOfType<Laser>();
         PlayerMovement[] allPlayer = FindObjectsOfType<PlayerMovement>();
 
-        Debug.Log("Rows: " + myRows);
-        Debug.Log("Columns: " + myColumns);
         for (int row = 0; row < myRows; ++row)
         {
             for (int column = 0; column < myColumns; ++column)
@@ -173,83 +163,47 @@ public class TileMap : MonoBehaviour
     public void DebugTiles()
     {
         string map = "\n";
-        for (int i = 0; i < myRows; ++i)
+        for (int i = myRows-1; i >= 0; --i)
         {
             for (int j = 0; j < myColumns; ++j)
             {
                 if (myTileMap[j, i].type == eTileType.Rock)
-                {
                     map += " R ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Impassable)
-                {
+                else if (myTileMap[j, i].type == eTileType.Impassable)
                     map += " W ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Sliding)
-                {
+                else if (myTileMap[j, i].type == eTileType.Sliding)
                     map += " S ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Hole)
-                {
+                else if (myTileMap[j, i].type == eTileType.Hole)
                     map += " O ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Finish)
-                {
+                else if (myTileMap[j, i].type == eTileType.Finish)
                     map += " F ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Button)
-                {
+                else if (myTileMap[j, i].type == eTileType.Button)
                     map += " B ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Door)
-                {
+                else if (myTileMap[j, i].type == eTileType.Door)
                     map += " D ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Emitter)
-                {
+                else if (myTileMap[j, i].type == eTileType.Emitter)
                     map += " E ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Reflector)
-                {
-                    map += " r ";
-                    break;
-                }
+                else if (myTileMap[j, i].type == eTileType.Reflector)
+                    map += " rf ";
 
-                if (myTileMap[j, i].type == eTileType.Receiver)
-                {
-                    map += " r ";
-                    break;
-                }
+                else if (myTileMap[j, i].type == eTileType.Receiver)
+                    map += " re ";
 
-                if (myTileMap[j, i].type == eTileType.Player)
-                {
+                else if (myTileMap[j, i].type == eTileType.Player)
                     map += " p ";
-                    break;
-                }
 
-                if (myTileMap[j, i].type == eTileType.Laser)
-                {
+                else if (myTileMap[j, i].type == eTileType.Laser)
                     map += " L ";
-                    break;
-                }
-
-                map += " # ";
+                else
+                    map += " # ";
             }
             map += "\n";
         }
@@ -359,7 +313,7 @@ public class TileMap : MonoBehaviour
         return distance;
     }
 
-    void PrintTileInfo(int aRow, int aColumn)
+    void PrintTileInfo(int aColumn, int aRow)
     {
         string tileName = "Empty";
 
