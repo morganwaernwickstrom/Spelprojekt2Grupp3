@@ -69,6 +69,24 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
+                foreach (var i in allHoles)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Hole;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
+                foreach (var i in allButtons)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Button;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
+                foreach (var i in allLasers)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
                 foreach (var i in allRocks)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rock;
@@ -87,12 +105,6 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
-                foreach (var i in allHoles)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Hole;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
                 foreach (var i in allDoors)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Door;
@@ -102,18 +114,6 @@ public class TileMap : MonoBehaviour
                 foreach (var i in allGoals)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Finish;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
-                foreach (var i in allButtons)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Button;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
-                foreach (var i in allLasers)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 

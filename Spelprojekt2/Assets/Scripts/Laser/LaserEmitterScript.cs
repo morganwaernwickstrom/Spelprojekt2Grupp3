@@ -106,7 +106,10 @@ public class LaserEmitterScript : MonoBehaviour
 
     private bool OnRockMove(Coord aRockPos)
     {
-        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser) ClearLaser();
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
+        {
+            DrawLaser();
+        }
         UpdateLaser();
         return false;
     }
