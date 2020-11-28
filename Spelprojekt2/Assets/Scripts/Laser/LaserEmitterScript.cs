@@ -13,7 +13,7 @@ public class LaserEmitterScript : MonoBehaviour
 
     // --- Laser Object pool --- //
     public GameObject myLaser;
-    private List<GameObject> myLaserPool;
+    private List<GameObject> myLaserPool = null;
     private int myAmountOfLasers = 20;
 
     // --- Distances to draw laser with --- //
@@ -26,7 +26,6 @@ public class LaserEmitterScript : MonoBehaviour
     private void Start()
     {
         myLaserPool = new List<GameObject>();
-
         for (int i = 0; i < myAmountOfLasers; ++i)
         {
             GameObject temp = Instantiate(myLaser);
@@ -35,13 +34,13 @@ public class LaserEmitterScript : MonoBehaviour
         }
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
-    // --- Every frame, check distance to ray-casted object, if it has changed, draw the laser --- //
-    private void Update()
+    private void UpdateLaser()
     {
+        myPreviousLaserDistance = myLaserDistance;
         CheckDistance();
-
         if (myPreviousLaserDistance != myLaserDistance)
         {
             DrawLaser();
@@ -54,7 +53,7 @@ public class LaserEmitterScript : MonoBehaviour
         myOrigin.position = myFirstOrigin.position;
         ClearLaser();
 
-        int amount = (int)Mathf.Round(myLaserDistance);
+        int amount = Mathf.RoundToInt(myLaserDistance);
 
         for (int count = 0; count < amount; ++count)
         {
@@ -74,26 +73,45 @@ public class LaserEmitterScript : MonoBehaviour
 
     private void CheckDistance()
     {
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
+        Coord direction = new Coord(0, 0);
 
-        myPreviousLaserDistance = myLaserDistance;
-
-        RaycastHit hit;
-
-        if (Physics.Raycast(myRaycastOrigin.position, myRaycastOrigin.forward, out hit, Mathf.Infinity, layerMask))
+        if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
         {
-            myLaserDistance = hit.distance;
+            direction.x = 0;
+            direction.y = 1;
         }
-        else
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
         {
-            myLaserDistance = 0f;
+            direction.x = 1;
+            direction.y = 0;
         }
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+        {
+            direction.x = 0;
+            direction.y = -1;
+        }
+        else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+        {
+            direction.x = -1;
+            direction.y = 0;
+        }
+        myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        return (myCoords == aPlayerCurrentPos);
+        UpdateLaser();
+        return false;
+    }
+
+    private bool OnRockMove(Coord aRockPos)
+    {
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
+        {
+            DrawLaser();
+        }
+        UpdateLaser();
+        return false;
     }
     public Coord GetCoords()
     {
@@ -102,5 +120,11 @@ public class LaserEmitterScript : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 }

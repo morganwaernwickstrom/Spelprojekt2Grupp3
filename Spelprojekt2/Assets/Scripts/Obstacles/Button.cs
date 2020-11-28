@@ -56,4 +56,9 @@ public class Button : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.PlayerInteract, OnPlayerInteract);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockInteract);
     }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }

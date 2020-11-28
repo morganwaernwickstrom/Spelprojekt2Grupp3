@@ -30,4 +30,9 @@ public class FinishTrigger : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }

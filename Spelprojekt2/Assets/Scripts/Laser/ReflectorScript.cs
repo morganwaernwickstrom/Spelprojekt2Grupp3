@@ -45,7 +45,7 @@ public class ReflectorScript : MonoBehaviour
     private Coord myCoords;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 10f;
+    private float mySpeed = 0.1f;
 
     void Start()
     {
@@ -61,18 +61,19 @@ public class ReflectorScript : MonoBehaviour
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        UpdateLaser();
     }
 
-    // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
-    private void Update()
+    private void UpdateLaser()
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
-         
+
         myLeftDetectionBox.CheckIfExited();
         myRightDetectionBox.CheckIfExited();
 
-        myIsHit = (leftHit || rightHit) ? true : false;
+        myIsHit = (leftHit || rightHit);
 
         myPreviousLaserDistance = myLaserDistance;
 
@@ -98,7 +99,7 @@ public class ReflectorScript : MonoBehaviour
 
             CheckDistance();
 
-            if ((myPreviousLaserDistance != myLaserDistance))     // Only draw laser if the distance has changed
+            if (myPreviousLaserDistance != myLaserDistance)     // Only draw laser if the distance has changed
             {
                 DrawLaser();
             }
@@ -109,20 +110,16 @@ public class ReflectorScript : MonoBehaviour
             myDirection = Direction.Null;
             ClearLaser();
         }
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-        if (transform.position.y <= 0)
-        {
-            Destroy(gameObject);
-        }
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
-        ClearLaser();       
+        ClearLaser();
         int amount = Mathf.RoundToInt(myLaserDistance);
 
-        if ((myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
+        if (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation)
         {
             for (int count = 0; count < amount; ++count)
             {
@@ -144,37 +141,59 @@ public class ReflectorScript : MonoBehaviour
 
     private void CheckDistance()
     {
-        // --- Layermask for raycast to ignore collision with laser-layer --- //
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
-
-        RaycastHit hit;
-
+        // --- If hit by laser, decide the direction the laser is being drawn towards, based on object rotation --- //
         if (myIsHit)
         {
-            // --- If reflector is hit by a laser then send out a raycast to determine length to draw laser with --- //
+            Coord direction = new Coord(0, 0);
+
             if (myDirection == Direction.Left)
             {
-                if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 0;
+                    direction.y = 1;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
                 }
             }
             else if (myDirection == Direction.Right)
             {
-                if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 1;
+                    direction.y = 0;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = 0;
+                    direction.y = 1;
                 }
             }
+
+            myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
         }
         else
         {
@@ -184,6 +203,7 @@ public class ReflectorScript : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        UpdateLaser();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -210,17 +230,19 @@ public class ReflectorScript : MonoBehaviour
         return true;
     }
 
+    private bool OnRockMove(Coord aRockPos)
+    {
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser) ClearLaser();
+        UpdateLaser();
+        return false;
+    }
+
     private void Move(Coord aDirection)
     {
         Coord previousCoords = myCoords;
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
-        Train[] otherTrains = FindObjectsOfType<Train>();
-        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
-        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
-        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -231,7 +253,7 @@ public class ReflectorScript : MonoBehaviour
         }
         foreach (var door in otherDoors)
         {
-            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
+            if ((myCoords + aDirection) == door.GetCoords())
             {
                 return;
             }
@@ -239,41 +261,6 @@ public class ReflectorScript : MonoBehaviour
         foreach (var wall in otherWalls)
         {
             if ((myCoords + aDirection) == wall.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var hole in otherHoles)
-        {
-            if ((myCoords + aDirection) == hole.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var train in otherTrains)
-        {
-            if ((myCoords + aDirection) == train.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var reflector in otherReflectors)
-        {
-            if ((myCoords + aDirection) == reflector.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var emittor in otherEmittors)
-        {
-            if ((myCoords + aDirection) == emittor.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var receiver in otherReceivers)
-        {
-            if ((myCoords + aDirection) == receiver.GetCoords())
             {
                 return;
             }
@@ -289,13 +276,13 @@ public class ReflectorScript : MonoBehaviour
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
     }
 
-    public Coord GetCoords()
-    {
-        return myCoords;
-    }
-
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
+    }
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 }

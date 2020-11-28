@@ -16,13 +16,16 @@ public class Laser : MonoBehaviour
         //EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
+
     private void Update()
     {
+
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myPlayer = GameObject.FindGameObjectWithTag("Player");
 
         if (myShouldReset)
         {
-            if (!myCoroutineRunning)
+            if(!myCoroutineRunning)
             {
                 StartCoroutine(RestartAfterDeath());
                 myCoroutineRunning = true;
@@ -33,7 +36,6 @@ public class Laser : MonoBehaviour
     private void OnEnable()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-
         if (EventHandler.current != null)
         {
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -56,12 +58,16 @@ public class Laser : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
-    private IEnumerator RestartAfterDeath()
+    private IEnumerator RestartAfterDeath() 
     {
         myPlayer.GetComponentInChildren<Animator>().SetBool("Die", true);
         myPlayer.GetComponent<PlayerMovement>().enabled = false;
-        Debug.Log("Working");
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 }
