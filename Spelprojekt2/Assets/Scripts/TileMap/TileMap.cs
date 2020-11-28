@@ -230,7 +230,17 @@ public class TileMap : MonoBehaviour
 
     public void UpdateTileMap()
     {
+        // Update function to be called instead of SetAllTiles()
+    }
 
+    public void Set(Coord aCoord, eTileType aType)
+    {
+        if (aCoord.x < 0 || aCoord.x > (myColumns - 1) || aCoord.y < 0 || aCoord.y > (myRows - 1))
+        {
+            Debug.LogError("Can't set a Tile that's out of bounds.");
+            return;
+        }
+        myTileMap[aCoord.x, aCoord.y].type = aType;
     }
 
     public eTileType Get(Coord aCoord)
@@ -352,51 +362,51 @@ public class TileMap : MonoBehaviour
         return distance;
     }
 
-    void PrintTileInfo(int aColumn, int aRow)
-    {
-        string tileName = "Empty";
+    //void PrintTileInfo(int aColumn, int aRow)
+    //{
+    //    string tileName = "Empty";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Rock)
-            tileName = "Rock";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Rock)
+    //        tileName = "Rock";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Impassable)
-            tileName = "Impassable";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Impassable)
+    //        tileName = "Impassable";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Sliding)
-            tileName = "Sliding";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Sliding)
+    //        tileName = "Sliding";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Hole)
-            tileName = "Hole";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Hole)
+    //        tileName = "Hole";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Finish)
-            tileName = "Finish";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Finish)
+    //        tileName = "Finish";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Button)
-            tileName = "Button";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Button)
+    //        tileName = "Button";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Door)
-            tileName = "Door";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Door)
+    //        tileName = "Door";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Emitter)
-            tileName = "Emitter";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Emitter)
+    //        tileName = "Emitter";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Reflector)
-            tileName = "Reflector";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Reflector)
+    //        tileName = "Reflector";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Receiver)
-            tileName = "Receiver";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Receiver)
+    //        tileName = "Receiver";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Player)
-            tileName = "Player";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Player)
+    //        tileName = "Player";
 
-        if (myTileMap[aColumn, aRow].type == eTileType.Laser)
-            tileName = "Laser";
+    //    if (myTileMap[aColumn, aRow].type == eTileType.Laser)
+    //        tileName = "Laser";
 
-        int x = myTileMap[aColumn, aRow].coord.x;
-        int z = myTileMap[aColumn, aRow].coord.y;
+    //    int x = myTileMap[aColumn, aRow].coord.x;
+    //    int z = myTileMap[aColumn, aRow].coord.y;
 
-        Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
-    }
+    //    Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
+    //}
 
     private void OnDestroy()
     {
