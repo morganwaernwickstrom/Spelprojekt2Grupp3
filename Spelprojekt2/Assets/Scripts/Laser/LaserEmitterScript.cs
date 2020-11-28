@@ -122,9 +122,4 @@ public class LaserEmitterScript : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
-
-    public Coord GetCoords()
-    {
-        return myCoords;
-    }
 }

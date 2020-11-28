@@ -354,4 +354,9 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
 }
