@@ -204,7 +204,6 @@ public class ReflectorScript : MonoBehaviour
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         UpdateLaser();
-        //DrawLaser();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)

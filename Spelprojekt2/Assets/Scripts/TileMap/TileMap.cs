@@ -225,6 +225,7 @@ public class TileMap : MonoBehaviour
     private void InitializeTileMap()
     {
         if (Instance == null) Instance = this;
+        DontDestroyOnLoad(gameObject);
 
         myTiles = FindObjectsOfType<Tile>();
         int amount = myTiles.Length;
