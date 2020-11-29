@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
 
 public enum eEventType
@@ -24,7 +23,7 @@ public class EventHandler : MonoBehaviour
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
     public event Func<Coord, bool> onGoalReachedEvent;
-    public event Func<IEnumerator> onPlayerDeath;
+    public event Action onPlayerDeath;
 
     private void Start()
     {
@@ -99,7 +98,7 @@ public class EventHandler : MonoBehaviour
         }
     }
 
-    public void Subscribe(eEventType aType, Func<IEnumerator> aFunc)
+    public void Subscribe(eEventType aType, Action aFunc)
     {
         switch (aType)
         {
@@ -109,7 +108,7 @@ public class EventHandler : MonoBehaviour
         }
     }
 
-    public void UnSubscribe(eEventType aType, Func<IEnumerator> aFunc)
+    public void UnSubscribe(eEventType aType, Action aFunc)
     {
         switch (aType)
         {
@@ -259,7 +258,7 @@ public class EventHandler : MonoBehaviour
     {
         if (onPlayerDeath != null)
         {
-            foreach (Func<IEnumerator> f in onPlayerDeath.GetInvocationList())
+            foreach (Action f in onPlayerDeath.GetInvocationList())
             {
                 f();
             }

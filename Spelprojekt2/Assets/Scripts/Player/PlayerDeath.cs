@@ -4,20 +4,29 @@ using UnityEngine.SceneManagement;
 
 public class PlayerDeath : MonoBehaviour
 {
-    bool myCoroutineRunning = false;
+    bool myShouldDie = false;
 
     private void Start()
     {
         if (EventHandler.current != null) EventHandler.current.Subscribe(eEventType.PlayerDeath, OnPlayerDeath);
     }
 
-    private IEnumerator OnPlayerDeath()
+    private void Update()
     {
-        Debug.Log("I should die..");
+        if (myShouldDie) StartCoroutine(RestartAfterDeath());
+    }
+
+    private IEnumerator RestartAfterDeath()
+    {
         GetComponentInChildren<Animator>().SetBool("Die", true);
         GetComponent<PlayerMovement>().enabled = false;
         yield return new WaitForSeconds(5);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void OnPlayerDeath()
+    {
+        myShouldDie = true;
     }
 
     private void OnDestroy()
