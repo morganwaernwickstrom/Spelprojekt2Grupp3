@@ -39,7 +39,7 @@ public class TileMap : MonoBehaviour
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        UpdateLaser();
+        //UpdateLaser();
         Set(aPreviousPos, eTileType.Empty);
         Set(aPlayerPos, eTileType.Player);
         return false;

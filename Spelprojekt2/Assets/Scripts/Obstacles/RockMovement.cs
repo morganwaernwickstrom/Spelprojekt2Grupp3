@@ -53,31 +53,6 @@ public class RockMovement : MonoBehaviour
     private void Move(Coord aDirection)
     {
         Coord previousCoords = myCoords;
-        //RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
-        //Door[] otherDoors = FindObjectsOfType<Door>();
-        //Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        //// TODO: Add Lookup map of to check if tile is empty!
-        //foreach (var rock in otherRocks)
-        //{
-        //    if ((myCoords + aDirection) == rock.GetCoords())
-        //    {
-        //        return;
-        //    }
-        //}
-        //foreach (var door in otherDoors)
-        //{
-        //    if ((myCoords + aDirection) == door.GetCoords())
-        //    {
-        //        return;
-        //    }
-        //}
-        //foreach (var wall in otherWalls)
-        //{
-        //    if ((myCoords + aDirection) == wall.GetCoords())
-        //    {
-        //        return;
-        //    }
-        //}
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
             TileMap.Instance.Get(desiredTile) == eTileType.Door ||

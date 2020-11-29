@@ -101,6 +101,7 @@ public class LaserEmitterScript : MonoBehaviour
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         UpdateLaser();
+        DrawLaser();
         return false;
     }
 
@@ -108,6 +109,7 @@ public class LaserEmitterScript : MonoBehaviour
     {
         if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
         {
+            UpdateLaser();
             DrawLaser();
         }
         UpdateLaser();
