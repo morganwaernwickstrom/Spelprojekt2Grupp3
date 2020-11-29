@@ -266,11 +266,11 @@ public class PlayerMovement : MonoBehaviour
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
             myDesiredPosition = transform.position;
-            TileMap.Instance.Set(myCoords, eTileType.Empty);
             myCoords = originalCoord;
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
+        TileMap.Instance.Set(myCoords, eTileType.Player);
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 

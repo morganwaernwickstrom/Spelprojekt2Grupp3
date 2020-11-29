@@ -247,11 +247,14 @@ public class ReflectorScript : MonoBehaviour
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
             TileMap.Instance.Get(desiredTile) == eTileType.Door ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Hole ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
             TileMap.Instance.Get(desiredTile) == eTileType.Impassable)
             return;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
-        TileMap.Instance.Set(myCoords, eTileType.Empty);
         myCoords += aDirection;
 
         if (EventHandler.current.RockMoveEvent(myCoords))
@@ -259,6 +262,7 @@ public class ReflectorScript : MonoBehaviour
             myDesiredPosition += new Vector3(0, -1f, 0);
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+        TileMap.Instance.Set(previousCoords, eTileType.Empty);
     }
 
     private void OnDestroy()

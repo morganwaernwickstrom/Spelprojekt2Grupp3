@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class TileMap : MonoBehaviour
 {
-    // TODO: find tiletype at all times it is changed
-
     const int myColumns = 7; // x
     const int myRows = 10;   // y
     private bool myHasUpdate = false;
@@ -39,9 +37,7 @@ public class TileMap : MonoBehaviour
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        //UpdateLaser();
         Set(aPreviousPos, eTileType.Empty);
-        Set(aPlayerPos, eTileType.Player);
         return false;
     }
 
@@ -165,7 +161,7 @@ public class TileMap : MonoBehaviour
                 if (Get(coord) == eTileType.Laser) Set(coord, eTileType.Empty);
             }
         }
-        
+
         foreach (var i in allLasers)
         {
             Set(i.GetCoords(), eTileType.Laser);
