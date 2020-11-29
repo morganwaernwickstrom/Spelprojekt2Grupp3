@@ -205,46 +205,50 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                if (TileAhead(myPlayerPosition += new Vector3(0, 0, 1)))
+                Coord desiredTile = myCoords + new Coord(0, 1);
+                myRotation = Quaternion.Euler(0, 0, 0);
+                myCharacterModel.transform.rotation = myRotation;
+                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, 1);
-                    myRotation = Quaternion.Euler(0, 0, 0);
                     myCoords.y += 1;
-                    myCharacterModel.transform.rotation = myRotation;
                 }
             }
             if (Input.GetKeyDown(KeyCode.S))
             {
-                if (TileAhead(myPlayerPosition += new Vector3(0, 0, -1)))
+                Coord desiredTile = myCoords + new Coord(0, -1);
+                myRotation = Quaternion.Euler(0, 180, 0);
+                myCharacterModel.transform.rotation = myRotation;
+                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, -1);
                     myCoords.y -= 1;
-                    myRotation = Quaternion.Euler(0, 180, 0);
-                    myCharacterModel.transform.rotation = myRotation;
                 }
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
+                Coord desiredTile = myCoords + new Coord(-1, 0);
+                myRotation = Quaternion.Euler(0, -90, 0);
+                myCharacterModel.transform.rotation = myRotation;
+                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(-1, 0, 0);
-                    myRotation = Quaternion.Euler(0, -90, 0);
                     myCoords.x -= 1;
-                    myCharacterModel.transform.rotation = myRotation;
                 }
             }
             if (Input.GetKeyDown(KeyCode.D))
             {
-                if (TileAhead(myPlayerPosition += new Vector3(1, 0, 0)))
+                Coord desiredTile = myCoords + new Coord(1, 0);
+                myRotation = Quaternion.Euler(0, 90, 0);
+                myCharacterModel.transform.rotation = myRotation;
+                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(1, 0, 0);
-                    myRotation = Quaternion.Euler(0, 90, 0);
                     myCoords.x += 1;
-                    myCharacterModel.transform.rotation = myRotation;
                 }
             }
         }
@@ -262,6 +266,7 @@ public class PlayerMovement : MonoBehaviour
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
             myDesiredPosition = transform.position;
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
             myCoords = originalCoord;
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);

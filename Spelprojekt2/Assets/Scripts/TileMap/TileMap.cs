@@ -7,6 +7,7 @@ public class TileMap : MonoBehaviour
 
     const int myColumns = 7; // x
     const int myRows = 10;   // y
+    private bool myHasUpdate = false;
 
     private _Tile[,] myTileMap = new _Tile[myColumns, myRows];
     Tile[] myTiles;
@@ -27,19 +28,27 @@ public class TileMap : MonoBehaviour
 
     private void Update()
     {
+        if (!myHasUpdate)
+        {
+            SetAllTiles();
+            myHasUpdate = true;
+        }
         if (Input.GetKeyDown(KeyCode.Space))
             DebugTiles();
     }
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        SetAllTiles();
+        UpdateLaser();
+        Set(aPreviousPos, eTileType.Empty);
+        Set(aPlayerPos, eTileType.Player);
         return false;
     }
 
     bool OnRockMove(Coord aRockPos)
     {
-        SetAllTiles();
+        UpdateLaser();
+        Set(aRockPos, eTileType.Rock);
         return false;
     }
 
@@ -144,6 +153,25 @@ public class TileMap : MonoBehaviour
         }
     }
 
+    private void UpdateLaser()
+    {
+        Laser[] allLasers = FindObjectsOfType<Laser>();
+
+        for (int row = 0; row < myRows; ++row)
+        {
+            for (int column = 0; column < myColumns; ++column)
+            {
+                Coord coord = new Coord(column, row);
+                if (Get(coord) == eTileType.Laser) Set(coord, eTileType.Empty);
+            }
+        }
+        
+        foreach (var i in allLasers)
+        {
+            Set(i.GetCoords(), eTileType.Laser);
+        }
+    }
+
     public void DebugTiles()
     {
         string map = "\n";
@@ -228,11 +256,6 @@ public class TileMap : MonoBehaviour
         SetAllTiles();
     }
 
-    public void UpdateTileMap()
-    {
-        // Update function to be called instead of SetAllTiles()
-    }
-
     public void Set(Coord aCoord, eTileType aType)
     {
         if (aCoord.x < 0 || aCoord.x > (myColumns - 1) || aCoord.y < 0 || aCoord.y > (myRows - 1))
@@ -245,6 +268,7 @@ public class TileMap : MonoBehaviour
 
     public eTileType Get(Coord aCoord)
     {
+        if (aCoord.x < 0 || aCoord.x > (myColumns - 1) || aCoord.y < 0 || aCoord.y > (myRows - 1)) return eTileType.Null;
         return myTileMap[aCoord.x, aCoord.y].type;
     }
 
@@ -277,6 +301,7 @@ public class TileMap : MonoBehaviour
             for (int i = 0; i < maxRange; ++i)
             {
                 current += aDirection;
+                //Set(current, eTileType.Empty);
 
                 foreach (eTileType target in targets)
                 {
