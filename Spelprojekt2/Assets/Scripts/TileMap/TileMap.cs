@@ -260,7 +260,7 @@ public class TileMap : MonoBehaviour
     {
         if (aCoord.x < 0 || aCoord.x > (myColumns - 1) || aCoord.y < 0 || aCoord.y > (myRows - 1))
         {
-            Debug.LogError("Can't set a Tile that's out of bounds.");
+            //Debug.LogError("Can't set a Tile that's out of bounds.");
             return;
         }
         myTileMap[aCoord.x, aCoord.y].type = aType;

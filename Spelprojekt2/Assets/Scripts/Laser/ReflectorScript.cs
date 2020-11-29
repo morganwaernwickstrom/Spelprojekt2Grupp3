@@ -204,6 +204,7 @@ public class ReflectorScript : MonoBehaviour
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         UpdateLaser();
+        DrawLaser();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -232,7 +233,11 @@ public class ReflectorScript : MonoBehaviour
 
     private bool OnRockMove(Coord aRockPos)
     {
-        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser) ClearLaser();
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
+        {
+            UpdateLaser();
+            DrawLaser();
+        }
         UpdateLaser();
         return false;
     }
