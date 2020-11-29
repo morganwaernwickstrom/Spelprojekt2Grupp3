@@ -30,6 +30,7 @@ GameObject:
   - component: {fileID: 6067547493344419257}
   - component: {fileID: 4103446161198153694}
   - component: {fileID: 4977863174358803086}
+  - component: {fileID: 1972445997772077549}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -74,9 +75,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacterModel: {fileID: 6980866691521532432}
-  mySpeed: 0
+  myMovementSpeed: 3
   myDeadzone: 100
   doubleTapDelta: 0.5
+  myMaxXCoordinate: 0
+  myMaxZCoordinate: 0
+  myMinXCoordinate: 0
+  myMinZCoordinate: 0
+--- !u!114 &1972445997772077549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5725830208638415480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37b2501b251026340b3d8fbf2d3b9ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!95 &5520275636080823481
 Animator:
   serializedVersion: 3

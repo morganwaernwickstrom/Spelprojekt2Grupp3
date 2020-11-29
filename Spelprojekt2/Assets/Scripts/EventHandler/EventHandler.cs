@@ -1,11 +1,12 @@
 ﻿using System;
-using System;
+using System.Collections;
 using UnityEngine;
 
 public enum eEventType
 {
     PlayerMove,
     PlayerInteract,
+    PlayerDeath,
     RockMove,
     RockInteract,
     ButtonPressed,
@@ -23,6 +24,7 @@ public class EventHandler : MonoBehaviour
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
     public event Func<Coord, bool> onGoalReachedEvent;
+    public event Func<IEnumerator> onPlayerDeath;
 
     private void Start()
     {
@@ -93,6 +95,26 @@ public class EventHandler : MonoBehaviour
                 onButtonUp += aFunc;
                 break;
             default:
+                break;
+        }
+    }
+
+    public void Subscribe(eEventType aType, Func<IEnumerator> aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath += aFunc;
+                break;
+        }
+    }
+
+    public void UnSubscribe(eEventType aType, Func<IEnumerator> aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath -= aFunc;
                 break;
         }
     }
@@ -231,5 +253,16 @@ public class EventHandler : MonoBehaviour
         }
         Debug.Log("No Canvas?");
         return false;
+    }
+
+    public void PlayerDeathEvent()
+    {
+        if (onPlayerDeath != null)
+        {
+            foreach (Func<IEnumerator> f in onPlayerDeath.GetInvocationList())
+            {
+                f();
+            }
+        }
     }
 }
