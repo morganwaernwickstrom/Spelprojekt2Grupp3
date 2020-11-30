@@ -10,17 +10,15 @@ public class SceneChange : MonoBehaviour
     //  - Settings
     //  - Level Select
     //  - Credits
-    public GameObject myLevelSelect;
     public GameObject myMainMenu;
     public GameObject myOptionMenu;
     public GameObject myCredits;
+    
 
     // --- UI Knappar --- //
     public void Play()
     {
-        myMainMenu.SetActive(false);
-        myLevelSelect.SetActive(true);
-
+        SceneManager.LoadScene("LevelSelect");
     }
     public void Options()
     {
@@ -34,11 +32,15 @@ public class SceneChange : MonoBehaviour
     }
     public void BackToMenu()
     {
-        myLevelSelect.SetActive(false);
         myCredits.SetActive(false);
         myOptionMenu.SetActive(false);
         myMainMenu.SetActive(true);
 
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     // --- Level Select Buttons --- //
