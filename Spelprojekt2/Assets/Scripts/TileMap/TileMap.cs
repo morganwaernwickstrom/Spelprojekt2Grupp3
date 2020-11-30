@@ -28,7 +28,9 @@ public class TileMap : MonoBehaviour
     {
         if (!myHasUpdate)
         {
+            Debug.Log("Called!");
             SetAllTiles();
+            UpdateLaser();
             myHasUpdate = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -153,6 +155,7 @@ public class TileMap : MonoBehaviour
     private void UpdateLaser()
     {
         Laser[] allLasers = FindObjectsOfType<Laser>();
+        HoleBlocking[] allHoles = FindObjectsOfType<HoleBlocking>();
 
         for (int row = 0; row < myRows; ++row)
         {
@@ -166,6 +169,11 @@ public class TileMap : MonoBehaviour
         foreach (var i in allLasers)
         {
             Set(i.GetCoords(), eTileType.Laser);
+        }
+
+        foreach (var i in allHoles)
+        {
+            Set(i.GetCoords(), eTileType.Hole);
         }
     }
 
