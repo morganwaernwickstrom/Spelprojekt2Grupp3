@@ -61,9 +61,9 @@ public class PlayerMovement : MonoBehaviour
     {
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
-        UpdateMobile();
-        UpdateStandalone();
-        Movement();
+        //UpdateMobile();
+        //UpdateStandalone();
+        //Movement();
         WasdMovement();
 
         if (percentage > 1.0f)

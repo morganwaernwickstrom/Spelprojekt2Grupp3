@@ -11,6 +11,11 @@ public class PlayerDeath : MonoBehaviour
         if (EventHandler.current != null) EventHandler.current.Subscribe(eEventType.PlayerDeath, OnPlayerDeath);
     }
 
+    private void OnEnable()
+    {
+        EventHandler.current.Subscribe(eEventType.PlayerDeath, OnPlayerDeath);
+    }
+
     private void Update()
     {
         if (myShouldDie) StartCoroutine(RestartAfterDeath());
