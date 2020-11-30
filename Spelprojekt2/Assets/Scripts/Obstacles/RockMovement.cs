@@ -19,6 +19,7 @@ public class RockMovement : MonoBehaviour
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
         }
     }
 
