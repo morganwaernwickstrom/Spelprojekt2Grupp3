@@ -21,6 +21,8 @@ public class TileMap : MonoBehaviour
 
     private void OnEnable()
     {
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
         InitializeTileMap();
     }
 
@@ -28,7 +30,6 @@ public class TileMap : MonoBehaviour
     {
         if (!myHasUpdate)
         {
-            Debug.Log("Called!");
             SetAllTiles();
             UpdateLaser();
             myHasUpdate = true;
@@ -352,11 +353,11 @@ public class TileMap : MonoBehaviour
 
                 foreach (eTileType target in targets)
                 {
-                    int x = Mathf.Clamp(current.x, 0, 6);
-                    int y = Mathf.Clamp(current.y, 0, 9);
+                    int x = Mathf.Clamp(current.x, -1, 7);
+                    int y = Mathf.Clamp(current.y, -1, 10);
                     // --- Should look outside of the bounds of the map
 
-                    if (x == 6 || x == 0 || y == 9 || y == 0)
+                    if (x == 7 || x == -1 || y == 10 || y == -1)
                     {
                         hasFound = true;
                         break;

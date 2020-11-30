@@ -41,6 +41,12 @@ public class LaserEmitterScript : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
+    private void OnEnable()
+    {
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+    }
+
     private void UpdateLaser()
     {
         myPreviousLaserDistance = myLaserDistance;

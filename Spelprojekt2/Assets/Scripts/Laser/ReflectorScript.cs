@@ -65,7 +65,12 @@ public class ReflectorScript : MonoBehaviour
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-        UpdateLaser();
+    }
+
+    private void OnEnable()
+    {
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
     private void Update()

@@ -27,12 +27,6 @@ public class Train : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed*Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
-
-        if (transform.position.y <= 0)
-        {
-            Destroy(gameObject);
-        }
-
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
@@ -76,90 +70,22 @@ public class Train : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
-        Coord previousCoords = myCoords;
-
-        Rail[] otherRails = FindObjectsOfType<Rail>();
-
-        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
-        Door[] otherDoors = FindObjectsOfType<Door>();
-        Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
-        HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
-        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
-        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
-        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
+        Coord desiredTile = myCoords + aDirection;
+        if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Door ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Train)
+            return;
         // TODO: Add Lookup map of to check if tile is empty!
-        foreach (var rock in otherRocks)
+        if (TileMap.Instance.Get(desiredTile) == eTileType.Rail)
         {
-            if ((myCoords + aDirection) == rock.GetCoords())
-            {
-                return;
-            }
+            myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
+            myCoords += aDirection;
         }
-        foreach (var door in otherDoors)
-        {
-            if ((myCoords + aDirection) == door.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var wall in otherWalls)
-        {
-            if ((myCoords + aDirection) == wall.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var slideRock in otherSlidingRocks)
-        {
-            if ((myCoords + aDirection) == slideRock.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var hole in otherHoles)
-        {
-            if ((myCoords + aDirection) == hole.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var emitter in otherEmittors)
-        {
-            if ((myCoords + aDirection) == emitter.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var reflector in otherReflectors)
-        {
-            if ((myCoords + aDirection) == reflector.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var receiver in otherReceivers)
-        {
-            if ((myCoords + aDirection) == receiver.GetCoords())
-            {
-                return;
-            }
-        }
-
-
-        bool TakeAStep = true;
-        foreach (var Rail in otherRails)
-        {
-            
-            if ((myCoords + aDirection) == Rail.GetCoords() && TakeAStep)
-            {
-                myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
-                myCoords += aDirection;
-                TakeAStep = false;
-            }
-        }
-
-
     }
 
     public Coord GetCoords()

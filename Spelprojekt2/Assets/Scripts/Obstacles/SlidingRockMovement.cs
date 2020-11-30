@@ -6,10 +6,7 @@ public class SlidingRockMovement : MonoBehaviour
     private Vector3 myCurrentPosition;
     private float mySpeed = 3f;
     private float myFallingSpeed = 0.0000001f;
-    private int myLimitedChecks = 10;
     private Coord myCoords;
-    private bool myHitObstacle = false;
-    private bool myHitHole = false;
     private bool myFallingDown = false;
     private void Start()
     {
@@ -23,19 +20,19 @@ public class SlidingRockMovement : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
-        
+
 
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
         {
-            myDesiredPosition += new Vector3 ( 0, -1, 0 );
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myFallingSpeed* Time.deltaTime);
+            myDesiredPosition += new Vector3(0, -1, 0);
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myFallingSpeed * Time.deltaTime);
             myFallingDown = false;
-            myHitHole = false;
         }
 
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
         }
     }
 
@@ -70,187 +67,34 @@ public class SlidingRockMovement : MonoBehaviour
     private void Move(Coord aDirection)
     {
         Coord previousCoords = myCoords;
-        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
-        Door[] otherDoors = FindObjectsOfType<Door>();
-        Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
-        HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
-        Train[] otherTrain = FindObjectsOfType<Train>();
-        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
-        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
-        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
-        // TODO: Add Lookup map of to check if tile is empty!
-        foreach (var rock in otherRocks)
-        {
-            if ((myCoords + aDirection) == rock.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var door in otherDoors)
-        {
-            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
-            {
-                return;
-            }
-        }
-        foreach (var wall in otherWalls)
-        {
-            if ((myCoords + aDirection) == wall.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var slideRock in otherSlidingRocks)
-        {
-            if ((myCoords + aDirection) == slideRock.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var train in otherTrain)
-        {
-            if ((myCoords + aDirection) == train.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var emittor in otherEmittors)
-        {
-            if ((myCoords + aDirection) == emittor.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var reflector in otherReflectors)
-        {
-            if ((myCoords + aDirection) == reflector.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var receiver in otherReceivers)
-        {
-            if ((myCoords + aDirection) == receiver.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var hole in otherHoles)
-        {
-            if ((myCoords + aDirection) == hole.GetCoords())
-            {
-                myHitHole = true;
-                myHitObstacle = true;
-            }
-        }
-        while (!myHitObstacle && myLimitedChecks > 0)
-        {
+        Coord desiredTile = myCoords + aDirection;
+        if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Door ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Train ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Finish)
+            return;
+       
             if (aDirection.x > 0)
             {
-                aDirection.x += 1;
+                aDirection.x = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
             }
             if (aDirection.x < 0)
             {
-                aDirection.x -= 1;
+                aDirection.x = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
             }
             if (aDirection.y > 0)
             {
-                aDirection.y += 1;
+                aDirection.y = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
             }
             if (aDirection.y < 0)
             {
-                aDirection.y -= 1;
+                aDirection.y = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
             }
-
-            foreach (var rock in otherRocks)
-            {
-                if ((myCoords + aDirection) == rock.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var door in otherDoors)
-            {
-                if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var wall in otherWalls)
-            {
-                if ((myCoords + aDirection) == wall.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var slideRock in otherSlidingRocks)
-            {
-                if ((myCoords + aDirection) == slideRock.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var hole in otherHoles)
-            {
-                if ((myCoords + aDirection) == hole.GetCoords())
-                {
-                    myHitHole = true;
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var emittor in otherEmittors)
-            {
-                if ((myCoords + aDirection) == emittor.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var reflector in otherReflectors)
-            {
-                if ((myCoords + aDirection) == reflector.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var train in otherTrain)
-            {
-                if ((myCoords + aDirection) == train.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            foreach (var receiver in otherReceivers)
-            {
-                if ((myCoords + aDirection) == receiver.GetCoords())
-                {
-                    myHitObstacle = true;
-                }
-            }
-            if (myHitObstacle && !myHitHole)
-            {
-                if (aDirection.x > 0)
-                {
-                    aDirection.x -= 1;
-                }
-                if (aDirection.x < 0)
-                {
-                    aDirection.x += 1;
-                }
-                if (aDirection.y > 0)
-                {
-                    aDirection.y -= 1;
-                }
-                if (aDirection.y < 0)
-                {
-                    aDirection.y += 1;
-                }
-            }
-            myLimitedChecks--;
-        }
-
-        myLimitedChecks = 10;
-        myHitObstacle = false;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
@@ -261,6 +105,7 @@ public class SlidingRockMovement : MonoBehaviour
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+        TileMap.Instance.Set(previousCoords, eTileType.Empty);
     }
 
     public Coord GetCoords()
