@@ -10,31 +10,37 @@ public class SceneChange : MonoBehaviour
     //  - Settings
     //  - Level Select
     //  - Credits
-
+    public GameObject myMainMenu;
+    public GameObject myOptionMenu;
+    public GameObject myCredits;
+    
 
     // --- UI Knappar --- //
     public void Play()
     {
-        // referens till Level Select - canvas
-        // GameObject myLevelSelect;
-        // myLevelSelect.SetActive(true);
-        // myLevelSelect.SetActive(false);
-
-        // Gömma Main Menu Canvas
-        // Visa Level Select Canvas
-
+        SceneManager.LoadScene("LevelSelect");
     }
-    public void Settings()
+    public void Options()
     {
-        //SceneManager.LoadScene("settings");
+        myMainMenu.SetActive(false);
+        myOptionMenu.SetActive(true);
     }
     public void Credits()
     {
-        //SceneManager.LoadScene("credits");
+        myMainMenu.SetActive(false);
+        myCredits.SetActive(true);
     }
     public void BackToMenu()
     {
-        //SceneManager.LoadScene("mainMenu");
+        myCredits.SetActive(false);
+        myOptionMenu.SetActive(false);
+        myMainMenu.SetActive(true);
+
+    }
+
+    public void LoadMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
 
     // --- Level Select Buttons --- //
@@ -49,5 +55,17 @@ public class SceneChange : MonoBehaviour
     public void LevelThree()
     {
         SceneManager.LoadScene("Bana_3");
+    }
+    public void LevelFour()
+    {
+        SceneManager.LoadScene("Bana_4");
+    }
+    public void LevelFive()
+    {
+        SceneManager.LoadScene("Bana_5");
+    }
+    public void LevelSix()
+    {
+        SceneManager.LoadScene("Bana_6");
     }
 }
