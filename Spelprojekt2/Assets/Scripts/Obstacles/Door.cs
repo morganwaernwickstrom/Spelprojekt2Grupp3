@@ -42,17 +42,12 @@ public class Door : MonoBehaviour
 
     private bool OnButtonUp()
     {
-        //EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        //EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-
-        // kolla med TileMap om något finns på samma tile
-        // if (TileMap.Instance.Get(myCoords.x, myCoords.y) != eTileType.Door)
-        // myShouldClose = false;
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
 
 
         if (myShouldClose)
         {
-            Debug.LogWarning("Closing!");
             myDesiredPosition += new Vector3(0, 1f, 0);
             myIsOpened = false;
         }
