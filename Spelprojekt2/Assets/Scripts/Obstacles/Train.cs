@@ -13,10 +13,10 @@ public class Train : MonoBehaviour
     private Vector3 myCurrentPosition;
     private float mySpeed = 5f;
     private Coord myCoords;
-    
+
     // Start is called before the first frame update
     void Start()
-    { 
+    {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -24,7 +24,7 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed*Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
     }
@@ -33,33 +33,25 @@ public class Train : MonoBehaviour
     {
         // findgameobject rail
         // desired position finns en rail
-        
+
         if (myCoords == aPlayerCurrentPos)
         {
-
-            if (GoOnX)
+            if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
-                if (aPlayerPreviousPos.x == myCoords.x - 1)
-                {
-                    Move(new Coord(1, 0));
-                }
-                if (aPlayerPreviousPos.x == myCoords.x + 1)
-                {
-                    Move(new Coord(-1, 0));
-                }
+                Move(new Coord(1, 0));
             }
-            else
-            { 
-                if (aPlayerPreviousPos.y == myCoords.y - 1)
-                {
-                    Move(new Coord(0, 1));
-                }
-                if (aPlayerPreviousPos.y == myCoords.y + 1)
-                {
-                    Move(new Coord(0, -1));
-                }
+            if (aPlayerPreviousPos.x == myCoords.x + 1)
+            {
+                Move(new Coord(-1, 0));
             }
-
+            if (aPlayerPreviousPos.y == myCoords.y - 1)
+            {
+                Move(new Coord(0, 1));
+            }
+            if (aPlayerPreviousPos.y == myCoords.y + 1)
+            {
+                Move(new Coord(0, -1));
+            }
         }
         else
         {
