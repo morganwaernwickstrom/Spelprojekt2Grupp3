@@ -58,11 +58,19 @@ public class ReflectorScript : MonoBehaviour
             myLaserPool.Add(temp);
         }
 
+        UpdateLaser();
+        DrawLaser();
+
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
         UpdateLaser();
+    }
+
+    private void Update()
+    {
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
     }
 
     private void UpdateLaser()
@@ -110,7 +118,6 @@ public class ReflectorScript : MonoBehaviour
             myDirection = Direction.Null;
             ClearLaser();
         }
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
@@ -232,9 +239,9 @@ public class ReflectorScript : MonoBehaviour
 
     private bool OnRockMove(Coord aRockPos)
     {
-        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser || TileMap.Instance.Get(aRockPos) == eTileType.Hole)
         {
-            //UpdateLaser();
+            UpdateLaser();
             DrawLaser();
         }
         UpdateLaser();

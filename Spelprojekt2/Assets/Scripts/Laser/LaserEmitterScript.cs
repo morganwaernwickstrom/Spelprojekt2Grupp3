@@ -32,6 +32,10 @@ public class LaserEmitterScript : MonoBehaviour
             temp.SetActive(false);
             myLaserPool.Add(temp);
         }
+
+        UpdateLaser();
+        DrawLaser();
+
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
@@ -107,7 +111,7 @@ public class LaserEmitterScript : MonoBehaviour
 
     private bool OnRockMove(Coord aRockPos)
     {
-        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser)
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser || TileMap.Instance.Get(aRockPos) == eTileType.Hole)
         {
             UpdateLaser();
             DrawLaser();
