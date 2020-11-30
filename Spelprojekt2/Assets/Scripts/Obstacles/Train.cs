@@ -27,12 +27,6 @@ public class Train : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed*Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
-
-        if (transform.position.y <= 0)
-        {
-            Destroy(gameObject);
-        }
-
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)

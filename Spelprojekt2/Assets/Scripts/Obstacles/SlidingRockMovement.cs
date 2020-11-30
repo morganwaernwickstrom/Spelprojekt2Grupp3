@@ -32,6 +32,7 @@ public class SlidingRockMovement : MonoBehaviour
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
         }
     }
 
@@ -73,8 +74,9 @@ public class SlidingRockMovement : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
             TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
             TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
-            TileMap.Instance.Get(desiredTile) == eTileType.Sliding||
-            TileMap.Instance.Get(desiredTile) == eTileType.Train)
+            TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Train ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
        
             if (aDirection.x > 0)
@@ -103,6 +105,7 @@ public class SlidingRockMovement : MonoBehaviour
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+        TileMap.Instance.Set(previousCoords, eTileType.Empty);
     }
 
     public Coord GetCoords()
