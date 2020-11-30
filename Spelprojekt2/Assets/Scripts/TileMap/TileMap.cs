@@ -21,6 +21,8 @@ public class TileMap : MonoBehaviour
 
     private void OnEnable()
     {
+        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
         InitializeTileMap();
     }
 
@@ -28,7 +30,6 @@ public class TileMap : MonoBehaviour
     {
         if (!myHasUpdate)
         {
-            Debug.Log("Called!");
             SetAllTiles();
             UpdateLaser();
             myHasUpdate = true;
