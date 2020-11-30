@@ -37,6 +37,7 @@ public class TileMap : MonoBehaviour
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
+        UpdateLaser();
         Set(aPreviousPos, eTileType.Empty);
         return false;
     }
@@ -221,7 +222,6 @@ public class TileMap : MonoBehaviour
     private void InitializeTileMap()
     {
         if (Instance == null) Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         myTiles = FindObjectsOfType<Tile>();
         int amount = myTiles.Length;

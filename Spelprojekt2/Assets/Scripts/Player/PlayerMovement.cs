@@ -208,7 +208,7 @@ public class PlayerMovement : MonoBehaviour
                 Coord desiredTile = myCoords + new Coord(0, 1);
                 myRotation = Quaternion.Euler(0, 0, 0);
                 myCharacterModel.transform.rotation = myRotation;
-                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
+                if (CanMove(desiredTile))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, 1);
@@ -220,7 +220,7 @@ public class PlayerMovement : MonoBehaviour
                 Coord desiredTile = myCoords + new Coord(0, -1);
                 myRotation = Quaternion.Euler(0, 180, 0);
                 myCharacterModel.transform.rotation = myRotation;
-                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
+                if (CanMove(desiredTile))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(0, 0, -1);
@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour
                 Coord desiredTile = myCoords + new Coord(-1, 0);
                 myRotation = Quaternion.Euler(0, -90, 0);
                 myCharacterModel.transform.rotation = myRotation;
-                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
+                if (CanMove(desiredTile))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(-1, 0, 0);
@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
                 Coord desiredTile = myCoords + new Coord(1, 0);
                 myRotation = Quaternion.Euler(0, 90, 0);
                 myCharacterModel.transform.rotation = myRotation;
-                if (TileMap.Instance.Get(desiredTile) != eTileType.Null)
+                if (CanMove(desiredTile))
                 {
                     percentage = 0;
                     myDesiredPosition += new Vector3(1, 0, 0);
@@ -358,6 +358,11 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    bool CanMove(Coord aCoord)
+    {
+        return (TileMap.Instance.Get(aCoord) != eTileType.Null);
     }
 
     public Coord GetCoords()
