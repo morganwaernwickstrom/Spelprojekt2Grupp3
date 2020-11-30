@@ -263,7 +263,11 @@ public class ReflectorScript : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
             TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
             TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
-            TileMap.Instance.Get(desiredTile) == eTileType.Impassable)
+            TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Train ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Null ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
