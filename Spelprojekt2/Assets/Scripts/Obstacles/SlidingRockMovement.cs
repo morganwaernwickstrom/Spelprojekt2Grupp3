@@ -4,7 +4,7 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private float mySpeed = 0.03f;
+    private float mySpeed = 3f;
     private float myFallingSpeed = 0.0000001f;
     private int myLimitedChecks = 10;
     private Coord myCoords;
@@ -20,7 +20,7 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
         
@@ -69,13 +69,16 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
-
         Coord previousCoords = myCoords;
         RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
         Door[] otherDoors = FindObjectsOfType<Door>();
         Impassable[] otherWalls = FindObjectsOfType<Impassable>();
         SlidingRockMovement[] otherSlidingRocks = FindObjectsOfType<SlidingRockMovement>();
         HoleBlocking[] otherHoles = FindObjectsOfType<HoleBlocking>();
+        Train[] otherTrain = FindObjectsOfType<Train>();
+        ReflectorScript[] otherReflectors = FindObjectsOfType<ReflectorScript>();
+        LaserEmitterScript[] otherEmittors = FindObjectsOfType<LaserEmitterScript>();
+        ReceiverScript[] otherReceivers = FindObjectsOfType<ReceiverScript>();
         // TODO: Add Lookup map of to check if tile is empty!
         foreach (var rock in otherRocks)
         {
@@ -86,7 +89,7 @@ public class SlidingRockMovement : MonoBehaviour
         }
         foreach (var door in otherDoors)
         {
-            if ((myCoords + aDirection) == door.GetCoords())
+            if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
             {
                 return;
             }
@@ -105,14 +108,42 @@ public class SlidingRockMovement : MonoBehaviour
                 return;
             }
         }
-        foreach (var hole in otherHoles)
+        foreach (var train in otherTrain)
         {
-            if ((myCoords + aDirection) == hole.GetCoords())
+            if ((myCoords + aDirection) == train.GetCoords())
             {
                 return;
             }
         }
-
+        foreach (var emittor in otherEmittors)
+        {
+            if ((myCoords + aDirection) == emittor.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var reflector in otherReflectors)
+        {
+            if ((myCoords + aDirection) == reflector.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var receiver in otherReceivers)
+        {
+            if ((myCoords + aDirection) == receiver.GetCoords())
+            {
+                return;
+            }
+        }
+        foreach (var hole in otherHoles)
+        {
+            if ((myCoords + aDirection) == hole.GetCoords())
+            {
+                myHitHole = true;
+                myHitObstacle = true;
+            }
+        }
         while (!myHitObstacle && myLimitedChecks > 0)
         {
             if (aDirection.x > 0)
@@ -141,7 +172,7 @@ public class SlidingRockMovement : MonoBehaviour
             }
             foreach (var door in otherDoors)
             {
-                if ((myCoords + aDirection) == door.GetCoords())
+                if ((myCoords + aDirection) == door.GetCoords() && !door.Open())
                 {
                     myHitObstacle = true;
                 }
@@ -165,6 +196,34 @@ public class SlidingRockMovement : MonoBehaviour
                 if ((myCoords + aDirection) == hole.GetCoords())
                 {
                     myHitHole = true;
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var emittor in otherEmittors)
+            {
+                if ((myCoords + aDirection) == emittor.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var reflector in otherReflectors)
+            {
+                if ((myCoords + aDirection) == reflector.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var train in otherTrain)
+            {
+                if ((myCoords + aDirection) == train.GetCoords())
+                {
+                    myHitObstacle = true;
+                }
+            }
+            foreach (var receiver in otherReceivers)
+            {
+                if ((myCoords + aDirection) == receiver.GetCoords())
+                {
                     myHitObstacle = true;
                 }
             }

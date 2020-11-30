@@ -17,7 +17,8 @@ public class PauseMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        myMusicSlider.value = SoundManager.myInstance.GetCurrentMusicVolume();
+        myFxSlider.value = SoundManager.myInstance.GetCurrentEffectsVolume();
     }
 
     // Update is called once per frame
@@ -33,6 +34,9 @@ public class PauseMenu : MonoBehaviour
             myPauseMenu.SetActive(false);
             Time.timeScale = 1;
         }
+
+        SoundManager.myInstance.SetEffectsVolume(myFxSlider.value);
+        SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
 
         SetPauseState();
     }

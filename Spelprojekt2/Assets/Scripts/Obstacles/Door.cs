@@ -3,8 +3,10 @@
 public class Door : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
     private Coord myCoords;
+    private bool myIsOpened = false;
+    private bool myShouldClose = true;
 
     private void Start()
     {
@@ -13,30 +15,58 @@ public class Door : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.ButtonPressed, OnButtonPressed);
         EventHandler.current.Subscribe(eEventType.ButtonUp, OnButtonUp);
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        if (transform.position != myDesiredPosition)
+        {
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
+    }
+
+    public bool Open()
+    {
+        return myIsOpened;
     }
 
     private bool OnButtonPressed()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
         myDesiredPosition += new Vector3(0, -1f, 0);
+        myIsOpened = true;
         return true;
     }
 
     private bool OnButtonUp()
     {
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        myDesiredPosition += new Vector3(0, 1f, 0);
+        //EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        //EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+
+        // kolla med TileMap om något finns på samma tile
+        // if (TileMap.Instance.Get(myCoords.x, myCoords.y) != eTileType.Door)
+        // myShouldClose = false;
+
+
+        if (myShouldClose)
+        {
+            Debug.LogWarning("Closing!");
+            myDesiredPosition += new Vector3(0, 1f, 0);
+            myIsOpened = false;
+        }
         return true;
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         return (myCoords == aPlayerCurrentPos);
+    }
+
+    private bool OnRockMove(Coord aRockCurrentPos, Coord aRockPreviousPos)
+    {
+        return (myCoords == aRockCurrentPos);
     }
 
     public Coord GetCoords()
@@ -49,5 +79,6 @@ public class Door : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.ButtonPressed, OnButtonPressed);
         EventHandler.current.UnSubscribe(eEventType.ButtonUp, OnButtonUp);
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
 }

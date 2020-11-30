@@ -5,7 +5,6 @@ public class FinishTrigger : MonoBehaviour
 {
     private Coord myCoords;
     private bool myShouldReset = false;
-    [SerializeField]private Canvas myLevelClear = null;
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -17,7 +16,7 @@ public class FinishTrigger : MonoBehaviour
     {
         if (myShouldReset)
         {
-            myLevelClear.GetComponent<LevelSelectScript>().ActivateLevelClear();
+            EventHandler.current.GoalReachedEvent(myCoords);
         }
     }
 
@@ -30,5 +29,10 @@ public class FinishTrigger : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
     }
 }

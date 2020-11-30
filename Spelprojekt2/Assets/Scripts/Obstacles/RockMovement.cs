@@ -3,19 +3,19 @@
 public class RockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
     private Coord myCoords;
 
     private void Start()
     {
-        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         if (transform.position.y <= 0)
         {
             Destroy(gameObject);
@@ -53,31 +53,14 @@ public class RockMovement : MonoBehaviour
     private void Move(Coord aDirection)
     {
         Coord previousCoords = myCoords;
-        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
-        Door[] otherDoors = FindObjectsOfType<Door>();
-        Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        // TODO: Add Lookup map of to check if tile is empty!
-        foreach (var rock in otherRocks)
-        {
-            if ((myCoords + aDirection) == rock.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var door in otherDoors)
-        {
-            if ((myCoords + aDirection) == door.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var wall in otherWalls)
-        {
-            if ((myCoords + aDirection) == wall.GetCoords())
-            {
-                return;
-            }
-        }
+        Coord desiredTile = myCoords + aDirection;
+        if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Door ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Impassable)
+            return;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
@@ -87,6 +70,7 @@ public class RockMovement : MonoBehaviour
             myDesiredPosition += new Vector3(0, -1f, 0);
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+        TileMap.Instance.Set(previousCoords, eTileType.Empty);
     }
 
     public Coord GetCoords()

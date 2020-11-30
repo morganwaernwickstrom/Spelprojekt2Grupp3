@@ -5,6 +5,7 @@ public enum eEventType
 {
     PlayerMove,
     PlayerInteract,
+    PlayerDeath,
     RockMove,
     RockInteract,
     ButtonPressed,
@@ -21,7 +22,8 @@ public class EventHandler : MonoBehaviour
     public event Func<Coord, Coord, bool> onRockInteractEvent;
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
-    public event Func<Coord, bool> onGoalReached;
+    public event Func<Coord, bool> onGoalReachedEvent;
+    public event Action onPlayerDeath;
 
     private void Start()
     {
@@ -66,7 +68,7 @@ public class EventHandler : MonoBehaviour
                 }
                 break;
             case eEventType.GoalReached:
-                onGoalReached += aFunc;
+                onGoalReachedEvent += aFunc;
                 break;
             default:
                 break;
@@ -84,6 +86,26 @@ public class EventHandler : MonoBehaviour
                 onButtonUp += aFunc;
                 break;
             default:
+                break;
+        }
+    }
+
+    public void Subscribe(eEventType aType, Action aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath += aFunc;
+                break;
+        }
+    }
+
+    public void UnSubscribe(eEventType aType, Action aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath -= aFunc;
                 break;
         }
     }
@@ -130,6 +152,9 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent -= aFunc;
                 }
+                break;
+            case eEventType.GoalReached:
+                onGoalReachedEvent -= aFunc;
                 break;
             default:
                 break;
@@ -210,14 +235,25 @@ public class EventHandler : MonoBehaviour
 
     public bool GoalReachedEvent(Coord aGoalCoord)
     {
-        if (onGoalReached != null)
+        if (onGoalReachedEvent != null)
         {
-            foreach (Func<Coord, bool> f in onGoalReached.GetInvocationList())
+            foreach (Func<Coord, bool> f in onGoalReachedEvent.GetInvocationList())
             {
                 if(f(aGoalCoord)) return true;
             }
         }
         Debug.Log("No Canvas?");
         return false;
+    }
+
+    public void PlayerDeathEvent()
+    {
+        if (onPlayerDeath != null)
+        {
+            foreach (Action f in onPlayerDeath.GetInvocationList())
+            {
+                f();
+            }
+        }
     }
 }
