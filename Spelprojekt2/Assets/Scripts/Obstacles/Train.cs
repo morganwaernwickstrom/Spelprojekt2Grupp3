@@ -4,13 +4,8 @@ using UnityEngine;
 
 public class Train : MonoBehaviour
 {
-    [Tooltip("Check one of them: 'GoOnX or GoOnZ', don't check both boxes.")]
-    public bool GoOnX;
-    [Tooltip("Check one of them: 'GoOnX or GoOnZ', don't check both boxes.")]
-    public bool GoOnZ;
 
     private Vector3 myDesiredPosition;
-    private Vector3 myCurrentPosition;
     private float mySpeed = 5f;
     private Coord myCoords;
 
@@ -25,15 +20,12 @@ public class Train : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-
-        myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         // findgameobject rail
         // desired position finns en rail
-
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -62,6 +54,7 @@ public class Train : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        Coord previousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
             TileMap.Instance.Get(desiredTile) == eTileType.Door ||
@@ -77,6 +70,7 @@ public class Train : MonoBehaviour
         {
             myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
             myCoords += aDirection;
+            TileMap.Instance.Set(previousCoords, eTileType.Rail);
         }
     }
 
