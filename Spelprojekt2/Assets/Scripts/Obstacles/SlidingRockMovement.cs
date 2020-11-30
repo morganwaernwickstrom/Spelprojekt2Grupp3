@@ -78,7 +78,7 @@ public class SlidingRockMovement : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Train ||
             TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
-       
+       // Use direction to get the right direction with the GetDistance Function
             if (aDirection.x > 0)
             {
                 aDirection.x = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
