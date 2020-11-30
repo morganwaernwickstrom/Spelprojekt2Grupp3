@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] List<int> myLevelsUnlocked;
 
-    private void Awake()
+    private void Start()
     {
         if(myInstance == null) 
         {

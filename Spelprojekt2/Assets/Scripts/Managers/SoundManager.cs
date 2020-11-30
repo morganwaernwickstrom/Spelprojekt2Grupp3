@@ -17,7 +17,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioSource myEffectsAudioSource;
     [SerializeField] AudioSource myMusicAudioSource;
 
-    private void Awake()
+    private void Start()
     {
         if(myInstance == null) 
         {
