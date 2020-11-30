@@ -25,7 +25,10 @@ public class Laser : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        TileMap.Instance.Set(myCoords, eTileType.Laser);
+        if (TileMap.Instance.Get(myCoords) != eTileType.Hole)
+        {
+            TileMap.Instance.Set(myCoords, eTileType.Laser);
+        }
         if (myCoords == aPlayerCurrentPos) EventHandler.current.PlayerDeathEvent();
         return (aPlayerCurrentPos == myCoords);
     }
