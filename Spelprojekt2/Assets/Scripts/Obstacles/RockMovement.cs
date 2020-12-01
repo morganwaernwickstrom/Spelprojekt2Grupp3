@@ -63,6 +63,7 @@ public class RockMovement : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
             TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
             TileMap.Instance.Get(desiredTile) == eTileType.Train ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Null ||
             TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
 

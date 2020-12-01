@@ -29,7 +29,10 @@ public class Laser : MonoBehaviour
         {
             TileMap.Instance.Set(myCoords, eTileType.Laser);
         }
-        if (myCoords == aPlayerCurrentPos) EventHandler.current.PlayerDeathEvent();
+        if (TileMap.Instance.Get(aPlayerCurrentPos) == eTileType.Laser && aPlayerCurrentPos != aPlayerPreviousPos)
+        {
+            EventHandler.current.PlayerDeathEvent();
+        }
         return (aPlayerCurrentPos == myCoords);
     }
 
