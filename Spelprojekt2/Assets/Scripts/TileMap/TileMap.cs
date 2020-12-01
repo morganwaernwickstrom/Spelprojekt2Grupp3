@@ -340,7 +340,7 @@ public class TileMap : MonoBehaviour
 
         if (isLaser)
         {
-            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
+            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train };
             targets.AddRange(laserTargets);
 
             // --- Check for all tiles in the direction --- //
@@ -383,7 +383,7 @@ public class TileMap : MonoBehaviour
         }
         else
         {
-            eTileType[] slidingTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding };
+            eTileType[] slidingTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train };
             targets.AddRange(slidingTargets);
 
             // --- Check for all tiles in the direction --- //
