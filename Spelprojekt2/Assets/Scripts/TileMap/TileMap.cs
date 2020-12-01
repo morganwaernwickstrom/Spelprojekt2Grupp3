@@ -41,13 +41,18 @@ public class TileMap : MonoBehaviour
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
         UpdateLaser();
-        Set(aPreviousPos, eTileType.Empty);
+        UpdateRail();
+        if (!(Get(aPreviousPos) == eTileType.Rail))
+        {
+            Set(aPreviousPos, eTileType.Empty);
+        }
         return false;
     }
 
     bool OnRockMove(Coord aRockPos)
     {
         UpdateLaser();
+        UpdateRail();
         Set(aRockPos, eTileType.Rock);
         return false;
     }
@@ -67,6 +72,8 @@ public class TileMap : MonoBehaviour
         ReceiverScript[] allReceivers = FindObjectsOfType<ReceiverScript>();
         Laser[] allLasers = FindObjectsOfType<Laser>();
         PlayerMovement[] allPlayer = FindObjectsOfType<PlayerMovement>();
+        Train[] allTrains = FindObjectsOfType<Train>();
+        Rail[] allRails = FindObjectsOfType<Rail>();
 
         for (int row = 0; row < myRows; ++row)
         {
@@ -149,6 +156,18 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Player;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
+
+                foreach (var i in allTrains)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Train;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
+                foreach (var i in allRails)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
             }
         }
     }
@@ -175,6 +194,19 @@ public class TileMap : MonoBehaviour
         foreach (var i in allHoles)
         {
             Set(i.GetCoords(), eTileType.Hole);
+        }
+    }
+
+    private void UpdateRail()
+    {
+        Rail[] allRails = FindObjectsOfType<Rail>();
+        
+        foreach (var i in allRails)
+        {
+            if (myTileMap[i.GetCoords().x, i.GetCoords().y].type == eTileType.Empty)
+            {
+                myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
+            }
         }
     }
 
@@ -220,6 +252,13 @@ public class TileMap : MonoBehaviour
 
                 else if (myTileMap[j, i].type == eTileType.Laser)
                     map += " L ";
+
+                else if (myTileMap[j, i].type == eTileType.Rail)
+                    map += " ra ";
+
+                else if (myTileMap[j, i].type == eTileType.Train)
+                    map += " Tr ";
+
                 else
                     map += " # ";
             }
@@ -269,6 +308,7 @@ public class TileMap : MonoBehaviour
             //Debug.LogError("Can't set a Tile that's out of bounds.");
             return;
         }
+        
         myTileMap[aCoord.x, aCoord.y].type = aType;
     }
 
