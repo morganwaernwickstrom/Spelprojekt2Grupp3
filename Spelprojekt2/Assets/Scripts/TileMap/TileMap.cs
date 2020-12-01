@@ -157,17 +157,18 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
+                foreach (var i in allRails)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
+
                 foreach (var i in allTrains)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Train;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
-                foreach (var i in allRails)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
             }
         }
     }
