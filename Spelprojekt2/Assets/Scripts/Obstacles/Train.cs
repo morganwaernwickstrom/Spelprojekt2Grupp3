@@ -72,6 +72,7 @@ public class Train : MonoBehaviour
             myCoords += aDirection;
             TileMap.Instance.Set(previousCoords, eTileType.Rail);
         }
+        EventHandler.current.RockMoveEvent(myCoords);
     }
 
     public Coord GetCoords()

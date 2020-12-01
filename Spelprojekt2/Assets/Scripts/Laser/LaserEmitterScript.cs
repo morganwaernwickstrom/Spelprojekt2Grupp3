@@ -112,7 +112,7 @@ public class LaserEmitterScript : MonoBehaviour
     {
         UpdateLaser();
         DrawLaser();
-        return false;
+        return (aPlayerCurrentPos == myCoords);
     }
 
     private bool OnRockMove(Coord aRockPos)
@@ -123,7 +123,7 @@ public class LaserEmitterScript : MonoBehaviour
             DrawLaser();
         }
         UpdateLaser();
-        return false;
+        return (aRockPos == myCoords);
     }
     public Coord GetCoords()
     {

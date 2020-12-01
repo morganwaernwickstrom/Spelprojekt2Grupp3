@@ -8,17 +8,20 @@ public class PauseMenu : MonoBehaviour
 {
 
     [SerializeField] GameObject myPauseMenu;
+    [SerializeField] GameObject myPauseButton;
+
 
     [SerializeField] Slider myMusicSlider;
     [SerializeField] Slider myFxSlider;
+    
 
     bool myGamePaused = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        myMusicSlider.value = SoundManager.myInstance.GetCurrentMusicVolume();
-        myFxSlider.value = SoundManager.myInstance.GetCurrentEffectsVolume();
+        //myMusicSlider.value = SoundManager.myInstance.GetCurrentMusicVolume();
+        //myFxSlider.value = SoundManager.myInstance.GetCurrentEffectsVolume();
     }
 
     // Update is called once per frame
@@ -27,16 +30,18 @@ public class PauseMenu : MonoBehaviour
         if (myGamePaused) 
         {
             myPauseMenu.SetActive(true);
+            myPauseButton.SetActive(false);
             Time.timeScale = 0;
         }
         else 
         {
             myPauseMenu.SetActive(false);
+            myPauseButton.SetActive(true);
             Time.timeScale = 1;
         }
 
-        SoundManager.myInstance.SetEffectsVolume(myFxSlider.value);
-        SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
+        //SoundManager.myInstance.SetEffectsVolume(myFxSlider.value);
+        //SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
 
         SetPauseState();
     }
