@@ -66,6 +66,7 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         Coord previousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
@@ -78,23 +79,31 @@ public class SlidingRockMovement : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Train ||
             TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
-       // Use direction to get the right direction with the GetDistance Function
-            if (aDirection.x > 0)
-            {
-                aDirection.x = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
-            }
-            if (aDirection.x < 0)
-            {
-                aDirection.x = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
-            }
-            if (aDirection.y > 0)
-            {
-                aDirection.y = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
-            }
-            if (aDirection.y < 0)
-            {
-                aDirection.y = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
-            }
+        // Use direction to get the right direction with the GetDistance Function
+        if (aDirection.x > 0)
+        {
+            aDirection.x = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            myRotation = Quaternion.Euler(0, 90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        if (aDirection.x < 0)
+        {
+            aDirection.x = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            myRotation = Quaternion.Euler(0, -90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        if (aDirection.y > 0)
+        {
+            aDirection.y = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            myRotation = Quaternion.Euler(0, 0, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        if (aDirection.y < 0)
+        {
+            aDirection.y = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            myRotation = Quaternion.Euler(0, 180, 0);
+            gameObject.transform.rotation = myRotation;
+        }
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
