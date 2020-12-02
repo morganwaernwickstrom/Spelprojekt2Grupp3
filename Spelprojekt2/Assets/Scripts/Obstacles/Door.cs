@@ -33,10 +33,9 @@ public class Door : MonoBehaviour
 
     private bool OnButtonPressed()
     {
-        Debug.Log("apapapapap");
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
-        myDesiredPosition += new Vector3(0, -1f, 0);
+        myDesiredPosition += new Vector3(0, -0.5f, 0);
         myIsOpened = true;
         return true;
     }
