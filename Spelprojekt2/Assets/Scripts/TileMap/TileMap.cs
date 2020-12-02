@@ -208,6 +208,10 @@ public class TileMap : MonoBehaviour
             {
                 myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
             }
+            if (myTileMap[i.GetCoords().x, i.GetCoords().y].type == eTileType.Laser)
+            {
+                myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;
+            }
         }
     }
 
