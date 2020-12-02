@@ -8,14 +8,14 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager myInstance { get; private set; }
 
-    [SerializeField] AudioClip[] myMusicClips;
-    [SerializeField] AudioClip myDefaultMusicClip;
-    [SerializeField] AudioClip myRockSound;
+    [SerializeField] AudioClip[] myMusicClips = null;
+    [SerializeField] AudioClip myDefaultMusicClip = null;
+    [SerializeField] AudioClip myRockSound = null;
     [SerializeField] AudioClip mySlidingSound;
-    [SerializeField] AudioClip myLaserSound;
+    [SerializeField] AudioClip myLaserSound = null;
 
-    [SerializeField] AudioSource myEffectsAudioSource;
-    [SerializeField] AudioSource myMusicAudioSource;
+    [SerializeField] AudioSource myEffectsAudioSource = null;
+    [SerializeField] AudioSource myMusicAudioSource = null;
 
     private void Start()
     {
