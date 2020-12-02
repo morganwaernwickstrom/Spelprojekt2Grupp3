@@ -62,12 +62,6 @@ public class ReflectorScript : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
-    private void OnEnable()
-    {
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-    }
-
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
