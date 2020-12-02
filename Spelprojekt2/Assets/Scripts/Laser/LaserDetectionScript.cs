@@ -3,7 +3,7 @@
 public class LaserDetectionScript : MonoBehaviour
 {
     public bool myIsHit = false;
-    private Collider myIncomingLaserCollider;
+    [SerializeField] private Collider myIncomingLaserCollider;
     [SerializeField] private LaserDetectionScript myOtherSide;
 
     private void OnTriggerEnter(Collider anOther)
@@ -23,6 +23,7 @@ public class LaserDetectionScript : MonoBehaviour
 
     private void OnTriggerStay(Collider anOther)
     {
+
         myIncomingLaserCollider = null;
 
         // --- Make only one side be the "hit" side, ie. the side hit by the laser --- //
@@ -41,6 +42,7 @@ public class LaserDetectionScript : MonoBehaviour
     {
         if (myIsHit && myIncomingLaserCollider == null)
         {
+            Debug.Log("EXITED");
             myIsHit = false;
         }
     }
