@@ -358,12 +358,11 @@ public class TileMap : MonoBehaviour
                 {
                     int x = Mathf.Clamp(current.x, 0, 6);
                     int y = Mathf.Clamp(current.y, 0, 9);
-                    // --- Should look outside of the bounds of the map
 
                     if (x == 6 || x == 0 || y == 9 || y == 0)
                     {
                         hasFound = true;
-                        ++distance;
+                        //++distance;
                         break;
                     }
 

@@ -10,6 +10,9 @@ public class ReflectorScript : MonoBehaviour
         Right
     }
 
+    public GameObject myLaserObject1;
+    public GameObject myLaserObject2;
+
     // --- Laser Object pool --- //
     public GameObject myLaser;
     private List<GameObject> myLaserPool;
@@ -34,7 +37,7 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private LaserDetectionScript myRightDetectionBox = null;
 
     // --- Is the reflector hit by laser as well as which direction it should take --- //
-    private bool myIsHit = false;
+    public bool myIsHit = false;
     private Direction myDirection = Direction.Null;
 
     // Coordinates to use for collision checking
@@ -45,6 +48,9 @@ public class ReflectorScript : MonoBehaviour
 
     void Start()
     {
+        myLaserObject1.SetActive(false);
+        myLaserObject2.SetActive(false);
+
         myLaserPool = new List<GameObject>();
 
         for (int i = 0; i < myAmountOfLasers; ++i)
@@ -105,12 +111,18 @@ public class ReflectorScript : MonoBehaviour
             {
                 DrawLaser();
             }
+
+            myLaserObject1.SetActive(true);
+            myLaserObject2.SetActive(true);
         }
         else
         {
             CheckDistance();
             myDirection = Direction.Null;
             ClearLaser();
+
+            myLaserObject1.SetActive(false);
+            myLaserObject2.SetActive(false);
         }
     }
 
