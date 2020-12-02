@@ -19,10 +19,6 @@ public class ReflectorScript : MonoBehaviour
     private float myPreviousLaserDistance = 0;
     private float myLaserDistance = 0;
 
-    // --- Transforms used to determine where raycasts should originate from --- //
-    [SerializeField] private Transform myRaycastOriginLeft = null;
-    [SerializeField] private Transform myRaycastOriginRight = null;
-
     // --- Origin points for lasers --- //
     [SerializeField] private Transform myOrigin = null;            // The moving origin point from which lasers instantiate. Both myOrigin and myFirstOrigin depend on myLeftOrigin & myRighOrigin
     [SerializeField] private Transform myFirstOrigin = null;       // Is at the same position as myOrigin at the first laser object, used to see where laser should start at Re-draw

@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class LaserEmitterScript : MonoBehaviour
 {
-    // --- Origin points for raycast and laser objects --- //
-    [SerializeField] private Transform myRaycastOrigin = null;
+    // --- Origin points for laser objects --- //
     [SerializeField] private Transform myOrigin = null;
     [SerializeField] private Transform myFirstOrigin = null;
 
