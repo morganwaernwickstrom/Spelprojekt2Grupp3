@@ -42,6 +42,7 @@ public class ReflectorScript : MonoBehaviour
 
     // Coordinates to use for collision checking
     private Coord myCoords;
+    private Coord myPreviousCoords;
 
     private Vector3 myDesiredPosition;
     private float mySpeed = 1f;
@@ -64,6 +65,7 @@ public class ReflectorScript : MonoBehaviour
 
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        myPreviousCoords = myCoords;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
@@ -107,9 +109,17 @@ public class ReflectorScript : MonoBehaviour
 
             CheckDistance();
 
-            if (myPreviousLaserDistance != myLaserDistance)     // Only draw laser if the distance has changed
+            // Only draw laser (once) if the distance or position has changed
+            if (myPreviousLaserDistance != myLaserDistance || myPreviousCoords != myCoords)
             {
-                DrawLaser();
+                if (transform.position == myDesiredPosition)
+                {
+                    //Debug.Log("Pre X: " + myPreviousCoords.x + " Pre Y: " + myPreviousCoords.y);
+                    //Debug.Log("Cur X: " + myCoords.x + " Cur Y: " + myCoords.y);
+                    DrawLaser();
+                    myPreviousCoords = myCoords;
+                }
+
             }
 
             myLaserObject1.SetActive(true);
@@ -257,6 +267,7 @@ public class ReflectorScript : MonoBehaviour
     {
         ClearLaser();
         Coord previousCoords = myCoords;
+        myPreviousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
             TileMap.Instance.Get(desiredTile) == eTileType.Door ||

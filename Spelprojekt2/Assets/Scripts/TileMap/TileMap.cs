@@ -31,7 +31,7 @@ public class TileMap : MonoBehaviour
         if (!myHasUpdate)
         {
             SetAllTiles();
-            UpdateLaser();
+            //UpdateLaser();
             myHasUpdate = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -40,8 +40,11 @@ public class TileMap : MonoBehaviour
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        UpdateLaser();
-        UpdateRail();
+        //UpdateLaser();
+        //UpdateRail();
+        
+        SetAllTiles();
+
         if (!(Get(aPreviousPos) == eTileType.Rail))
         {
             Set(aPreviousPos, eTileType.Empty);
@@ -51,8 +54,11 @@ public class TileMap : MonoBehaviour
 
     bool OnRockMove(Coord aRockPos)
     {
-        UpdateLaser();
-        UpdateRail();
+        //UpdateLaser();
+        //UpdateRail();
+        
+        SetAllTiles();
+
         Set(aRockPos, eTileType.Rock);
         return false;
     }
@@ -99,8 +105,14 @@ public class TileMap : MonoBehaviour
 
                 foreach (var i in allLasers)
                 {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                    int x = Mathf.Clamp(i.GetCoords().x, 0, 6);
+                    int y = Mathf.Clamp(i.GetCoords().y, 0, 9);
+
+                    //myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
+                    //myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+
+                    myTileMap[x, y ].type = eTileType.Laser;
+                    myTileMap[x, y].coord = i.GetCoords();
                 }
 
                 foreach (var i in allRocks)
@@ -189,7 +201,10 @@ public class TileMap : MonoBehaviour
 
         foreach (var i in allLasers)
         {
-            Set(i.GetCoords(), eTileType.Laser);
+            if (Get(i.GetCoords()) != eTileType.Reflector)
+            {
+                Set(i.GetCoords(), eTileType.Laser);
+            }
         }
 
         foreach (var i in allHoles)
@@ -342,32 +357,28 @@ public class TileMap : MonoBehaviour
             maxRange = 9;
         }
 
-
         if (isLaser)
         {
-            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train };
+            eTileType[] laserTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train, eTileType.Null };
             targets.AddRange(laserTargets);
 
             // --- Check for all tiles in the direction --- //
             for (int i = 0; i < maxRange; ++i)
             {
                 current += aDirection;
-                //Set(current, eTileType.Empty);
 
                 foreach (eTileType target in targets)
                 {
+                    if (current.x > 6 || current.y > 9 || current.x < 0 || current.y < 0)
+                    {
+                        hasFound = true;
+                    }
+
                     int x = Mathf.Clamp(current.x, 0, 6);
                     int y = Mathf.Clamp(current.y, 0, 9);
 
-                    if (x == 6 || x == 0 || y == 9 || y == 0)
-                    {
-                        hasFound = true;
-                        //++distance;
-                        break;
-                    }
-
                     // --- If a tile that will stop the laser has been found, break the loop and continue to return distance --- //
-                    else if (myTileMap[x, y].type == target)
+                    if (Get(new Coord(x, y)) == target)
                     {
                         hasFound = true;
                         break;

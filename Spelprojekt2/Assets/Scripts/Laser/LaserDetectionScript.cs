@@ -13,23 +13,7 @@ public class LaserDetectionScript : MonoBehaviour
         // --- Make only one side be the "hit" side, ie. the side hit by the laser --- //
         if (!myOtherSide.myIsHit)
         {
-            if (anOther.CompareTag("Laser"))
-            {
-                myIsHit = true;
-                myIncomingLaserCollider = anOther;
-            }
-        }
-    }
-
-    private void OnTriggerStay(Collider anOther)
-    {
-
-        myIncomingLaserCollider = null;
-
-        // --- Make only one side be the "hit" side, ie. the side hit by the laser --- //
-        if (!myOtherSide.myIsHit)
-        {
-            if (anOther.CompareTag("Laser"))
+            if (anOther.CompareTag("Laser") || anOther.CompareTag("Emitter"))
             {
                 myIsHit = true;
                 myIncomingLaserCollider = anOther;
@@ -42,7 +26,6 @@ public class LaserDetectionScript : MonoBehaviour
     {
         if (myIsHit && myIncomingLaserCollider == null)
         {
-            Debug.Log("EXITED");
             myIsHit = false;
         }
     }

@@ -13,7 +13,7 @@ public class LaserEmitterScript : MonoBehaviour
     // --- Laser Object pool --- //
     public GameObject myLaser;
     private List<GameObject> myLaserPool = null;
-    private int myAmountOfLasers = 20;
+    private int myAmountOfLasers = 10;
 
     // --- Distances to draw laser with --- //
     [SerializeField] float myPreviousLaserDistance = 0;
