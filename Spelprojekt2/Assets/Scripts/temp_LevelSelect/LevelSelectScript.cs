@@ -26,12 +26,14 @@ public class LevelSelectScript : MonoBehaviour
         }
         else
         {
-            //Load Credits
+            //Hoping this is the credits scene!
+            SceneManager.LoadScene(sceneBuildIndex: SceneManager.sceneCountInBuildSettings - 1);
         }
     }
     public void LevelSelect()
     {
-        //Load the scene the Level Select is on
+        //Hoping this is the credits scene!
+        SceneManager.LoadScene(sceneBuildIndex: 1);
     }
 
     private void OnDestroy()
