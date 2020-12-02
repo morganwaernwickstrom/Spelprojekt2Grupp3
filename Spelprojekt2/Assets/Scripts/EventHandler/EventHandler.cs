@@ -27,12 +27,12 @@ public class EventHandler : MonoBehaviour
 
     private void Start()
     {
-        if (current == null) current = this;
+        current = this;
     }
 
     private void OnEnable()
     {
-        if (current == null) current = this;
+        current = this;
     }
 
     public void Subscribe(eEventType aType, Func<Coord, Coord, bool> aFunc)

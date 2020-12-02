@@ -241,7 +241,6 @@ public class ReflectorScript : MonoBehaviour
     {
         if (TileMap.Instance.Get(aRockPos) == eTileType.Laser || TileMap.Instance.Get(aRockPos) == eTileType.Hole)
         {
-            //DrawLaser();
             UpdateLaser();
         }
         UpdateLaser();
