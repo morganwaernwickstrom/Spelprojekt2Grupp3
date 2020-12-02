@@ -8,6 +8,23 @@ public class LaserDetectionScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider anOther)
     {
+        myIncomingLaserCollider = null;
+
+        // --- Make only one side be the "hit" side, ie. the side hit by the laser --- //
+        if (!myOtherSide.myIsHit)
+        {
+            if (anOther.CompareTag("Laser"))
+            {
+                myIsHit = true;
+                myIncomingLaserCollider = anOther;
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider anOther)
+    {
+        myIncomingLaserCollider = null;
+
         // --- Make only one side be the "hit" side, ie. the side hit by the laser --- //
         if (!myOtherSide.myIsHit)
         {
@@ -22,7 +39,7 @@ public class LaserDetectionScript : MonoBehaviour
     // --- OnTriggerExit doesn't work so this substitutes it --- //
     public void CheckIfExited()
     {
-        if (myIsHit && !myIncomingLaserCollider.gameObject.activeInHierarchy)
+        if (myIsHit && myIncomingLaserCollider == null)
         {
             myIsHit = false;
         }

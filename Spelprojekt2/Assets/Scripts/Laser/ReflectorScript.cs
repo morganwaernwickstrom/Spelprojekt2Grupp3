@@ -38,14 +38,14 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private LaserDetectionScript myRightDetectionBox = null;
 
     // --- Is the reflector hit by laser as well as which direction it should take --- //
-    [SerializeField] private bool myIsHit;
+    private bool myIsHit = false;
     private Direction myDirection = Direction.Null;
 
     // Coordinates to use for collision checking
     private Coord myCoords;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 1f;
 
     void Start()
     {
@@ -59,7 +59,6 @@ public class ReflectorScript : MonoBehaviour
         }
 
         UpdateLaser();
-        DrawLaser();
 
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -246,8 +245,8 @@ public class ReflectorScript : MonoBehaviour
     {
         if (TileMap.Instance.Get(aRockPos) == eTileType.Laser || TileMap.Instance.Get(aRockPos) == eTileType.Hole)
         {
+            //DrawLaser();
             UpdateLaser();
-            DrawLaser();
         }
         UpdateLaser();
         return false;
@@ -255,6 +254,7 @@ public class ReflectorScript : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        ClearLaser();
         Coord previousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
