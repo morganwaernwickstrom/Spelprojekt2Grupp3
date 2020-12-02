@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PauseMenu : MonoBehaviour
 {
 
-    [SerializeField] GameObject myPauseMenu;
+    [SerializeField] GameObject myPauseMenu = null;
     [SerializeField] GameObject myPauseButton;
 
 

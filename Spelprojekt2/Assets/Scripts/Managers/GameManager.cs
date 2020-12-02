@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager myInstance { get; private set; }
 
-    [SerializeField] List<int> myLevelsUnlocked;
+    [SerializeField] List<int> myLevelsUnlocked = null;
 
     private void Start()
     {

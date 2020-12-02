@@ -4,12 +4,12 @@ using UnityEngine;
 public class LaserEmitterScript : MonoBehaviour
 {
     // --- Origin points for raycast and laser objects --- //
-    [SerializeField] private Transform myRaycastOrigin;
-    [SerializeField] private Transform myOrigin;
-    [SerializeField] private Transform myFirstOrigin;
+    [SerializeField] private Transform myRaycastOrigin = null;
+    [SerializeField] private Transform myOrigin = null;
+    [SerializeField] private Transform myFirstOrigin = null;
 
     // --- Laser Rotation after the way emitter points --- //
-    [SerializeField] private Transform myLaserRotation;
+    [SerializeField] private Transform myLaserRotation = null;
 
     // --- Laser Object pool --- //
     public GameObject myLaser;
