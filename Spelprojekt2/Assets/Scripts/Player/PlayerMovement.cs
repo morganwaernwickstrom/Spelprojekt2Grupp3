@@ -188,6 +188,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Push()
+    {
+        myAnimator.SetTrigger("Push");
+    }
+
     //Movement using WASD 
     private void WasdMovement()
     {
