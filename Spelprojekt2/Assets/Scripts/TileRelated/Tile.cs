@@ -149,7 +149,8 @@ public class Tile : MonoBehaviour
 
     public void PlacePlayer()
     {
-        float playerSize = myPlayer.transform.Find("Blockout").GetComponent<Renderer>().bounds.size.y;
+        //float playerSize = myPlayer.transform.Find("body_geo").GetComponent<MeshRenderer>().bounds.size.y;
+        float playerSize = 0f;
         float tileSize = GetComponent<Renderer>().bounds.size.y;
 
         float tileTop = transform.position.y + tileSize / 2;
