@@ -256,7 +256,7 @@ public class PlayerMovement : MonoBehaviour
                     if (CanAddCommand())
                         AddCommand("up");
                 }
-                
+
                 startTouch = swipeDelta = Vector2.zero;
             }
         }
@@ -406,8 +406,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
+            Push();
             myDesiredPosition = transform.position;
             myCoords = myOriginalCoord;
+            
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
