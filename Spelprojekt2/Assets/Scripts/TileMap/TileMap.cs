@@ -31,19 +31,20 @@ public class TileMap : MonoBehaviour
         if (!myHasUpdate)
         {
             SetAllTiles();
-            //UpdateLaser();
+            UpdateLaser();
             myHasUpdate = true;
         }
+        UpdateLaser();
         if (Input.GetKeyDown(KeyCode.Space))
             DebugTiles();
     }
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        //UpdateLaser();
-        //UpdateRail();
+        UpdateLaser();
+        UpdateRail();
         
-        SetAllTiles();
+        //SetAllTiles();
 
         if (!(Get(aPreviousPos) == eTileType.Rail))
         {
@@ -54,10 +55,10 @@ public class TileMap : MonoBehaviour
 
     bool OnRockMove(Coord aRockPos)
     {
-        //UpdateLaser();
-        //UpdateRail();
+        UpdateLaser();
+        UpdateRail();
         
-        SetAllTiles();
+        //SetAllTiles();
 
         Set(aRockPos, eTileType.Rock);
         return false;
@@ -108,11 +109,8 @@ public class TileMap : MonoBehaviour
                     int x = Mathf.Clamp(i.GetCoords().x, 0, 6);
                     int y = Mathf.Clamp(i.GetCoords().y, 0, 9);
 
-                    //myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
-                    //myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-
-                    myTileMap[x, y ].type = eTileType.Laser;
-                    myTileMap[x, y].coord = i.GetCoords();
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
                 foreach (var i in allRocks)
@@ -216,7 +214,16 @@ public class TileMap : MonoBehaviour
     private void UpdateRail()
     {
         Rail[] allRails = FindObjectsOfType<Rail>();
-        
+
+        for (int row = 0; row < myRows; ++row)
+        {
+            for (int column = 0; column < myColumns; ++column)
+            {
+                Coord coord = new Coord(column, row);
+                if (Get(coord) == eTileType.Rail) Set(coord, eTileType.Empty);
+            }
+        }
+
         foreach (var i in allRails)
         {
             if (myTileMap[i.GetCoords().x, i.GetCoords().y].type == eTileType.Empty)

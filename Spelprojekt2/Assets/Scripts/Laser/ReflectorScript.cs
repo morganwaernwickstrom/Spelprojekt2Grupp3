@@ -72,22 +72,17 @@ public class ReflectorScript : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position != myDesiredPosition)
-        {
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        myLeftDetectionBox.CheckIfExited();
-        myRightDetectionBox.CheckIfExited();
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        UpdateLaser();
     }
 
     private void UpdateLaser()
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
+
+        myLeftDetectionBox.CheckIfExited();
+        myRightDetectionBox.CheckIfExited();
 
         myIsHit = (leftHit || rightHit);
 
