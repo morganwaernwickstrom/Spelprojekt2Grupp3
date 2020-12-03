@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -170,15 +169,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
-
                     if (CanAddCommand())
                         AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
-
                     if (CanAddCommand())
                         AddCommand("right");
                 }
@@ -187,8 +182,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
-
                     if (CanAddCommand())
                         AddCommand("down");
                 }
@@ -242,13 +235,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
                     if (CanAddCommand())
                         AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
                     if (CanAddCommand())
                         AddCommand("right");
                 }
@@ -257,16 +248,15 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
                     if (CanAddCommand())
                         AddCommand("down");
                 }
                 else
                 {
-                    swipeUp = true;
                     if (CanAddCommand())
                         AddCommand("up");
                 }
+                
                 startTouch = swipeDelta = Vector2.zero;
             }
         }
