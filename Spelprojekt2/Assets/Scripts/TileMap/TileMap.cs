@@ -31,7 +31,7 @@ public class TileMap : MonoBehaviour
         if (!myHasUpdate)
         {
             SetAllTiles();
-            //UpdateLaser();
+            UpdateLaser();
             myHasUpdate = true;
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -40,8 +40,8 @@ public class TileMap : MonoBehaviour
 
     bool OnPlayerMove(Coord aPlayerPos, Coord aPreviousPos)
     {
-        //UpdateLaser();
-        //UpdateRail();
+        UpdateLaser();
+        UpdateRail();
         
         SetAllTiles();
 
@@ -54,8 +54,8 @@ public class TileMap : MonoBehaviour
 
     bool OnRockMove(Coord aRockPos)
     {
-        //UpdateLaser();
-        //UpdateRail();
+        UpdateLaser();
+        UpdateRail();
         
         SetAllTiles();
 
@@ -216,7 +216,16 @@ public class TileMap : MonoBehaviour
     private void UpdateRail()
     {
         Rail[] allRails = FindObjectsOfType<Rail>();
-        
+
+        for (int row = 0; row < myRows; ++row)
+        {
+            for (int column = 0; column < myColumns; ++column)
+            {
+                Coord coord = new Coord(column, row);
+                if (Get(coord) == eTileType.Rail) Set(coord, eTileType.Empty);
+            }
+        }
+
         foreach (var i in allRails)
         {
             if (myTileMap[i.GetCoords().x, i.GetCoords().y].type == eTileType.Empty)
