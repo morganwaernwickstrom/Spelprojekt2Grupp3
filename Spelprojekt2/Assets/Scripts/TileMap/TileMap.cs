@@ -43,7 +43,7 @@ public class TileMap : MonoBehaviour
         UpdateLaser();
         UpdateRail();
         
-        SetAllTiles();
+        //SetAllTiles();
 
         if (!(Get(aPreviousPos) == eTileType.Rail))
         {
@@ -57,7 +57,7 @@ public class TileMap : MonoBehaviour
         UpdateLaser();
         UpdateRail();
         
-        SetAllTiles();
+        //SetAllTiles();
 
         Set(aRockPos, eTileType.Rock);
         return false;
@@ -108,11 +108,8 @@ public class TileMap : MonoBehaviour
                     int x = Mathf.Clamp(i.GetCoords().x, 0, 6);
                     int y = Mathf.Clamp(i.GetCoords().y, 0, 9);
 
-                    //myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
-                    //myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-
-                    myTileMap[x, y ].type = eTileType.Laser;
-                    myTileMap[x, y].coord = i.GetCoords();
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
                 foreach (var i in allRocks)
