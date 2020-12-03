@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -121,6 +120,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private bool CanAddCommand()
+    {
+        if(myCommandQueue.Count == 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void HandleCommandQueue()
     {
         if (myCommandQueue.Count != 0)
@@ -160,26 +169,26 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
-                    AddCommand("left");
+                    if (CanAddCommand())
+                        AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
-                    AddCommand("right");
+                    if (CanAddCommand())
+                        AddCommand("right");
                 }
             }
             else
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
-                    AddCommand("down");
+                    if (CanAddCommand())
+                        AddCommand("down");
                 }
                 else
                 {
-                    swipeUp = true;
-                    AddCommand("up");
+                    if (CanAddCommand())
+                        AddCommand("up");
                 }
             }
             startTouch = swipeDelta = Vector2.zero;
@@ -226,27 +235,28 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
-                    AddCommand("left");
+                    if (CanAddCommand())
+                        AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
-                    AddCommand("right");
+                    if (CanAddCommand())
+                        AddCommand("right");
                 }
             }
             else
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
-                    AddCommand("down");
+                    if (CanAddCommand())
+                        AddCommand("down");
                 }
                 else
                 {
-                    swipeUp = true;
-                    AddCommand("up");
+                    if (CanAddCommand())
+                        AddCommand("up");
                 }
+                
                 startTouch = swipeDelta = Vector2.zero;
             }
         }
@@ -409,22 +419,26 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W)) 
         {
-            AddCommand("up");
+            if (CanAddCommand())
+                AddCommand("up");
         }
 
         if (Input.GetKeyDown(KeyCode.S)) 
         {
-            AddCommand("down");
+            if (CanAddCommand())
+                AddCommand("down");
         }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            AddCommand("left");
+            if (CanAddCommand())
+                AddCommand("left");
         }
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-            AddCommand("right");
+            if (CanAddCommand())
+                AddCommand("right");
         }
     }
 
