@@ -45,7 +45,7 @@ public class ReflectorScript : MonoBehaviour
     private Coord myPreviousCoords;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 1f;
+    private float mySpeed = 0.2f;
 
     void Start()
     {
