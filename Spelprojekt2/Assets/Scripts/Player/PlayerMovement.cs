@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Misc
     private Animator myAnimator;
+    private Queue myCommandQueue = new Queue();
     #endregion
 
     #region public variables
@@ -77,9 +78,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 SwipeDelta { get { return swipeDelta; } }
 
     #endregion
-
-    //Rework stuff
-    Queue myCommandQueue = new Queue();
 
     private void Start()
     {
@@ -278,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
                     MoveDown();
                     break;
             }
+
             myCommandQueue.Dequeue();
         }
     }
