@@ -140,7 +140,7 @@ public class Tile : MonoBehaviour
         float tileSize = GetComponent<Renderer>().bounds.size.y;
 
         float tileTop = transform.position.y + tileSize / 2;
-        Vector3 newPosition = new Vector3(transform.position.x, tileTop + doorSize / 2, transform.position.z);
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop/* + doorSize / 2*/, transform.position.z);
 
         myCurrent = Instantiate(myDoor, newPosition, transform.rotation);
         //myType = eTileType.Door;

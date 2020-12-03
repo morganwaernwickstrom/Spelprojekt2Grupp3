@@ -3,6 +3,7 @@
 public class Door : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
+    private Vector3 myOriginalPosition;
     private float mySpeed = 10f;
     private Coord myCoords;
     private bool myIsOpened = false;
@@ -12,6 +13,7 @@ public class Door : MonoBehaviour
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
+        myOriginalPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.ButtonPressed, OnButtonPressed);
         EventHandler.current.Subscribe(eEventType.ButtonUp, OnButtonUp);
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -35,7 +37,8 @@ public class Door : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
-        myDesiredPosition += new Vector3(0, -0.5f, 0);
+        myDesiredPosition += new Vector3(0, -2.0f, 0);
+               
         myIsOpened = true;
         return true;
     }
@@ -45,10 +48,9 @@ public class Door : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
 
-
         if (myShouldClose)
         {
-            myDesiredPosition += new Vector3(0, 1f, 0);
+            myDesiredPosition = myOriginalPosition;
             myIsOpened = false;
         }
         return true;
