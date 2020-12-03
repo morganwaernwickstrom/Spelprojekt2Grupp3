@@ -6,25 +6,12 @@ using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-
     [SerializeField] GameObject myPauseMenu = null;
-    [SerializeField] GameObject myPauseButton;
-
-
-    [SerializeField] Slider myMusicSlider;
-    [SerializeField] Slider myFxSlider;
-    
+    [SerializeField] GameObject myPauseButton = null;
+    [SerializeField] GameObject myOptionsMenu = null;
 
     bool myGamePaused = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //myMusicSlider.value = SoundManager.myInstance.GetCurrentMusicVolume();
-        //myFxSlider.value = SoundManager.myInstance.GetCurrentEffectsVolume();
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (myGamePaused) 
@@ -39,9 +26,6 @@ public class PauseMenu : MonoBehaviour
             myPauseButton.SetActive(true);
             Time.timeScale = 1;
         }
-
-        //SoundManager.myInstance.SetEffectsVolume(myFxSlider.value);
-        //SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
 
         SetPauseState();
     }
@@ -72,7 +56,17 @@ public class PauseMenu : MonoBehaviour
     public void ChangePauseState() 
     {
         myGamePaused = !myGamePaused;
+        myOptionsMenu.SetActive(false);
     }
 
+    public void Options()
+    {
+        myOptionsMenu.SetActive(true);
+    }
+
+    public void BackFromOptions()
+    {
+        myOptionsMenu.SetActive(false);
+    }
 
 }

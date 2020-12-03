@@ -46,26 +46,26 @@ public class SceneChange : MonoBehaviour
     // --- Level Select Buttons --- //
     public void LevelOne()
     {
-        SceneManager.LoadScene("Paul_Level1");
+        SceneManager.LoadScene("Level 1");
     }
     public void LevelTwo()
     {
-        SceneManager.LoadScene("Paul_Level2");
+        SceneManager.LoadScene("Level 2");
     }
     public void LevelThree()
     {
-        SceneManager.LoadScene("Bana_3");
+        SceneManager.LoadScene("Level 3");
     }
     public void LevelFour()
     {
-        SceneManager.LoadScene("Bana_4");
+        SceneManager.LoadScene("Level 4");
     }
     public void LevelFive()
     {
-        SceneManager.LoadScene("Bana_5");
+        SceneManager.LoadScene("Level 5");
     }
     public void LevelSix()
     {
-        SceneManager.LoadScene("Bana_6");
+        SceneManager.LoadScene("Level 6");
     }
 }
