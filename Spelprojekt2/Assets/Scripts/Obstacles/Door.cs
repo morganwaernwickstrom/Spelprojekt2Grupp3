@@ -38,7 +38,7 @@ public class Door : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
         myDesiredPosition = new Vector3(transform.position.x, -2.0f, transform.position.z);
-               
+        TileMap.Instance.Set(myCoords, eTileType.Empty);
         myIsOpened = true;
         return true;
     }
@@ -47,7 +47,7 @@ public class Door : MonoBehaviour
     {
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-
+        TileMap.Instance.Set(myCoords, eTileType.Door);
         if (myShouldClose)
         {
             myDesiredPosition = myOriginalPosition;
