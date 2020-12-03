@@ -40,6 +40,11 @@ public class LaserEmitterScript : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
+    private void Update()
+    {
+        UpdateLaser();
+    }
+
     private void OnEnable()
     {
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);

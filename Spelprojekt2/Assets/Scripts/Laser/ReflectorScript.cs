@@ -73,6 +73,7 @@ public class ReflectorScript : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        UpdateLaser();
     }
 
     private void UpdateLaser()
