@@ -37,7 +37,7 @@ public class Door : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
-        myDesiredPosition += new Vector3(0, -2.0f, 0);
+        myDesiredPosition = new Vector3(transform.position.x, -2.0f, transform.position.z);
                
         myIsOpened = true;
         return true;
