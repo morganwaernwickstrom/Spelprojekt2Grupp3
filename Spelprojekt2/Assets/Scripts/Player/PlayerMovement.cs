@@ -399,6 +399,7 @@ public class PlayerMovement : MonoBehaviour
             myDesiredPosition = transform.position;
             myCoords = myOriginalCoord;
         }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
         TileMap.Instance.Set(myCoords, eTileType.Player);
         myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
