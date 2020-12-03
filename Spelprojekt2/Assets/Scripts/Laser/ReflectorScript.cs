@@ -72,7 +72,14 @@ public class ReflectorScript : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        if (transform.position != myDesiredPosition)
+        {
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+        }
+
+        myLeftDetectionBox.CheckIfExited();
+        myRightDetectionBox.CheckIfExited();
+
         UpdateLaser();
     }
 
@@ -80,9 +87,6 @@ public class ReflectorScript : MonoBehaviour
     {
         bool leftHit = myLeftDetectionBox.myIsHit;
         bool rightHit = myRightDetectionBox.myIsHit;
-
-        myLeftDetectionBox.CheckIfExited();
-        myRightDetectionBox.CheckIfExited();
 
         myIsHit = (leftHit || rightHit);
 
@@ -115,8 +119,6 @@ public class ReflectorScript : MonoBehaviour
             {
                 if (transform.position == myDesiredPosition)
                 {
-                    //Debug.Log("Pre X: " + myPreviousCoords.x + " Pre Y: " + myPreviousCoords.y);
-                    //Debug.Log("Cur X: " + myCoords.x + " Cur Y: " + myCoords.y);
                     DrawLaser();
                     myPreviousCoords = myCoords;
                 }
@@ -266,7 +268,6 @@ public class ReflectorScript : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
-        ClearLaser();
         Coord previousCoords = myCoords;
         myPreviousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
