@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject myPauseMenu = null;
     [SerializeField] GameObject myPauseButton = null;
+    [SerializeField] GameObject myRetryButton = null;
     [SerializeField] GameObject myOptionsMenu = null;
 
     bool myGamePaused = false;
