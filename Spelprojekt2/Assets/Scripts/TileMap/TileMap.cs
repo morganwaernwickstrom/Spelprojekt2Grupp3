@@ -92,12 +92,6 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
-                foreach (var i in allHoles)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Hole;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
                 foreach (var i in allButtons)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Button;
@@ -112,6 +106,7 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Laser;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
+
 
                 foreach (var i in allRocks)
                 {
@@ -179,6 +174,11 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
+                foreach (var i in allHoles)
+                {
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Hole;
+                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
+                }
             }
         }
     }
@@ -203,16 +203,19 @@ public class TileMap : MonoBehaviour
             {
                 Set(i.GetCoords(), eTileType.Laser);
             }
-            if (Get(i.GetCoords()) != eTileType.Hole)
-            {
-                Set(i.GetCoords(), eTileType.Laser);
-            }
+            //if (Get(i.GetCoords()) != eTileType.Hole)
+            //{
+            //    Set(i.GetCoords(), eTileType.Laser);
+            //}
         }
 
-        //foreach (var i in allHoles)
-        //{
-        //    Set(i.GetCoords(), eTileType.Hole);
-        //}
+        foreach (var i in allHoles)
+        {
+            if (!i.IsFilled())
+            {
+                Set(i.GetCoords(), eTileType.Hole);
+            }
+        }
     }
 
     private void UpdateRail()
