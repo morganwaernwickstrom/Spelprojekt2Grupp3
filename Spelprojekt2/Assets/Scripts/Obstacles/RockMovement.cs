@@ -3,8 +3,10 @@
 public class RockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
+    private Vector3 myCurrentPosition;
     private float mySpeed = 10f;
     private Coord myCoords;
+    private bool myFallingDown;
 
     private void Start()
     {
@@ -16,10 +18,19 @@ public class RockMovement : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
+
+        if (myCurrentPosition == myDesiredPosition && myFallingDown)
+        {
+            myDesiredPosition += new Vector3(0, -0.7f, 0);
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+            myFallingDown = false;
+        }
+
         if (transform.position.y <= 0)
         {
-            Destroy(gameObject);
             TileMap.Instance.Set(myCoords, eTileType.Empty);
+            EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         }
     }
 
@@ -72,7 +83,8 @@ public class RockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myDesiredPosition += new Vector3(0, -1f, 0);
+            myFallingDown = true;
+            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
         TileMap.Instance.Set(previousCoords, eTileType.Empty);
@@ -86,5 +98,10 @@ public class RockMovement : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+    }
+    public static float Round(float value, int digits)
+    {
+        float mult = Mathf.Pow(10.0f, (float)digits);
+        return Mathf.Round(value * mult) / mult;
     }
 }

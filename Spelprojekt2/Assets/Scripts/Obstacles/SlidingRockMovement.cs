@@ -5,7 +5,6 @@ public class SlidingRockMovement : MonoBehaviour
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
     private float mySpeed = 3f;
-    private float myFallingSpeed = 0.0000001f;
     private Coord myCoords;
     private bool myFallingDown = false;
     private void Start()
@@ -19,20 +18,21 @@ public class SlidingRockMovement : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
-        myCurrentPosition = new Vector3(Mathf.RoundToInt(transform.position.x), transform.position.y, Mathf.RoundToInt(transform.position.z));
+
+        myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
 
 
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
         {
-            myDesiredPosition += new Vector3(0, -1, 0);
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myFallingSpeed * Time.deltaTime);
+            myDesiredPosition += new Vector3(0, -0.7f, 0);
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
             myFallingDown = false;
         }
 
         if (transform.position.y <= 0)
         {
-            Destroy(gameObject);
             TileMap.Instance.Set(myCoords, eTileType.Empty);
+            EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         }
     }
 
@@ -66,6 +66,7 @@ public class SlidingRockMovement : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        int clampMin = 3, clampMax = 8;
         Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         Coord previousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
@@ -83,24 +84,28 @@ public class SlidingRockMovement : MonoBehaviour
         if (aDirection.x > 0)
         {
             aDirection.x = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            mySpeed = Mathf.Clamp(8 - aDirection.x, clampMin, clampMax);
             myRotation = Quaternion.Euler(0, 90, 0);
             gameObject.transform.rotation = myRotation;
         }
         if (aDirection.x < 0)
         {
             aDirection.x = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            mySpeed = Mathf.Clamp(8 + aDirection.x, clampMin, clampMax);
             myRotation = Quaternion.Euler(0, -90, 0);
             gameObject.transform.rotation = myRotation;
         }
         if (aDirection.y > 0)
         {
             aDirection.y = TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            mySpeed = Mathf.Clamp(8 - aDirection.y, clampMin, clampMax);
             myRotation = Quaternion.Euler(0, 0, 0);
             gameObject.transform.rotation = myRotation;
         }
         if (aDirection.y < 0)
         {
             aDirection.y = -TileMap.Instance.GetDistance(previousCoords, aDirection, false);
+            mySpeed = Mathf.Clamp(8 + aDirection.y, clampMin, clampMax);
             myRotation = Quaternion.Euler(0, 180, 0);
             gameObject.transform.rotation = myRotation;
         }
@@ -125,5 +130,10 @@ public class SlidingRockMovement : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+    }
+    public static float Round(float value, int digits)
+    {
+        float mult = Mathf.Pow(10.0f, (float)digits);
+        return Mathf.Round(value * mult) / mult;
     }
 }
