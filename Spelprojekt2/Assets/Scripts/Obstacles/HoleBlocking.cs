@@ -22,7 +22,9 @@ public class HoleBlocking : MonoBehaviour
         {
             if (aRockCurrentPos == myCoords)
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+                EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
                 return true;
             }
         }
