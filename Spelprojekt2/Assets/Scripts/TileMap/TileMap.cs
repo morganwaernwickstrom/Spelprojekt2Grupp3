@@ -43,7 +43,7 @@ public class TileMap : MonoBehaviour
     {
         UpdateLaser();
         UpdateRail();
-        
+
         //SetAllTiles();
 
         if (!(Get(aPreviousPos) == eTileType.Rail))
@@ -57,7 +57,7 @@ public class TileMap : MonoBehaviour
     {
         UpdateLaser();
         UpdateRail();
-        
+
         //SetAllTiles();
 
         Set(aRockPos, eTileType.Rock);
@@ -203,12 +203,16 @@ public class TileMap : MonoBehaviour
             {
                 Set(i.GetCoords(), eTileType.Laser);
             }
+            if (Get(i.GetCoords()) != eTileType.Hole)
+            {
+                Set(i.GetCoords(), eTileType.Laser);
+            }
         }
 
-        foreach (var i in allHoles)
-        {
-            Set(i.GetCoords(), eTileType.Hole);
-        }
+        //foreach (var i in allHoles)
+        //{
+        //    Set(i.GetCoords(), eTileType.Hole);
+        //}
     }
 
     private void UpdateRail()
@@ -240,7 +244,7 @@ public class TileMap : MonoBehaviour
     public void DebugTiles()
     {
         string map = "\n";
-        for (int i = myRows-1; i >= 0; --i)
+        for (int i = myRows - 1; i >= 0; --i)
         {
             for (int j = 0; j < myColumns; ++j)
             {
@@ -335,7 +339,7 @@ public class TileMap : MonoBehaviour
             //Debug.LogError("Can't set a Tile that's out of bounds.");
             return;
         }
-        
+
         myTileMap[aCoord.x, aCoord.y].type = aType;
     }
 

@@ -3,7 +3,7 @@
 public class HoleBlocking : MonoBehaviour
 {
     private Coord myCoords;
-    private bool myIsFilled;
+    //private bool myIsFilled;
     private void Start()
     {
         //myIsFilled = false;
@@ -24,7 +24,7 @@ public class HoleBlocking : MonoBehaviour
             if (aRockCurrentPos == myCoords /*&& !myIsFilled*/)
             {
                 //Destroy(gameObject);
-                myIsFilled = true;
+                //myIsFilled = true;
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
                 return true;
