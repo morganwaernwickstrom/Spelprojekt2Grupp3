@@ -27,7 +27,7 @@ public class RockMovement : MonoBehaviour
             myFallingDown = false;
         }
 
-        if (transform.position.y <= 0)
+        if (myFallingDown)
         {
             TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -83,8 +83,8 @@ public class RockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myFallingDown = true;
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
+            myFallingDown = true;
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
         TileMap.Instance.Set(previousCoords, eTileType.Empty);
