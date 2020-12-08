@@ -6,7 +6,7 @@ public class HoleBlocking : MonoBehaviour
     private bool myIsFilled;
     private void Start()
     {
-        //myIsFilled = false;
+        myIsFilled = false;
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
@@ -33,7 +33,11 @@ public class HoleBlocking : MonoBehaviour
         
         return false;
     }
-
+    
+    public bool IsFilled()
+    {
+        return myIsFilled;
+    }
     public Coord GetCoords()
     {
         return myCoords;
