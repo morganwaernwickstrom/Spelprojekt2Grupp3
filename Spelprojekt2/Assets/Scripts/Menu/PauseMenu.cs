@@ -11,21 +11,28 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myRetryButton = null;
     [SerializeField] GameObject myOptionsMenu = null;
 
+    private GameObject myPlayer;
+
     bool myGamePaused = false;
 
     void Update()
     {
+
+        myPlayer = GameObject.FindGameObjectWithTag("Player");
+
         if (myGamePaused) 
         {
             myPauseMenu.SetActive(true);
             myPauseButton.SetActive(false);
             Time.timeScale = 0;
+            myPlayer.GetComponent<PlayerMovement>().enabled = false;
         }
         else 
         {
             myPauseMenu.SetActive(false);
             myPauseButton.SetActive(true);
             Time.timeScale = 1;
+            myPlayer.GetComponent<PlayerMovement>().enabled = true;
         }
 
         SetPauseState();
