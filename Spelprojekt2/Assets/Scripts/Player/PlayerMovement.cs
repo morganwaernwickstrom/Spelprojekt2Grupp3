@@ -201,7 +201,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void AddCommand<T>(T aCommand) 
     {
-        PlayDashSound(Random.Range(0, myDashAudioClips.Length - 1));
         myCommandQueue.Enqueue(aCommand);
     }
 
@@ -269,7 +268,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void Push()
     {
-        myAnimator.SetTrigger("Push");
+
+        int myRandom = Random.Range(0, 10);
+
+        Debug.Log("myRandom: " + myRandom);
+
+        if(myRandom < 5) 
+        {
+            myAnimator.SetTrigger("Push");
+        }
+        else 
+        {
+            myAnimator.SetTrigger("Kick");
+        }
+        
     }
 
     private void ExecuteCommands()
@@ -414,7 +426,11 @@ public class PlayerMovement : MonoBehaviour
             Push();
             myDesiredPosition = transform.position;
             myCoords = myOriginalCoord;
-            
+
+        }
+        else 
+        {
+            PlayDashSound(Random.Range(0, myDashAudioClips.Length));
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
