@@ -428,7 +428,6 @@ public class PlayerMovement : MonoBehaviour
         {
             if (CanAddCommand())
                 AddCommand("up");
-                AddCommand("up");
         }
 
         if (Input.GetKeyDown(KeyCode.S)) 
