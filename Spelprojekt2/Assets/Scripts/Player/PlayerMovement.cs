@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int myMinZCoordinate;
 
     [SerializeField] private AudioClip[] myDashAudioClips;
+    [SerializeField] private AudioClip[] myPushAudioClips;
+    [SerializeField] private AudioClip[] myKickAudioClips;
     #endregion
 
     #region private variables
@@ -276,10 +278,12 @@ public class PlayerMovement : MonoBehaviour
         if(myRandom < 5) 
         {
             myAnimator.SetTrigger("Push");
+            PlayPushSound(Random.Range(0, myPushAudioClips.Length));
         }
         else 
         {
             myAnimator.SetTrigger("Kick");
+            PlayKickSound(Random.Range(0, myKickAudioClips.Length));
         }
         
     }
@@ -495,5 +499,15 @@ public class PlayerMovement : MonoBehaviour
     {
         myAudioSource.Stop();
         myAudioSource.PlayOneShot(myDashAudioClips[anIndex]);
+    }
+
+    private void PlayKickSound(int anIndex) 
+    {
+        myAudioSource.PlayOneShot(myKickAudioClips[anIndex]);
+    }
+
+    private void PlayPushSound(int anIndex) 
+    {
+        myAudioSource.PlayOneShot(myPushAudioClips[anIndex]);
     }
 }
