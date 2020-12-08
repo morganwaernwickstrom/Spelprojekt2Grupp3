@@ -7,11 +7,16 @@ public class SlidingRockMovement : MonoBehaviour
     private float mySpeed = 3f;
     private Coord myCoords;
     private bool myFallingDown = false;
+    private AudioSource myAudioSource;
+
+    [SerializeField] private AudioClip[] myAudioClips;
+
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -40,6 +45,10 @@ public class SlidingRockMovement : MonoBehaviour
     {
         if (myCoords == aPlayerCurrentPos)
         {
+
+            PlaySoundEffect(Random.Range(0, myAudioClips.Length - 1));
+
+
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
@@ -62,6 +71,11 @@ public class SlidingRockMovement : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    private void PlaySoundEffect(int anIndex) 
+    {
+        myAudioSource.PlayOneShot(myAudioClips[anIndex]);
     }
 
     private void Move(Coord aDirection)
