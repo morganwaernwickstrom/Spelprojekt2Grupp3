@@ -20,6 +20,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int myMaxZCoordinate;
     [SerializeField] private int myMinXCoordinate;
     [SerializeField] private int myMinZCoordinate;
+
+    [SerializeField] private AudioClip[] myDashAudioClips;
     #endregion
 
     #region private variables
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     //Misc
     private Animator myAnimator;
     private Queue myCommandQueue = new Queue();
+    private AudioSource myAudioSource;
     #endregion
 
     #region public variables
@@ -86,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -197,6 +201,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AddCommand<T>(T aCommand) 
     {
+        PlayDashSound(Random.Range(0, myDashAudioClips.Length - 1));
         myCommandQueue.Enqueue(aCommand);
     }
 
@@ -423,6 +428,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (CanAddCommand())
                 AddCommand("up");
+                AddCommand("up");
         }
 
         if (Input.GetKeyDown(KeyCode.S)) 
@@ -468,5 +474,11 @@ public class PlayerMovement : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void PlayDashSound(int anIndex) 
+    {
+        myAudioSource.Stop();
+        myAudioSource.PlayOneShot(myDashAudioClips[anIndex]);
     }
 }

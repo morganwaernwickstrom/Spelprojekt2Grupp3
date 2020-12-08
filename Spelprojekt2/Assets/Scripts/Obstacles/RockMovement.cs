@@ -7,12 +7,17 @@ public class RockMovement : MonoBehaviour
     private float mySpeed = 10f;
     private Coord myCoords;
     private bool myFallingDown;
+    private AudioSource myAudioSource;
+
+
+    [SerializeField] private AudioClip myAudioClip;
 
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -38,6 +43,8 @@ public class RockMovement : MonoBehaviour
     {
         if (myCoords == aPlayerCurrentPos)
         {
+            myAudioSource.PlayOneShot(myAudioClip);
+
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
