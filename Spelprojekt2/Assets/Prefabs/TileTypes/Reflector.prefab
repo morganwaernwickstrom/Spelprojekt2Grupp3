@@ -66,6 +66,7 @@ MonoBehaviour:
   myRightLaserRotation: {fileID: 2965216998719999003}
   myLeftDetectionBox: {fileID: 653243227303153910}
   myRightDetectionBox: {fileID: 5045356703532256356}
+  myIsHit: 0
 --- !u!114 &4928438069478346470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +187,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myIsHit: 0
+  myIncomingLaserCollider: {fileID: 0}
+  myIncomingCollider: {fileID: 0}
   myOtherSide: {fileID: 653243227303153910}
 --- !u!54 &4274278012087599662
 Rigidbody:
@@ -341,6 +344,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myIsHit: 0
+  myIncomingLaserCollider: {fileID: 0}
+  myIncomingCollider: {fileID: 0}
   myOtherSide: {fileID: 5045356703532256356}
 --- !u!54 &2722107389486022302
 Rigidbody:
@@ -569,6 +574,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ddc6ce4eafbce554da28905e46e94be9,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ddc6ce4eafbce554da28905e46e94be9,
         type: 3}
