@@ -11,9 +11,21 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myRetryButton = null;
     [SerializeField] GameObject myOptionsMenu = null;
 
+    [SerializeField] Slider myEffectsSlider;
+    [SerializeField] Slider myMusicSlider;
+
     private GameObject myPlayer;
 
+    private float myEffectsDelta;
+    private float myMusicDelta;
+
     bool myGamePaused = false;
+
+    private void Start()
+    {
+        myEffectsDelta = myEffectsSlider.value;
+        myMusicDelta = myMusicSlider.value;
+    }
 
     void Update()
     {
@@ -34,6 +46,26 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1;
             myPlayer.GetComponent<PlayerMovement>().enabled = true;
         }
+
+        /*
+        if(myEffectsSlider.value != myEffectsDelta) 
+        {
+            SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
+            myEffectsDelta = myEffectsSlider.value;
+        }
+        */
+
+        SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
+        SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
+
+        /*
+        if (myMusicSlider.value != myMusicDelta) 
+        {
+            SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
+            myMusicDelta = myMusicSlider.value;
+        }
+        */
+        
 
         SetPauseState();
     }

@@ -8,18 +8,14 @@ public class SlidingRockMovement : MonoBehaviour
     private float myLerpSpeed = 0.1f;
     private Coord myCoords;
     private bool myFallingDown = false;
-    private AudioSource myAudioSource;
     private Animator myAnimator;
     private float myPercentage;
-
-    [SerializeField] private AudioClip[] myAudioClips;
 
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        myAudioSource = GetComponent<AudioSource>();
         myAnimator = GetComponentInChildren<Animator>();
         myPercentage = 0.0f;
     }
@@ -77,7 +73,7 @@ public class SlidingRockMovement : MonoBehaviour
         if (myCoords == aPlayerCurrentPos)
         {
 
-            PlaySoundEffect(Random.Range(0, myAudioClips.Length - 1));
+            PlaySoundEffect();
 
 
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -104,9 +100,13 @@ public class SlidingRockMovement : MonoBehaviour
         return true;
     }
 
-    private void PlaySoundEffect(int anIndex) 
+    private void PlaySoundEffect() 
     {
-        myAudioSource.PlayOneShot(myAudioClips[anIndex]);
+        if(SoundManager.myInstance != null) 
+        {
+            SoundManager.myInstance.PlaySlidingSound();
+        }
+
     }
 
     private void Move(Coord aDirection)

@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
     [SerializeField] AudioClip myRockSound = null;
-    [SerializeField] AudioClip mySlidingSound;
+    [SerializeField] AudioClip[] mySlidingSounds;
     [SerializeField] AudioClip myLaserSound = null;
 
     [SerializeField] AudioSource myEffectsAudioSource = null;
@@ -42,7 +42,12 @@ public class SoundManager : MonoBehaviour
             myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
         }
 
-        myMusicAudioSource.Play();
+        if(myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying) 
+        {
+            Debug.Log("Playing");
+            myMusicAudioSource.Play();
+        }
+        
     }
 
     public void PlayRockSound() 
@@ -50,9 +55,9 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(myRockSound);
     }
 
-    public void PlaySlidingSound() 
+    public void PlaySlidingSound()
     {
-        myEffectsAudioSource.PlayOneShot(mySlidingSound);
+        myEffectsAudioSource.PlayOneShot(mySlidingSounds[Random.Range(0, mySlidingSounds.Length)]);
     }
 
     public void PlayLaserSound() 
@@ -62,11 +67,13 @@ public class SoundManager : MonoBehaviour
 
     public void SetMusicVolume(float anAmount) 
     {
+        Debug.Log("volume for music set to " + anAmount);
         myMusicAudioSource.volume = anAmount;
     }
 
     public void SetEffectsVolume(float anAmount) 
     {
+        Debug.Log("volume for effects set to " + anAmount);
         myEffectsAudioSource.volume = anAmount;
     }
 
