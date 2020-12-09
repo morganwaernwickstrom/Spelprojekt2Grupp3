@@ -20,6 +20,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip myRockFallingSound;
     [SerializeField] AudioClip myDoorOpenSound;
     [SerializeField] AudioClip[] myFiddeSounds;
+    [SerializeField] AudioClip myMenuButtonSound;
 
     [SerializeField] AudioSource myEffectsAudioSource = null;
     [SerializeField] AudioSource myMusicAudioSource = null;
@@ -86,6 +87,11 @@ public class SoundManager : MonoBehaviour
     public void PlayDoorOpenSound() 
     {
         myEffectsAudioSource.PlayOneShot(myDoorOpenSound);
+    }
+
+    public void PlayMenuButtonSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myMenuButtonSound);
     }
 
     public void PlayLaserSound() 
