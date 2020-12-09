@@ -3,46 +3,80 @@
 public class CameraZoom : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
-    private Vector3 myMiddlePosition;
-    private Vector3 myPosition;
     private Vector3 myDesiredRotation;
-    private Vector3 myRotation;
-    private bool myFirstIsFinished = false;
-    private bool mySecondIsFinished = false;
-    private float mySpeed = 0.4f;
-    private float myRotationSpeed = 0.4f;
+    private Vector3 myOriginalPosition;
+    private Vector3 myOriginalRotation;
+    private float mySpeed = 0.0015f;
+    private float lerpSpeed = 0.0f;
+    private bool myZoomIn = false;
+    private bool myZoomOut = true;
+    private PlayerMovement myPlayerMovement;
 
     private void Start()
     {
-        myPosition = transform.position;
-        myMiddlePosition = new Vector3(myPosition.x, myPosition.y + 1.5f, myPosition.z - 0.5f);
-        myRotation = transform.eulerAngles;
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        myPlayerMovement.enabled = false;
+        myOriginalPosition = transform.position;
+        myOriginalRotation = transform.eulerAngles;
         myDesiredPosition = new Vector3(3f, 13f, -4f);
         myDesiredRotation = new Vector3(60f, 0f, 0f);
     }
     private void Update()
     {
-        //FirstZoom();
-        SecondZoom();
+        if (!myZoomIn && !myZoomOut)
+        {
+            if (Input.GetKeyDown(KeyCode.Z)) myZoomIn = true;
+            if (Input.GetKeyDown(KeyCode.X)) myZoomOut = true;
+        }
+
+        if (myZoomOut)
+        {
+            if (!IsFinished(myDesiredPosition, myDesiredRotation, 0.05f)) 
+                Zoom(myDesiredPosition, myDesiredRotation);
+            else
+            {
+                Debug.Log("Finished Zooming out.");
+                myZoomOut = false;
+                Lock(true);
+            }
+        }
+        if (myZoomIn)
+        {
+            if (!IsFinished(myOriginalPosition, myOriginalRotation, 0.05f))
+                Zoom(myOriginalPosition, myOriginalRotation);
+            else
+            {
+                Debug.Log("Finished Zooming in.");
+                myZoomIn = false;
+                Lock(true);
+            }
+        }
     }
 
-    private void FirstZoom()
+    private void Zoom(Vector3 aDestinationPos, Vector3 aDestinationRot)
     {
-        myPosition.x = Mathf.Lerp(myPosition.x, myMiddlePosition.x, mySpeed * Time.deltaTime);
-        myPosition.y = Mathf.Lerp(myPosition.y, myMiddlePosition.y, mySpeed * Time.deltaTime);
-        myPosition.z = Mathf.Lerp(myPosition.z, myMiddlePosition.z, mySpeed * Time.deltaTime);
-        transform.position = myPosition;
+        lerpSpeed += mySpeed * Time.deltaTime;
+        transform.position = Vector3.Lerp(transform.position, aDestinationPos, lerpSpeed);
+        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, aDestinationRot, lerpSpeed);
     }
 
-    private void SecondZoom()
+    private bool IsFinished(Vector3 aDestinationPos, Vector3 aDestinationRot, float offset)
     {
-        myPosition.x = Mathf.Lerp(myPosition.x, myDesiredPosition.x, mySpeed * Time.deltaTime);
-        myPosition.y = Mathf.Lerp(myPosition.y, myDesiredPosition.y, mySpeed * Time.deltaTime);
-        myPosition.z = Mathf.Lerp(myPosition.z, myDesiredPosition.z, mySpeed * Time.deltaTime);
-        myRotation.x = Mathf.Lerp(myRotation.x, myDesiredRotation.x, myRotationSpeed * Time.deltaTime);
-        myRotation.y = Mathf.Lerp(myRotation.y, myDesiredRotation.y, myRotationSpeed * Time.deltaTime);
-        myRotation.z = Mathf.Lerp(myRotation.z, myDesiredRotation.z, myRotationSpeed * Time.deltaTime);
-        transform.position = myPosition;
-        transform.eulerAngles = myRotation;
+        if (Mathf.Abs(transform.position.x - aDestinationPos.x) < offset &&
+            Mathf.Abs(transform.position.y - aDestinationPos.y) < offset &&
+            Mathf.Abs(transform.position.z - aDestinationPos.z) < offset &&
+            Mathf.Abs(transform.eulerAngles.x - aDestinationRot.x) < offset &&
+            Mathf.Abs(transform.eulerAngles.y - aDestinationRot.y) < offset &&
+            Mathf.Abs(transform.eulerAngles.z - aDestinationRot.z) < offset)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private void Lock(bool aValue)
+    {
+        myPlayerMovement.enabled = aValue;
+        lerpSpeed = 0;
     }
 }
