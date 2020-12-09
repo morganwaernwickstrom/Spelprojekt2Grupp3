@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] AudioSource myEffectsAudioSource = null;
     [SerializeField] AudioSource myMusicAudioSource = null;
+
+    [SerializeField] Slider myEffectSlider;
+    [SerializeField] Slider myMusicSlider;
 
     private void Start()
     {
@@ -51,6 +55,14 @@ public class SoundManager : MonoBehaviour
         {
             Debug.Log("Playing");
             myMusicAudioSource.Play();
+        }
+
+        if(myEffectSlider != null && myMusicSlider != null) 
+        {
+            SetEffectsVolume(myEffectSlider.value);
+            SetMusicVolume(myMusicSlider.value);
+            myEffectSlider.value = GetCurrentEffectsVolume();
+            myMusicSlider.value = GetCurrentMusicVolume();
         }
         
     }
@@ -98,22 +110,26 @@ public class SoundManager : MonoBehaviour
     public void SetMusicVolume(float anAmount) 
     {
         Debug.Log("volume for music set to " + anAmount);
+        PlayerPrefs.SetFloat("MusicVolume", anAmount);
+        PlayerPrefs.Save();
         myMusicAudioSource.volume = anAmount;
     }
 
     public void SetEffectsVolume(float anAmount) 
     {
         Debug.Log("volume for effects set to " + anAmount);
+        PlayerPrefs.SetFloat("EffectsVolume", anAmount);
+        PlayerPrefs.Save();
         myEffectsAudioSource.volume = anAmount;
     }
 
     public float GetCurrentEffectsVolume() 
     {
-        return myEffectsAudioSource.volume;
+        return PlayerPrefs.GetFloat("EffectsVolume");
     }
 
     public float GetCurrentMusicVolume() 
     {
-        return myMusicAudioSource.volume;
+        return PlayerPrefs.GetFloat("MusicVolume");
     }
 }

@@ -23,6 +23,8 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        myEffectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
+        myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         myEffectsDelta = myEffectsSlider.value;
         myMusicDelta = myMusicSlider.value;
     }
