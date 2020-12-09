@@ -39,6 +39,15 @@ public class SoundManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if(myEffectSlider != null && myMusicSlider != null) 
+        {
+            SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
+            SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+
+            myEffectSlider.value = GetCurrentEffectsVolume();
+            myMusicSlider.value = GetCurrentMusicVolume();
+        }
     }
 
     public void Update()
@@ -63,8 +72,6 @@ public class SoundManager : MonoBehaviour
         {
             SetEffectsVolume(myEffectSlider.value);
             SetMusicVolume(myMusicSlider.value);
-            myEffectSlider.value = GetCurrentEffectsVolume();
-            myMusicSlider.value = GetCurrentMusicVolume();
         }
         
     }
