@@ -20,10 +20,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private int myMaxZCoordinate;
     [SerializeField] private int myMinXCoordinate;
     [SerializeField] private int myMinZCoordinate;
-
-    [SerializeField] private AudioClip[] myDashAudioClips;
-    [SerializeField] private AudioClip[] myPushAudioClips;
-    [SerializeField] private AudioClip[] myKickAudioClips;
     #endregion
 
     #region private variables
@@ -59,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
     //Misc
     private Animator myAnimator;
     private Queue myCommandQueue = new Queue();
-    private AudioSource myAudioSource;
     #endregion
 
     #region public variables
@@ -91,7 +86,6 @@ public class PlayerMovement : MonoBehaviour
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
-        myAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -278,12 +272,12 @@ public class PlayerMovement : MonoBehaviour
         if(myRandom < 5) 
         {
             myAnimator.SetTrigger("Push");
-            PlayPushSound(Random.Range(0, myPushAudioClips.Length));
+            SoundManager.myInstance.PlayPlayerPushSound();
         }
         else 
         {
             myAnimator.SetTrigger("Kick");
-            PlayKickSound(Random.Range(0, myKickAudioClips.Length));
+            SoundManager.myInstance.PlayPlayerKickSound();
         }
         
     }
@@ -434,7 +428,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else 
         {
-            PlayDashSound(Random.Range(0, myDashAudioClips.Length));
+            SoundManager.myInstance.PlayPlayerDashSound();
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
@@ -493,21 +487,5 @@ public class PlayerMovement : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
-    }
-
-    private void PlayDashSound(int anIndex) 
-    {
-        myAudioSource.Stop();
-        myAudioSource.PlayOneShot(myDashAudioClips[anIndex]);
-    }
-
-    private void PlayKickSound(int anIndex) 
-    {
-        myAudioSource.PlayOneShot(myKickAudioClips[anIndex]);
-    }
-
-    private void PlayPushSound(int anIndex) 
-    {
-        myAudioSource.PlayOneShot(myPushAudioClips[anIndex]);
     }
 }

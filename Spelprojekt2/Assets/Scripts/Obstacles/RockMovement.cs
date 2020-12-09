@@ -7,12 +7,14 @@ public class RockMovement : MonoBehaviour
     private float mySpeed = 10f;
     private Coord myCoords;
     private bool myFallingDown;
+    private bool myPlayFallingSound;
 
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        myPlayFallingSound = true;
     }
 
     private void Update()
@@ -31,6 +33,12 @@ public class RockMovement : MonoBehaviour
         {
             TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+            if (myPlayFallingSound) 
+            {
+                myPlayFallingSound = false;
+                SoundManager.myInstance.PlayRockFallingSound();
+            }
+            
         }
     }
 

@@ -40,6 +40,7 @@ public class Door : MonoBehaviour
         myDesiredPosition = new Vector3(transform.position.x, -2.0f, transform.position.z);
         TileMap.Instance.Set(myCoords, eTileType.Empty);
         myIsOpened = true;
+        SoundManager.myInstance.PlayDoorOpenSound();
         return true;
     }
 

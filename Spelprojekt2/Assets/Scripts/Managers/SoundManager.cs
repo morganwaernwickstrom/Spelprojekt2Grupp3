@@ -13,6 +13,11 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip myRockSound = null;
     [SerializeField] AudioClip[] mySlidingSounds;
     [SerializeField] AudioClip myLaserSound = null;
+    [SerializeField] AudioClip[] myPlayerDashSounds;
+    [SerializeField] AudioClip[] myPlayerPushSounds;
+    [SerializeField] AudioClip[] myPlayerKickSounds;
+    [SerializeField] AudioClip myRockFallingSound;
+    [SerializeField] AudioClip myDoorOpenSound;
 
     [SerializeField] AudioSource myEffectsAudioSource = null;
     [SerializeField] AudioSource myMusicAudioSource = null;
@@ -60,9 +65,34 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(mySlidingSounds[Random.Range(0, mySlidingSounds.Length)]);
     }
 
+    public void PlayRockFallingSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myRockFallingSound);
+    }
+
+    public void PlayDoorOpenSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myDoorOpenSound);
+    }
+
     public void PlayLaserSound() 
     {
         myEffectsAudioSource.PlayOneShot(myLaserSound);
+    }
+
+    public void PlayPlayerDashSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerDashSounds[Random.Range(0, myPlayerDashSounds.Length)]);
+    }
+
+    public void PlayPlayerKickSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerKickSounds[Random.Range(0, myPlayerKickSounds.Length)]);
+    }
+
+    public void PlayPlayerPushSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerPushSounds[Random.Range(0, myPlayerPushSounds.Length)]);
     }
 
     public void SetMusicVolume(float anAmount) 
