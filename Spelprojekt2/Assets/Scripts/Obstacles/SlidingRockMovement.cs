@@ -4,10 +4,13 @@ public class SlidingRockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private float mySpeed = 3f;
+    private float mySpeed = 0.1f;
+    private float myLerpSpeed = 0.1f;
     private Coord myCoords;
     private bool myFallingDown = false;
     private AudioSource myAudioSource;
+    private Animator myAnimator;
+    private float myPercentage;
 
     [SerializeField] private AudioClip[] myAudioClips;
 
@@ -17,14 +20,28 @@ public class SlidingRockMovement : MonoBehaviour
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         myAudioSource = GetComponent<AudioSource>();
+        myAnimator = GetComponentInChildren<Animator>();
+        myPercentage = 0.0f;
     }
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-
+        //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        HandleLerpLogic();
 
         myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
+
+        float distance = Vector3.Distance(transform.position, myDesiredPosition);
+
+        if(distance > 1.0f) 
+        {
+            myAnimator.SetBool("Walk", true);
+        }
+        else 
+        {
+            myAnimator.SetBool("Walk", false);
+        }
+
 
 
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
@@ -38,6 +55,20 @@ public class SlidingRockMovement : MonoBehaviour
         {
             TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        }
+    }
+
+    private void HandleLerpLogic() 
+    {
+        if(myPercentage > 1.0f) 
+        {
+            transform.position = myDesiredPosition;
+        }
+        else 
+        {
+            myPercentage += Time.deltaTime * myLerpSpeed;
+
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myPercentage);
         }
     }
 
@@ -124,6 +155,7 @@ public class SlidingRockMovement : MonoBehaviour
             gameObject.transform.rotation = myRotation;
         }
 
+        myPercentage = 0.0f;
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
 
