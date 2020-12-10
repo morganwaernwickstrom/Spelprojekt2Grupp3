@@ -7,48 +7,61 @@ public class CameraZoom : MonoBehaviour
     private Vector3 myOriginalPosition;
     private Vector3 myOriginalRotation;
     private float mySpeed = 0.0015f;
-    private float myFastSpeed = 0.05f;
+    private float myFastSpeed = 0.15f;
     private float lerpSpeed = 0.0f;
     private bool myZoomIn = false;
     private bool myZoomOut = true;
     private bool mySpeedUp = false;
+    private static bool myHasRun = false;
     private PlayerMovement myPlayerMovement;
 
     private void Start()
     {
-        myPlayerMovement = FindObjectOfType<PlayerMovement>();
-        myPlayerMovement.enabled = false;
-        myOriginalPosition = transform.position;
-        myOriginalRotation = transform.eulerAngles;
-        myDesiredPosition = new Vector3(3f, 13f, -2f);
-        myDesiredRotation = new Vector3(64.5f, 0f, 0f);
+        if (!myHasRun)
+        {
+            myPlayerMovement = FindObjectOfType<PlayerMovement>();
+            myPlayerMovement.enabled = false;
+            myOriginalPosition = transform.position;
+            myOriginalRotation = transform.eulerAngles;
+            myDesiredPosition = new Vector3(3f, 13f, -2f);
+            myDesiredRotation = new Vector3(64.5f, 0f, 0f);
+        }
+        else
+        {
+            transform.position = new Vector3(3f, 13f, -2f);
+            transform.eulerAngles = new Vector3(64.5f, 0f, 0f);
+        }
     }
     private void Update()
     {
-        if (!myZoomIn && !myZoomOut)
+        if (!myHasRun)
         {
-            if (Input.GetKeyDown(KeyCode.Z)) myZoomIn = true;
-            if (Input.GetKeyDown(KeyCode.X)) myZoomOut = true;
-        }
-
-        if (myZoomOut)
-        {
-            if (!IsFinished(myDesiredPosition, myDesiredRotation, 0.05f)) 
-                Zoom(myDesiredPosition, myDesiredRotation);
-            else
+            if (!myZoomIn && !myZoomOut)
             {
-                myZoomOut = false;
-                Lock(true);
+                if (Input.GetKeyDown(KeyCode.Z)) myZoomIn = true;
+                if (Input.GetKeyDown(KeyCode.X)) myZoomOut = true;
             }
-        }
-        if (myZoomIn)
-        {
-            if (!IsFinished(myOriginalPosition, myOriginalRotation, 0.05f))
-                Zoom(myOriginalPosition, myOriginalRotation);
-            else
+
+            if (myZoomOut)
             {
-                myZoomIn = false;
-                Lock(true);
+                if (!IsFinished(myDesiredPosition, myDesiredRotation, 0.05f))
+                    Zoom(myDesiredPosition, myDesiredRotation);
+                else
+                {
+                    myZoomOut = false;
+                    myHasRun = true;
+                    Lock(true);
+                }
+            }
+            if (myZoomIn)
+            {
+                if (!IsFinished(myOriginalPosition, myOriginalRotation, 0.05f))
+                    Zoom(myOriginalPosition, myOriginalRotation);
+                else
+                {
+                    myZoomIn = false;
+                    Lock(true);
+                }
             }
         }
     }
