@@ -7,9 +7,11 @@ public class CameraZoom : MonoBehaviour
     private Vector3 myOriginalPosition;
     private Vector3 myOriginalRotation;
     private float mySpeed = 0.0015f;
+    private float myFastSpeed = 0.05f;
     private float lerpSpeed = 0.0f;
     private bool myZoomIn = false;
     private bool myZoomOut = true;
+    private bool mySpeedUp = false;
     private PlayerMovement myPlayerMovement;
 
     private void Start()
@@ -18,8 +20,8 @@ public class CameraZoom : MonoBehaviour
         myPlayerMovement.enabled = false;
         myOriginalPosition = transform.position;
         myOriginalRotation = transform.eulerAngles;
-        myDesiredPosition = new Vector3(3f, 13f, -4f);
-        myDesiredRotation = new Vector3(60f, 0f, 0f);
+        myDesiredPosition = new Vector3(3f, 13f, -2f);
+        myDesiredRotation = new Vector3(64.5f, 0f, 0f);
     }
     private void Update()
     {
@@ -35,7 +37,6 @@ public class CameraZoom : MonoBehaviour
                 Zoom(myDesiredPosition, myDesiredRotation);
             else
             {
-                Debug.Log("Finished Zooming out.");
                 myZoomOut = false;
                 Lock(true);
             }
@@ -46,7 +47,6 @@ public class CameraZoom : MonoBehaviour
                 Zoom(myOriginalPosition, myOriginalRotation);
             else
             {
-                Debug.Log("Finished Zooming in.");
                 myZoomIn = false;
                 Lock(true);
             }
@@ -55,7 +55,14 @@ public class CameraZoom : MonoBehaviour
 
     private void Zoom(Vector3 aDestinationPos, Vector3 aDestinationRot)
     {
-        lerpSpeed += mySpeed * Time.deltaTime;
+        if (Input.touchCount > 0)
+            mySpeedUp = true;
+
+        if (mySpeedUp)
+            lerpSpeed += myFastSpeed * Time.deltaTime;
+        else
+            lerpSpeed += mySpeed * Time.deltaTime;
+
         transform.position = Vector3.Lerp(transform.position, aDestinationPos, lerpSpeed);
         transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, aDestinationRot, lerpSpeed);
     }
