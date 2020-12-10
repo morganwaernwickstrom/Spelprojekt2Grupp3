@@ -12,6 +12,7 @@ public class MovingBackground : MonoBehaviour
     {
         myDefaultPosition = myImages[3].transform.position;
         mySpeed = 100;
+        Time.timeScale = 1;
     }
 
     private void Update()
