@@ -190,7 +190,8 @@ public class Tile : MonoBehaviour
 
     public void PlaceLaserReceiver()
     {
-        float receiverSize = myReceiver.transform.Find("Base").GetComponent<Renderer>().bounds.size.y;
+        //float receiverSize = myReceiver.transform.Find("Base").GetComponent<SkinnedMeshRenderer>().bounds.size.y;
+        float receiverSize = 1.0f;
         float tileSize = GetComponent<Renderer>().bounds.size.y;
 
         float tileTop = transform.position.y + tileSize / 2;
