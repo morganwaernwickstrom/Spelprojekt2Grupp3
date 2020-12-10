@@ -55,6 +55,7 @@ public class CameraZoom : MonoBehaviour
 
     private void Zoom(Vector3 aDestinationPos, Vector3 aDestinationRot)
     {
+        myPlayerMovement.enabled = false;
         if (Input.touchCount > 0)
             mySpeedUp = true;
 
