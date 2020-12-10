@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager myInstance { get; private set; }
 
+    #region AudioClips
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
     [SerializeField] AudioClip myRockSound = null;
@@ -21,12 +22,18 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip myDoorOpenSound;
     [SerializeField] AudioClip[] myFiddeSounds;
     [SerializeField] AudioClip myMenuButtonSound;
+    #endregion
 
+    #region AudioSources
     [SerializeField] AudioSource myEffectsAudioSource = null;
     [SerializeField] AudioSource myMusicAudioSource = null;
+    #endregion
 
+    #region Sliders
     [SerializeField] Slider myEffectSlider;
     [SerializeField] Slider myMusicSlider;
+    #endregion
+
 
     private void Start()
     {
@@ -40,7 +47,19 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if(myEffectSlider != null && myMusicSlider != null) 
+        VolumeSliderSetup();
+       
+    }
+
+    public void Update()
+    {
+        ManageMusic();
+        SliderManager();
+    }
+
+    private void VolumeSliderSetup() 
+    {
+        if (myEffectSlider != null && myMusicSlider != null)
         {
             SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
             SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
@@ -50,30 +69,30 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void Update()
+    private void SliderManager() 
     {
-
-        if (!myMusicClips[SceneManager.GetActiveScene().buildIndex]) 
-        {
-            myMusicAudioSource.clip = myDefaultMusicClip;
-        }
-        else 
-        {
-            myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
-        }
-
-        if(myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying) 
-        {
-            Debug.Log("Playing");
-            myMusicAudioSource.Play();
-        }
-
-        if(myEffectSlider != null && myMusicSlider != null) 
+        if (myEffectSlider != null && myMusicSlider != null)
         {
             SetEffectsVolume(myEffectSlider.value);
             SetMusicVolume(myMusicSlider.value);
         }
-        
+    }
+
+    private void ManageMusic() 
+    {
+        if (!myMusicClips[SceneManager.GetActiveScene().buildIndex])
+        {
+            myMusicAudioSource.clip = myDefaultMusicClip;
+        }
+        else
+        {
+            myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
+        }
+
+        if (myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying)
+        {
+            myMusicAudioSource.Play();
+        }
     }
 
     public void PlayRockSound() 
@@ -128,7 +147,6 @@ public class SoundManager : MonoBehaviour
 
     public void SetMusicVolume(float anAmount) 
     {
-        Debug.Log("volume for music set to " + anAmount);
         PlayerPrefs.SetFloat("MusicVolume", anAmount);
         PlayerPrefs.Save();
         myMusicAudioSource.volume = anAmount;
@@ -136,7 +154,6 @@ public class SoundManager : MonoBehaviour
 
     public void SetEffectsVolume(float anAmount) 
     {
-        Debug.Log("volume for effects set to " + anAmount);
         PlayerPrefs.SetFloat("EffectsVolume", anAmount);
         PlayerPrefs.Save();
         myEffectsAudioSource.volume = anAmount;

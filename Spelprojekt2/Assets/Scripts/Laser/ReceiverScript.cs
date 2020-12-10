@@ -2,16 +2,19 @@
 
 public class ReceiverScript : MonoBehaviour
 {
-    //public GameObject myConnectedObject;
     public bool myIsActivated = false;
     private bool myHasOpenedDoor = false;
     private Collider myIncomingLaserCollider;
+
+    [SerializeField] private GameObject myObject;
+    private Animator myAnimator;
 
     // Coordinates to use for collision checking
     private Coord myCoords;
 
     private void Start()
     {
+        myAnimator = myObject.GetComponent<Animator>();
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
@@ -34,6 +37,8 @@ public class ReceiverScript : MonoBehaviour
             EventHandler.current.ButtonUpEvent();
             myHasOpenedDoor = true;
         }
+
+        myAnimator.SetBool("Hit", myIsActivated);
     }
 
     private bool CheckIfExited()
