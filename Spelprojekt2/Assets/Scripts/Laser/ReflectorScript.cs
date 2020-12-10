@@ -12,6 +12,8 @@ public class ReflectorScript : MonoBehaviour
 
     public GameObject myLaserObject1;
     public GameObject myLaserObject2;
+    public GameObject myLaserObject3;
+    public GameObject myLaserObject4;
     public GameObject myParticles;
 
     // --- Laser Object pool --- //
@@ -52,6 +54,8 @@ public class ReflectorScript : MonoBehaviour
     {
         myLaserObject1.SetActive(false);
         myLaserObject2.SetActive(false);
+        myLaserObject3.SetActive(false);
+        myLaserObject4.SetActive(false);
         myParticles.SetActive(false);
         myParticles.GetComponent<ParticleSystem>().Pause();
 
@@ -129,8 +133,22 @@ public class ReflectorScript : MonoBehaviour
 
             }
 
-            myLaserObject1.SetActive(true);
-            myLaserObject2.SetActive(true);
+            if (myLeftDetectionBox.myIsHit)
+            {
+                myLaserObject1.SetActive(true);
+                myLaserObject2.SetActive(true);
+                myLaserObject3.SetActive(false);
+                myLaserObject4.SetActive(false);
+            }
+            else if (myRightDetectionBox.myIsHit)
+            {
+                myLaserObject1.SetActive(false);
+                myLaserObject2.SetActive(false);
+                myLaserObject3.SetActive(true);
+                myLaserObject4.SetActive(true);
+            }
+
+           
             myParticles.SetActive(true);
             myParticles.GetComponent<ParticleSystem>().Play();
         }
@@ -142,6 +160,8 @@ public class ReflectorScript : MonoBehaviour
 
             myLaserObject1.SetActive(false);
             myLaserObject2.SetActive(false);
+            myLaserObject3.SetActive(false);
+            myLaserObject4.SetActive(false);
             myParticles.SetActive(false);
             myParticles.GetComponent<ParticleSystem>().Pause();
         }
