@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
@@ -11,11 +12,21 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
     [SerializeField] AudioClip myRockSound = null;
-    [SerializeField] AudioClip mySlidingSound;
+    [SerializeField] AudioClip[] mySlidingSounds;
     [SerializeField] AudioClip myLaserSound = null;
+    [SerializeField] AudioClip[] myPlayerDashSounds;
+    [SerializeField] AudioClip[] myPlayerPushSounds;
+    [SerializeField] AudioClip[] myPlayerKickSounds;
+    [SerializeField] AudioClip myRockFallingSound;
+    [SerializeField] AudioClip myDoorOpenSound;
+    [SerializeField] AudioClip[] myFiddeSounds;
+    [SerializeField] AudioClip myMenuButtonSound;
 
     [SerializeField] AudioSource myEffectsAudioSource = null;
     [SerializeField] AudioSource myMusicAudioSource = null;
+
+    [SerializeField] Slider myEffectSlider;
+    [SerializeField] Slider myMusicSlider;
 
     private void Start()
     {
@@ -27,6 +38,15 @@ public class SoundManager : MonoBehaviour
         else 
         {
             Destroy(gameObject);
+        }
+
+        if(myEffectSlider != null && myMusicSlider != null) 
+        {
+            SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
+            SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+
+            myEffectSlider.value = GetCurrentEffectsVolume();
+            myMusicSlider.value = GetCurrentMusicVolume();
         }
     }
 
@@ -42,7 +62,18 @@ public class SoundManager : MonoBehaviour
             myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
         }
 
-        myMusicAudioSource.Play();
+        if(myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying) 
+        {
+            Debug.Log("Playing");
+            myMusicAudioSource.Play();
+        }
+
+        if(myEffectSlider != null && myMusicSlider != null) 
+        {
+            SetEffectsVolume(myEffectSlider.value);
+            SetMusicVolume(myMusicSlider.value);
+        }
+        
     }
 
     public void PlayRockSound() 
@@ -50,9 +81,24 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(myRockSound);
     }
 
-    public void PlaySlidingSound() 
+    public void PlaySlidingSound()
     {
-        myEffectsAudioSource.PlayOneShot(mySlidingSound);
+        myEffectsAudioSource.PlayOneShot(mySlidingSounds[Random.Range(0, mySlidingSounds.Length)]);
+    }
+
+    public void PlayRockFallingSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myRockFallingSound);
+    }
+
+    public void PlayDoorOpenSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myDoorOpenSound);
+    }
+
+    public void PlayMenuButtonSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myMenuButtonSound);
     }
 
     public void PlayLaserSound() 
@@ -60,23 +106,49 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(myLaserSound);
     }
 
+    public void PlayPlayerDashSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerDashSounds[Random.Range(0, myPlayerDashSounds.Length)]);
+    }
+
+    public void PlayPlayerKickSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerKickSounds[Random.Range(0, myPlayerKickSounds.Length)]);
+    }
+
+    public void PlayFiddeSounds() 
+    {
+        myEffectsAudioSource.PlayOneShot(myFiddeSounds[Random.Range(0, myFiddeSounds.Length)]);
+    }
+
+    public void PlayPlayerPushSound() 
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerPushSounds[Random.Range(0, myPlayerPushSounds.Length)]);
+    }
+
     public void SetMusicVolume(float anAmount) 
     {
+        Debug.Log("volume for music set to " + anAmount);
+        PlayerPrefs.SetFloat("MusicVolume", anAmount);
+        PlayerPrefs.Save();
         myMusicAudioSource.volume = anAmount;
     }
 
     public void SetEffectsVolume(float anAmount) 
     {
+        Debug.Log("volume for effects set to " + anAmount);
+        PlayerPrefs.SetFloat("EffectsVolume", anAmount);
+        PlayerPrefs.Save();
         myEffectsAudioSource.volume = anAmount;
     }
 
     public float GetCurrentEffectsVolume() 
     {
-        return myEffectsAudioSource.volume;
+        return PlayerPrefs.GetFloat("EffectsVolume");
     }
 
     public float GetCurrentMusicVolume() 
     {
-        return myMusicAudioSource.volume;
+        return PlayerPrefs.GetFloat("MusicVolume");
     }
 }

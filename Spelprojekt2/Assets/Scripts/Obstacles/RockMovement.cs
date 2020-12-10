@@ -7,12 +7,14 @@ public class RockMovement : MonoBehaviour
     private float mySpeed = 10f;
     private Coord myCoords;
     private bool myFallingDown;
+    private bool myPlayFallingSound;
 
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        myPlayFallingSound = true;
     }
 
     private void Update()
@@ -27,10 +29,16 @@ public class RockMovement : MonoBehaviour
             myFallingDown = false;
         }
 
-        if (transform.position.y <= 0)
+        if (myFallingDown)
         {
             TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+            if (myPlayFallingSound) 
+            {
+                myPlayFallingSound = false;
+                SoundManager.myInstance.PlayRockFallingSound();
+            }
+            
         }
     }
 
@@ -38,6 +46,8 @@ public class RockMovement : MonoBehaviour
     {
         if (myCoords == aPlayerCurrentPos)
         {
+            SoundManager.myInstance.PlayRockSound();
+
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
@@ -83,8 +93,8 @@ public class RockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myFallingDown = true;
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
+            myFallingDown = true;
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
         TileMap.Instance.Set(previousCoords, eTileType.Empty);

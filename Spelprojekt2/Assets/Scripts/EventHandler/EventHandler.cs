@@ -152,6 +152,10 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent -= aFunc;
                 }
+                foreach (SlidingRockMovement _ in FindObjectsOfType<SlidingRockMovement>())
+                {
+                    onRockMoveEvent -= aFunc;
+                }
                 break;
             case eEventType.GoalReached:
                 onGoalReachedEvent -= aFunc;

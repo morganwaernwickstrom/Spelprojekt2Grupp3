@@ -45,7 +45,7 @@ public class ReflectorScript : MonoBehaviour
     private Coord myPreviousCoords;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.2f;
+    private float mySpeed = 10f;
 
     void Start()
     {
@@ -74,7 +74,8 @@ public class ReflectorScript : MonoBehaviour
     {
         if (transform.position != myDesiredPosition)
         {
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
+            myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
 
         myLeftDetectionBox.CheckIfExited();

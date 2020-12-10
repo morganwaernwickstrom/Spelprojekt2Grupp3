@@ -264,7 +264,22 @@ public class PlayerMovement : MonoBehaviour
 
     public void Push()
     {
-        myAnimator.SetTrigger("Push");
+
+        int myRandom = Random.Range(0, 10);
+
+        Debug.Log("myRandom: " + myRandom);
+
+        if(myRandom < 5) 
+        {
+            myAnimator.SetTrigger("Push");
+            SoundManager.myInstance.PlayPlayerPushSound();
+        }
+        else 
+        {
+            myAnimator.SetTrigger("Kick");
+            SoundManager.myInstance.PlayPlayerKickSound();
+        }
+        
     }
 
     private void ExecuteCommands()
@@ -409,7 +424,11 @@ public class PlayerMovement : MonoBehaviour
             Push();
             myDesiredPosition = transform.position;
             myCoords = myOriginalCoord;
-            
+
+        }
+        else 
+        {
+            SoundManager.myInstance.PlayPlayerDashSound();
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
