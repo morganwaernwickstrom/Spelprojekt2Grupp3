@@ -38,7 +38,15 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        myPlayer = GameObject.FindGameObjectWithTag("Player");
+        if (GameObject.FindGameObjectWithTag("Player")) 
+        {
+            myPlayer = GameObject.FindGameObjectWithTag("Player");
+        }
+        else
+        {
+            Debug.LogError("PLAYER WITH TAG PLAYER NOT FOUND");
+        }
+        
 
         if (myGamePaused) 
         {
