@@ -6,6 +6,7 @@ public class ReceiverScript : MonoBehaviour
     private bool myHasOpenedDoor = false;
     private Collider myIncomingLaserCollider;
 
+    public GameObject myLaserObject;
     [SerializeField] private GameObject myObject;
     private Animator myAnimator;
 
@@ -38,6 +39,7 @@ public class ReceiverScript : MonoBehaviour
             myHasOpenedDoor = true;
         }
 
+        myLaserObject.SetActive(myIsActivated);
         myAnimator.SetBool("Hit", myIsActivated);
     }
 
