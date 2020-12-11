@@ -19,12 +19,12 @@ public class TileMap : MonoBehaviour
         InitializeTileMap();
     }
 
-    private void OnEnable()
-    {
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
-        InitializeTileMap();
-    }
+    //private void onenable()
+    //{
+    //    eventhandler.current.subscribe(eeventtype.playermove, onplayermove);
+    //    eventhandler.current.subscribe(eeventtype.rockmove, onrockmove);
+    //    initializetilemap();
+    //}
 
     private void Update()
     {
