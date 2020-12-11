@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private float sqrDeadzone;
     private float percentage;
     private float mySpeed = 0f;
-    private float myMovementSpeed = 0.1f;
+    private float myMovementSpeed = 12f;
 
     //Quaternion
     private Quaternion myRotation;
@@ -108,16 +108,35 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleLerpLogic()
     {
-        if (percentage > 1.0f)
+        if (ComparePositions(transform.position, myDesiredPosition, 0.005f))
         {
             transform.position = myDesiredPosition;
         }
-        else
+        else if (transform.position != myDesiredPosition)
         {
-            percentage += Time.fixedDeltaTime * mySpeed;
-
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
+        
+        //percentage += Time.fixedDeltaTime * mySpeed;
+
+
+        //if (percentage > 1.0f)
+        //{
+        //    //transform.position = myDesiredPosition;
+        //}
+        //else
+        //{
+            
+        //}
+    }
+
+    private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
+    {
+        bool xDist = (Mathf.Abs(aPosition.x - aDesiredPosition.x) < aDif);
+        bool yDist = (Mathf.Abs(aPosition.y - aDesiredPosition.y) < aDif);
+        bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
+
+        return (xDist && yDist && zDist);
     }
 
     private bool CanAddCommand()
