@@ -40,4 +40,9 @@ public class LevelSelectScript : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.GoalReached, OnGoalReached);
     }
+
+    public void Menu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
 }

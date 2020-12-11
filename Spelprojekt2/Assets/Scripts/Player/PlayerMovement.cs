@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private float sqrDeadzone;
     private float percentage;
     private float mySpeed = 0f;
-    private float myMovementSpeed = 0.075f;
+    private float myMovementSpeed = 0.1f;
 
     //Quaternion
     private Quaternion myRotation;
