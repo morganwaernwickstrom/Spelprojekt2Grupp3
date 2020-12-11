@@ -4,10 +4,11 @@ public class RockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private float mySpeed = 10f;
+    private float mySpeed = 0.05f;
     private Coord myCoords;
     private bool myFallingDown;
     private bool myPlayFallingSound;
+    private float myLerpSpeed = 0;
 
     private void Start()
     {
@@ -19,7 +20,8 @@ public class RockMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        myLerpSpeed += mySpeed * Time.fixedDeltaTime; 
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, myLerpSpeed);
         myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
 
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
@@ -44,6 +46,7 @@ public class RockMovement : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        myLerpSpeed = 0;
         if (myCoords == aPlayerCurrentPos)
         {
             SoundManager.myInstance.PlayRockSound();
