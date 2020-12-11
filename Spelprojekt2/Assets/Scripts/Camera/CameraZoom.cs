@@ -14,13 +14,16 @@ public class CameraZoom : MonoBehaviour
     private bool mySpeedUp = false;
     private static bool myHasRun = false;
     private PlayerMovement myPlayerMovement;
+    private GameObject myPauseMenu;
 
     private void Start()
     {
+        myPauseMenu = FindObjectOfType<PauseMenu>().gameObject;
         if (!myHasRun)
         {
             myPlayerMovement = FindObjectOfType<PlayerMovement>();
             myPlayerMovement.enabled = false;
+            myPauseMenu.gameObject.SetActive(false);
             myOriginalPosition = transform.position;
             myOriginalRotation = transform.eulerAngles;
             myDesiredPosition = new Vector3(3f, 13f, -2f);
@@ -98,6 +101,7 @@ public class CameraZoom : MonoBehaviour
     private void Lock(bool aValue)
     {
         myPlayerMovement.enabled = aValue;
+        myPauseMenu.gameObject.SetActive(true);
         lerpSpeed = 0;
     }
 }
