@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private float sqrDeadzone;
     private float percentage;
     private float mySpeed = 0f;
-    private float myMovementSpeed = 0.1f;
+    private float myMovementSpeed = 0.075f;
 
     //Quaternion
     private Quaternion myRotation;
@@ -114,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            percentage += Time.deltaTime * mySpeed;
+            percentage += Time.fixedDeltaTime * mySpeed;
 
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
         }
