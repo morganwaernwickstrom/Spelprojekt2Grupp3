@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject myCharacterModel;
 
     //Float
-    [SerializeField] private float myMovementSpeed = 3f;
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
 
@@ -48,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private float sqrDeadzone;
     private float percentage;
     private float mySpeed = 0f;
+    private float myMovementSpeed = 0.5f;
 
     //Quaternion
     private Quaternion myRotation;
@@ -421,7 +421,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
-            Push();
+            if(TileMap.Instance.Get(myCoords) == eTileType.Laser) 
+            {
+                PlayLaserAnimation();
+            }
+            else 
+            {
+
+                Push();
+            }
+
             myDesiredPosition = transform.position;
             myCoords = myOriginalCoord;
 
@@ -429,6 +438,7 @@ public class PlayerMovement : MonoBehaviour
         else 
         {
             SoundManager.myInstance.PlayPlayerDashSound();
+            PlayJumpAnimation();
         }
         EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
 
@@ -463,6 +473,16 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void PlayJumpAnimation() 
+    {
+        myAnimator.SetTrigger("Jump");
+    }
+
+    private void PlayLaserAnimation() 
+    {
+        myAnimator.SetTrigger("Whiplash");
+    }
+
     private void AnimationHandler() 
     {
 
@@ -470,11 +490,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (distance < 0.1)
         {
-            myAnimator.SetBool("Walk", false);
+            //myAnimator.SetBool("Walk", false);
+            
         }
         else
         {
-            myAnimator.SetBool("Walk", true);
+            //myAnimator.SetBool("Walk", true);
         }
 
     }
