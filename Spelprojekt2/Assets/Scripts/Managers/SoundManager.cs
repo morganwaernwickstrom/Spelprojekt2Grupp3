@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] myPlayerDashSounds;
     [SerializeField] AudioClip[] myPlayerPushSounds;
     [SerializeField] AudioClip[] myPlayerKickSounds;
+    [SerializeField] AudioClip[] myPlayerBurnedSounds;
     [SerializeField] AudioClip myRockFallingSound;
     [SerializeField] AudioClip myDoorOpenSound;
     [SerializeField] AudioClip[] myFiddeSounds;
@@ -34,12 +35,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Slider myMusicSlider;
     #endregion
 
+    private int myFirstStartUp = -1;
 
     private void Start()
     {
         if(myInstance == null) 
         {
             myInstance = this;
+            myEffectSlider.value = 0.5f;
+            myMusicSlider.value = 0.5f;
             DontDestroyOnLoad(gameObject);
         }
         else 
@@ -48,7 +52,6 @@ public class SoundManager : MonoBehaviour
         }
 
         VolumeSliderSetup();
-       
     }
 
     public void Update()
@@ -143,6 +146,11 @@ public class SoundManager : MonoBehaviour
     public void PlayPlayerPushSound() 
     {
         myEffectsAudioSource.PlayOneShot(myPlayerPushSounds[Random.Range(0, myPlayerPushSounds.Length)]);
+    }
+
+    public void PlayPlayerBurnedSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerBurnedSounds[Random.Range(0, myPlayerBurnedSounds.Length)]);
     }
 
     public void SetMusicVolume(float anAmount) 
