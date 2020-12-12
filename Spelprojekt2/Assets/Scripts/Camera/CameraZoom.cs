@@ -81,7 +81,7 @@ public class CameraZoom : MonoBehaviour
     private void Zoom(Vector3 aDestinationPos, Vector3 aDestinationRot)
     {
         myPlayerMovement.enabled = false;
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Space))
             mySpeedUp = true;
 
         if (mySpeedUp)
