@@ -3,9 +3,9 @@
 public class LaserDetectionScript : MonoBehaviour
 {
     public bool myIsHit = false;
-    [SerializeField] private Collider myIncomingLaserCollider;
-    [SerializeField] private Collider myIncomingCollider;
-    [SerializeField] private LaserDetectionScript myOtherSide;
+    [SerializeField] private Collider myIncomingLaserCollider = null;
+    [SerializeField] private Collider myIncomingCollider = null;
+    [SerializeField] private LaserDetectionScript myOtherSide = null;
 
     Vector3 myPreviousPosition;
     Vector3 myPosition;

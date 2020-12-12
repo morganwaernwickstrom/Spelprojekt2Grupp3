@@ -17,10 +17,10 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myCard2 = null;
     [SerializeField] GameObject myCard3 = null;
 
-    [SerializeField] Slider myEffectsSlider;
-    [SerializeField] Slider myMusicSlider;
+    [SerializeField] Slider myEffectsSlider = null;
+    [SerializeField] Slider myMusicSlider = null;
 
-    private GameObject myPlayer;
+    private GameObject myPlayer = null;
 
     private float myEffectsDelta;
     private float myMusicDelta;

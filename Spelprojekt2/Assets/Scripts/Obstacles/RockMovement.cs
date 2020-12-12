@@ -8,7 +8,6 @@ public class RockMovement : MonoBehaviour
     private Coord myCoords;
     private bool myFallingDown;
     private bool myPlayFallingSound;
-    private float myLerpSpeed = 0;
 
     private void Start()
     {
