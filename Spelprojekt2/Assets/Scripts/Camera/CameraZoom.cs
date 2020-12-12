@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CameraZoom : MonoBehaviour
 {
@@ -15,13 +16,21 @@ public class CameraZoom : MonoBehaviour
     private static bool myHasRun = false;
     private PlayerMovement myPlayerMovement;
     private GameObject myPauseMenu;
+    private static int myCurrentSceneIndex = 0;
 
     private void Start()
     {
         myPauseMenu = FindObjectOfType<PauseMenu>().gameObject;
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+
+        if (myCurrentSceneIndex != SceneManager.GetActiveScene().buildIndex)
+        {
+            myHasRun = false;
+            myCurrentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        }
         if (!myHasRun)
         {
-            myPlayerMovement = FindObjectOfType<PlayerMovement>();
+            myCurrentSceneIndex = SceneManager.GetActiveScene().buildIndex;
             myPlayerMovement.enabled = false;
             myPauseMenu.gameObject.SetActive(false);
             myOriginalPosition = transform.position;
