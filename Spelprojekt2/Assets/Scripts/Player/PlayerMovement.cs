@@ -99,7 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
         WasdMovement();
 
-        AnimationHandler();
+        //AnimationHandler();
 
         HandleCommandQueue();
 
@@ -109,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleLerpLogic()
     {
-        if (ComparePositions(transform.position, myDesiredPosition, 0.005f))
+        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
         }
@@ -290,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
 
         int myRandom = Random.Range(0, 10);
 
-        Debug.Log("myRandom: " + myRandom);
+        //Debug.Log("myRandom: " + myRandom);
 
         if(myRandom < 5) 
         {
@@ -447,6 +447,7 @@ public class PlayerMovement : MonoBehaviour
             if(TileMap.Instance.Get(myCoords) == eTileType.Laser) 
             {
                 PlayLaserAnimation();
+                SoundManager.myInstance.PlayPlayerBurnedSound();
             }
             else 
             {

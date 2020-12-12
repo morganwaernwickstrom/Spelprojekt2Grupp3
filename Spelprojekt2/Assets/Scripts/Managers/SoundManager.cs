@@ -18,6 +18,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] myPlayerDashSounds;
     [SerializeField] AudioClip[] myPlayerPushSounds;
     [SerializeField] AudioClip[] myPlayerKickSounds;
+    [SerializeField] AudioClip[] myPlayerBurnedSounds;
     [SerializeField] AudioClip myRockFallingSound;
     [SerializeField] AudioClip myDoorOpenSound;
     [SerializeField] AudioClip[] myFiddeSounds;
@@ -145,6 +146,11 @@ public class SoundManager : MonoBehaviour
     public void PlayPlayerPushSound() 
     {
         myEffectsAudioSource.PlayOneShot(myPlayerPushSounds[Random.Range(0, myPlayerPushSounds.Length)]);
+    }
+
+    public void PlayPlayerBurnedSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myPlayerBurnedSounds[Random.Range(0, myPlayerBurnedSounds.Length)]);
     }
 
     public void SetMusicVolume(float anAmount) 
