@@ -47,7 +47,7 @@ public class PlayerMovement : MonoBehaviour
     private float sqrDeadzone;
     private float percentage;
     private float mySpeed = 0f;
-    private float myMovementSpeed = 12f;
+    private float myMovementSpeed = 15f;
 
     //Quaternion
     private Quaternion myRotation;
@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
     //Misc
     private Animator myAnimator;
     private Queue myCommandQueue = new Queue();
+
     #endregion
 
     #region public variables
@@ -216,7 +217,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void AddCommand<T>(T aCommand) 
     {
-        myCommandQueue.Enqueue(aCommand);
+        if (transform.position == myDesiredPosition)
+        {
+            myCommandQueue.Enqueue(aCommand);
+        }
     }
 
     //Movement using mobile controls

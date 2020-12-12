@@ -34,12 +34,15 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Slider myMusicSlider;
     #endregion
 
+    private int myFirstStartUp = -1;
 
     private void Start()
     {
         if(myInstance == null) 
         {
             myInstance = this;
+            myEffectSlider.value = 0.5f;
+            myMusicSlider.value = 0.5f;
             DontDestroyOnLoad(gameObject);
         }
         else 
@@ -48,7 +51,6 @@ public class SoundManager : MonoBehaviour
         }
 
         VolumeSliderSetup();
-       
     }
 
     public void Update()
