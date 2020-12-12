@@ -1,16 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingBackground : MonoBehaviour
 {
-    [SerializeField] GameObject[] myImages = new GameObject[4];
+    [SerializeField] GameObject[] myImages = new GameObject[5];
     private Vector3 myDefaultPosition = new Vector3(0, 0, 0);
+    private Vector3 myMovePosition = new Vector3(0, 0, 0);
     public float mySpeed = 500;
+
+    private void Awake()
+    {
+        myMovePosition = myImages[0].transform.position;
+        myDefaultPosition = myImages[4].transform.position;
+    }
 
     private void Start()
     {
-        myDefaultPosition = myImages[3].transform.position;
         mySpeed = 100;
         Time.timeScale = 1;
     }
@@ -24,12 +28,10 @@ public class MovingBackground : MonoBehaviour
 
         foreach (GameObject image in myImages)
         {
-            if (image.transform.position.y >= 3655)
+            if (image.transform.position.y >= myMovePosition.y)
             {
                 image.transform.position = myDefaultPosition;
             }
         }
-
-        
     }
 }

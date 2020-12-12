@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     //SerializeFields
 
     //GameObject
-    [SerializeField] private GameObject myCharacterModel;
+    [SerializeField] private GameObject myCharacterModel = null;
 
     //Float
     [SerializeField] private float myDeadzone = 100.0f;
@@ -30,8 +30,8 @@ public class PlayerMovement : MonoBehaviour
     private Coord myOriginalCoord;
     private Coord myDesiredTile;
 
-    //GameObject
-    private GameObject[] myTiles;
+    ////GameObject
+    //private GameObject[] myTiles = null;
 
     //Bool
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     //Float
     private float lastTap;
     private float sqrDeadzone;
-    private float percentage;
+    //private float percentage;
     private float mySpeed = 0f;
     private float myMovementSpeed = 15f;
 
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     private Quaternion myRotation;
 
     //Misc
-    private Animator myAnimator;
+    private Animator myAnimator = null;
     private Queue myCommandQueue = new Queue();
 
     #endregion
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
     {
         mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
-        percentage = 0.0f;
+        //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
@@ -359,7 +359,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            percentage = 0;
+            //percentage = 0;
             myDesiredPosition += new Vector3(-1, 0, 0);
             myCoords.x -= 1;
         }
@@ -383,7 +383,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            percentage = 0;
+            //percentage = 0;
             myDesiredPosition += new Vector3(1, 0, 0);
             myCoords.x += 1;
         }
@@ -407,7 +407,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            percentage = 0;
+            //percentage = 0;
             myDesiredPosition += new Vector3(0, 0, 1);
             myCoords.y += 1;
         }
@@ -431,7 +431,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            percentage = 0;
+            //percentage = 0;
             myDesiredPosition += new Vector3(0, 0, -1);
             myCoords.y -= 1;
         }

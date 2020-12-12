@@ -553,7 +553,6 @@ RectTransform:
   - {fileID: 1242733319904146187}
   - {fileID: 2499124362841924151}
   - {fileID: 4561392662266067489}
-  - {fileID: 8967730199365519325}
   m_Father: {fileID: 1568636823389537212}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -674,6 +673,7 @@ MonoBehaviour:
   myPauseButton: {fileID: 1566744183870513132}
   myRetryButton: {fileID: 7987718524135569855}
   myOptionsMenu: {fileID: 154812288336654841}
+  myIngameMenu: {fileID: 2544715037055695175}
   myTutorialCards: {fileID: 7904454989481315331}
   myHelpButton: {fileID: 2552292721320751860}
   myCard1: {fileID: 359626268572748670}
@@ -787,6 +787,7 @@ RectTransform:
   m_Children:
   - {fileID: 1653604614250266168}
   - {fileID: 2032109139380183265}
+  - {fileID: 8967730199365519325}
   m_Father: {fileID: 1568636823389537212}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -881,16 +882,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2552292721320751860}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.64387167, y: 0.64387167, z: 0.64387167}
   m_Children: []
-  m_Father: {fileID: 1568636822729093882}
-  m_RootOrder: 6
+  m_Father: {fileID: 1318487726809235963}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 38}
+  m_AnchoredPosition: {x: -266, y: 51.271}
   m_SizeDelta: {x: 151, y: 170}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &1272368632090732692
@@ -1377,7 +1378,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0.000061035156}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6619617771793108079
@@ -2210,7 +2211,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2220,10 +2221,14 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 3848805935621984328, guid: b3a20657cc1c4e4408cb06477d4c8ba0,
+      type: 3}
+    m_PressedSprite: {fileID: 3848805935621984328, guid: b3a20657cc1c4e4408cb06477d4c8ba0,
+      type: 3}
+    m_SelectedSprite: {fileID: 3848805935621984328, guid: b3a20657cc1c4e4408cb06477d4c8ba0,
+      type: 3}
+    m_DisabledSprite: {fileID: 268056069943925164, guid: b3a20657cc1c4e4408cb06477d4c8ba0,
+      type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

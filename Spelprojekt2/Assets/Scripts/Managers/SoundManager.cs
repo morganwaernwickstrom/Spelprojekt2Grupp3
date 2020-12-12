@@ -13,16 +13,16 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
     [SerializeField] AudioClip myRockSound = null;
-    [SerializeField] AudioClip[] mySlidingSounds;
+    [SerializeField] AudioClip[] mySlidingSounds = null;
     [SerializeField] AudioClip myLaserSound = null;
-    [SerializeField] AudioClip[] myPlayerDashSounds;
-    [SerializeField] AudioClip[] myPlayerPushSounds;
-    [SerializeField] AudioClip[] myPlayerKickSounds;
-    [SerializeField] AudioClip[] myPlayerBurnedSounds;
-    [SerializeField] AudioClip myRockFallingSound;
-    [SerializeField] AudioClip myDoorOpenSound;
-    [SerializeField] AudioClip[] myFiddeSounds;
-    [SerializeField] AudioClip myMenuButtonSound;
+    [SerializeField] AudioClip[] myPlayerDashSounds = null;
+    [SerializeField] AudioClip[] myPlayerPushSounds = null;
+    [SerializeField] AudioClip[] myPlayerKickSounds = null;
+    [SerializeField] AudioClip[] myPlayerBurnedSounds = null;
+    [SerializeField] AudioClip myRockFallingSound = null;
+    [SerializeField] AudioClip myDoorOpenSound = null;
+    [SerializeField] AudioClip[] myFiddeSounds = null;
+    [SerializeField] AudioClip myMenuButtonSound = null;
     #endregion
 
     #region AudioSources
@@ -31,11 +31,9 @@ public class SoundManager : MonoBehaviour
     #endregion
 
     #region Sliders
-    [SerializeField] Slider myEffectSlider;
-    [SerializeField] Slider myMusicSlider;
+    [SerializeField] Slider myEffectSlider = null;
+    [SerializeField] Slider myMusicSlider = null;
     #endregion
-
-    private int myFirstStartUp = -1;
 
     private void Start()
     {

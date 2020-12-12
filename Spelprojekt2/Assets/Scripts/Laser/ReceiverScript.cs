@@ -4,11 +4,11 @@ public class ReceiverScript : MonoBehaviour
 {
     public bool myIsActivated = false;
     private bool myHasOpenedDoor = false;
-    private Collider myIncomingLaserCollider;
+    private Collider myIncomingLaserCollider = null;
 
-    public GameObject myLaserObject;
-    [SerializeField] private GameObject myObject;
-    private Animator myAnimator;
+    public GameObject myLaserObject = null;
+    [SerializeField] private GameObject myObject = null;
+    private Animator myAnimator = null;
 
     // Coordinates to use for collision checking
     private Coord myCoords;

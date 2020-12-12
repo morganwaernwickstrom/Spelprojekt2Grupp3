@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myPauseButton = null;
     [SerializeField] GameObject myRetryButton = null;
     [SerializeField] GameObject myOptionsMenu = null;
+    [SerializeField] GameObject myIngameMenu = null;
 
     [SerializeField] GameObject myTutorialCards = null;
     [SerializeField] GameObject myHelpButton = null;
@@ -17,10 +16,10 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myCard2 = null;
     [SerializeField] GameObject myCard3 = null;
 
-    [SerializeField] Slider myEffectsSlider;
-    [SerializeField] Slider myMusicSlider;
+    [SerializeField] Slider myEffectsSlider = null;
+    [SerializeField] Slider myMusicSlider = null;
 
-    private GameObject myPlayer;
+    private GameObject myPlayer = null;
 
     private float myEffectsDelta;
     private float myMusicDelta;
@@ -55,6 +54,7 @@ public class PauseMenu : MonoBehaviour
                 myPauseMenu.SetActive(true);
                 myPauseButton.SetActive(false);
                 myRetryButton.SetActive(false);
+                myHelpButton.SetActive(false);
             }
 
             Time.timeScale = 0;
@@ -65,29 +65,13 @@ public class PauseMenu : MonoBehaviour
             myPauseMenu.SetActive(false);
             myPauseButton.SetActive(true);
             myRetryButton.SetActive(true);
+            myHelpButton.SetActive(true);
             Time.timeScale = 1;
             myPlayer.GetComponent<PlayerMovement>().enabled = true;
         }
 
-        /*
-        if(myEffectsSlider.value != myEffectsDelta) 
-        {
-            SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
-            myEffectsDelta = myEffectsSlider.value;
-        }
-        */
-
         SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
-        SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);
-
-        /*
-        if (myMusicSlider.value != myMusicDelta) 
-        {
-            SoundManager.myInstance.SetEffectsVolume(myEffectsSlider.value);
-            myMusicDelta = myMusicSlider.value;
-        }
-        */
-        
+        SoundManager.myInstance.SetMusicVolume(myMusicSlider.value);        
 
         SetPauseState();
     }
@@ -133,8 +117,8 @@ public class PauseMenu : MonoBehaviour
 
     public void TutorialCards()
     {
+        myIngameMenu.SetActive(false);
         myInTutorial = true;
-        myHelpButton.SetActive(false);
         myPauseMenu.SetActive(false);
         myTutorialCards.SetActive(true);
         myCard1.SetActive(true);
@@ -143,7 +127,7 @@ public class PauseMenu : MonoBehaviour
     public void BackFromTutorials()
     {
         myInTutorial = false;
-        myHelpButton.SetActive(true);
+        myIngameMenu.SetActive(true);
         myPauseMenu.SetActive(true);
         myTutorialCards.SetActive(false);
         myCard1.SetActive(false);
