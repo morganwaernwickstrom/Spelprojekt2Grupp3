@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class FinishTrigger : MonoBehaviour
 {
     private Coord myCoords;
     private bool myShouldReset = false;
+    private bool myHasPlayed = false;
 
     private float mySoundInterval;
 
@@ -13,6 +15,8 @@ public class FinishTrigger : MonoBehaviour
 
     [SerializeField] Camera myCamera;
 
+    [SerializeField] List<ParticleSystem> myConfettiEffects;
+
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -21,7 +25,7 @@ public class FinishTrigger : MonoBehaviour
         myMakeSound = true;
         myAnimator = GetComponentInChildren<Animator>();
         myCamera.enabled = false;
-
+        HideConfetti();
     }
 
     private void Update()
@@ -31,6 +35,12 @@ public class FinishTrigger : MonoBehaviour
             EventHandler.current.GoalReachedEvent(myCoords);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
             RotateCamera();
+
+            if (!myHasPlayed)
+            {
+                CreateConfetti();
+                myHasPlayed = true;
+            }
         }
 
         MakeSound();
@@ -42,7 +52,7 @@ public class FinishTrigger : MonoBehaviour
         return (myCoords == aPlayerCurrentPos);
     }
 
-    private void RotateCamera() 
+    private void RotateCamera()
     {
         //Camera.main.gameObject.SetActive(false);
         myCamera.enabled = true;
@@ -51,18 +61,18 @@ public class FinishTrigger : MonoBehaviour
         myCamera.transform.RotateAround(GameObject.FindGameObjectWithTag("Player").transform.position, transform.up, Time.fixedDeltaTime * 2f);
     }
 
-    private void MakeSound() 
+    private void MakeSound()
     {
         mySoundInterval -= Time.deltaTime;
 
-        if(mySoundInterval <= 0 && myMakeSound) 
+        if (mySoundInterval <= 0 && myMakeSound)
         {
             SoundManager.myInstance.PlayFiddeSounds();
             mySoundInterval = Random.Range(10, 25);
             myMakeSound = false;
             myAnimator.SetTrigger("Idle2");
         }
-        else 
+        else
         {
             myMakeSound = true;
         }
@@ -76,5 +86,22 @@ public class FinishTrigger : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void HideConfetti()
+    {
+        foreach (ParticleSystem confetti in myConfettiEffects)
+        {
+            confetti.gameObject.SetActive(false);
+        }
+    }
+
+    private void CreateConfetti()
+    {
+        foreach (ParticleSystem confetti in myConfettiEffects)
+        {
+            confetti.gameObject.SetActive(true);
+            confetti.Play();
+        }
     }
 }
