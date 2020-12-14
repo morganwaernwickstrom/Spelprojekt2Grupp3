@@ -25,7 +25,7 @@ public class RockMovement : MonoBehaviour
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
         {
             myDesiredPosition += new Vector3(0, -0.7f, 0);
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * 5 * Time.deltaTime);
             myFallingDown = false;
         }
 
