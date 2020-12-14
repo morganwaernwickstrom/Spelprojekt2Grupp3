@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+struct MoveInfo
+{
+    public Coord coord;
+    public Vector3 position;
+}
+
 public class PlayerMovement : MonoBehaviour
 {
 
@@ -30,8 +36,8 @@ public class PlayerMovement : MonoBehaviour
     private Coord myOriginalCoord;
     private Coord myDesiredTile;
 
-    ////GameObject
-    //private GameObject[] myTiles = null;
+    //Stack
+    private Stack myPreviousMoves;
 
     //Bool
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
@@ -51,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
 
     //Quaternion
     private Quaternion myRotation;
+
+    //Transform
+    private Vector3 myPreviousPosition;
+    private Vector3 myPreviousRotation;
 
     //Misc
     private Animator myAnimator = null;
@@ -81,12 +91,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        myPreviousMoves = new Stack();
         mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
         //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
     private void Update()
@@ -105,6 +118,35 @@ public class PlayerMovement : MonoBehaviour
 
         HandleLerpLogic();
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EventHandler.current.RewindEvent();
+        }
+
+    }
+
+    private void OnRewind()
+    {
+        //if (myCoords != myPreviousCoords)
+        //{
+        //    TileMap.Instance.Set(myCoords, eTileType.Empty);
+        //    TileMap.Instance.Set(myPreviousCoords, eTileType.Player);
+        //    myCoords = myPreviousCoords;
+        //    myDesiredPosition = myPreviousPosition;
+        //    transform.eulerAngles = myPreviousRotation;
+        //}
+
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+            
+            TileMap.Instance.Set(myCoords, eTileType.Player);
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+        }
     }
 
     private void HandleLerpLogic()
@@ -360,6 +402,10 @@ public class PlayerMovement : MonoBehaviour
         if (CanMove(myDesiredTile))
         {
             //percentage = 0;
+            //myPreviousPosition = transform.position;
+            //myPreviousRotation = transform.eulerAngles;
+            //myPreviousMoves.Push(transform.position);
+            CreateMove();
             myDesiredPosition += new Vector3(-1, 0, 0);
             myCoords.x -= 1;
         }
@@ -384,6 +430,10 @@ public class PlayerMovement : MonoBehaviour
         if (CanMove(myDesiredTile))
         {
             //percentage = 0;
+            //myPreviousPosition = transform.position;
+            //myPreviousRotation = transform.eulerAngles;
+            //myPreviousMoves.Push(transform.position);
+            CreateMove();
             myDesiredPosition += new Vector3(1, 0, 0);
             myCoords.x += 1;
         }
@@ -408,6 +458,10 @@ public class PlayerMovement : MonoBehaviour
         if (CanMove(myDesiredTile))
         {
             //percentage = 0;
+            //myPreviousPosition = transform.position;
+            //myPreviousRotation = transform.eulerAngles;
+            //myPreviousMoves.Push(transform.position);
+            CreateMove();
             myDesiredPosition += new Vector3(0, 0, 1);
             myCoords.y += 1;
         }
@@ -432,6 +486,10 @@ public class PlayerMovement : MonoBehaviour
         if (CanMove(myDesiredTile))
         {
             //percentage = 0;
+            //myPreviousPosition = transform.position;
+            //myPreviousRotation = transform.eulerAngles;
+            //myPreviousMoves.Push(transform.position);
+            CreateMove();
             myDesiredPosition += new Vector3(0, 0, -1);
             myCoords.y -= 1;
         }
@@ -507,21 +565,29 @@ public class PlayerMovement : MonoBehaviour
         myAnimator.SetTrigger("Whiplash");
     }
 
-    private void AnimationHandler() 
-    {
+    //private void AnimationHandler() 
+    //{
 
-        float distance = Vector3.Distance(transform.position, myDesiredPosition);
+    //    float distance = Vector3.Distance(transform.position, myDesiredPosition);
 
-        if (distance < 0.1)
-        {
-            //myAnimator.SetBool("Walk", false);
+    //    if (distance < 0.1)
+    //    {
+    //        //myAnimator.SetBool("Walk", false);
             
-        }
-        else
-        {
-            //myAnimator.SetBool("Walk", true);
-        }
+    //    }
+    //    else
+    //    {
+    //        //myAnimator.SetBool("Walk", true);
+    //    }
 
+    //}
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
     }
 
     bool CanMove(Coord aCoord)
@@ -532,5 +598,10 @@ public class PlayerMovement : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }
