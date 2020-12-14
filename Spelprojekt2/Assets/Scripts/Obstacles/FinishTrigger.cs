@@ -11,6 +11,8 @@ public class FinishTrigger : MonoBehaviour
 
     private bool myMakeSound;
 
+    [SerializeField] Camera myCamera;
+
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -18,6 +20,7 @@ public class FinishTrigger : MonoBehaviour
         mySoundInterval = 10f;
         myMakeSound = true;
         myAnimator = GetComponentInChildren<Animator>();
+        myCamera.enabled = false;
 
     }
 
@@ -26,6 +29,8 @@ public class FinishTrigger : MonoBehaviour
         if (myShouldReset)
         {
             EventHandler.current.GoalReachedEvent(myCoords);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
+            RotateCamera();
         }
 
         MakeSound();
@@ -35,6 +40,15 @@ public class FinishTrigger : MonoBehaviour
     {
         myShouldReset = (myCoords == aPlayerCurrentPos);
         return (myCoords == aPlayerCurrentPos);
+    }
+
+    private void RotateCamera() 
+    {
+        //Camera.main.gameObject.SetActive(false);
+        myCamera.enabled = true;
+
+        myCamera.GetComponent<Camera>().gameObject.transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform);
+        myCamera.transform.RotateAround(GameObject.FindGameObjectWithTag("Player").transform.position, transform.up, Time.fixedDeltaTime * 2f);
     }
 
     private void MakeSound() 
