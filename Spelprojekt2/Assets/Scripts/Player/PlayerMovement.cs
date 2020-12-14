@@ -5,6 +5,7 @@ struct MoveInfo
 {
     public Coord coord;
     public Vector3 position;
+    public Quaternion rotation;
 }
 
 public class PlayerMovement : MonoBehaviour
@@ -142,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
+            myCharacterModel.transform.rotation = moveInfo.rotation;
             myPreviousMoves.Pop();
             
             TileMap.Instance.Set(myCoords, eTileType.Player);
@@ -587,6 +589,7 @@ public class PlayerMovement : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = transform.position;
+        temp.rotation = myRotation;
         myPreviousMoves.Push(temp);
     }
 
