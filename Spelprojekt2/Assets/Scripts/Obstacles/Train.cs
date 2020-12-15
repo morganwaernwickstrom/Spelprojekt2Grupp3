@@ -31,13 +31,6 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-<<<<<<< HEAD
-        //if (transform.position != myDesiredPosition)
-        //{
-        //    myIsMoving = true;
-        //    transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-        //}
-
         if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
@@ -49,7 +42,7 @@ public class Train : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
 
-        mySnailAnimator.SetBool("Moving", myIsMoving);
+        //mySnailAnimator.SetBool("Moving", myIsMoving);
     }
 
     private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
@@ -59,10 +52,8 @@ public class Train : MonoBehaviour
         bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
 
         return (xDist && yDist && zDist);
-=======
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
->>>>>>> parent of 2a7b365... Merge branch 'Develop' of https://github.com/morganwaernwickstrom/Spelprojekt2Grupp3 into Develop
     }
 
     private void OnRewind()
