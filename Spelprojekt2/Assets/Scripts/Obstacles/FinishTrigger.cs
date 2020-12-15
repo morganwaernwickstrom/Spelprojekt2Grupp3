@@ -12,6 +12,7 @@ public class FinishTrigger : MonoBehaviour
     private Animator myAnimator;
 
     private bool myMakeSound;
+    private bool myPlayVictorySound;
 
     [SerializeField] Camera myCamera;
 
@@ -25,6 +26,7 @@ public class FinishTrigger : MonoBehaviour
         myMakeSound = true;
         myAnimator = GetComponentInChildren<Animator>();
         myCamera.enabled = false;
+        myPlayVictorySound = true;
         HideConfetti();
     }
 
@@ -37,6 +39,12 @@ public class FinishTrigger : MonoBehaviour
             GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>().SetTrigger("Dance");
             GetComponentInChildren<Animator>().SetBool("Dance", true);
             RotateCamera();
+
+            if (myPlayVictorySound) 
+            {
+                SoundManager.myInstance.PlayWinSounds();
+                myPlayVictorySound = false;
+            }
 
             if (!myHasPlayed)
             {
