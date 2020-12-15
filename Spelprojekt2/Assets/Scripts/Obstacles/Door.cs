@@ -4,7 +4,7 @@ public class Door : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myOriginalPosition;
-    private float mySpeed = 10f;
+    private float mySpeed = 4f;
     private Coord myCoords;
     private bool myIsOpened = false;
     private bool myShouldClose = true;

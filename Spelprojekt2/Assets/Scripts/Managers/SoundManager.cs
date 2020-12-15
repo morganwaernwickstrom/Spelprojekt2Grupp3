@@ -23,6 +23,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip myDoorOpenSound = null;
     [SerializeField] AudioClip[] myFiddeSounds = null;
     [SerializeField] AudioClip myMenuButtonSound = null;
+    [SerializeField] AudioClip myWinSound = null;
+    [SerializeField] AudioClip myWinMusic = null;
     #endregion
 
     #region AudioSources
@@ -40,14 +42,14 @@ public class SoundManager : MonoBehaviour
         if(myInstance == null) 
         {
             myInstance = this;
-            if (myEffectSlider != null)
-            { 
-                myEffectSlider.value = 0.5f;
-            }
-            if (myMusicSlider != null)
-            {
-                myMusicSlider.value = 0.5f;
-            }
+            //if (myEffectSlider != null)
+            //{ 
+            //    myEffectSlider.value = 0.5f;
+            //}
+            //if (myMusicSlider != null)
+            //{
+            //    myMusicSlider.value = 0.5f;
+            //}
             DontDestroyOnLoad(gameObject);
         }
         else 
@@ -140,6 +142,12 @@ public class SoundManager : MonoBehaviour
     public void PlayPlayerKickSound() 
     {
         myEffectsAudioSource.PlayOneShot(myPlayerKickSounds[Random.Range(0, myPlayerKickSounds.Length)]);
+    }
+
+    public void PlayWinSounds() 
+    {
+        myEffectsAudioSource.PlayOneShot(myWinSound);
+        myEffectsAudioSource.PlayOneShot(myWinMusic);
     }
 
     public void PlayFiddeSounds() 
