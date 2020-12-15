@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Train : MonoBehaviour
@@ -10,13 +9,18 @@ public class Train : MonoBehaviour
     private float mySpeed = 5f;
     private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
+    private Coord myPreviousCoords;
+
+    private Stack myPreviousMoves;
 
     // Start is called before the first frame update
     void Start()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         if (gameObject != null)
         {
             myDestinationRot = transform.eulerAngles;
@@ -29,10 +33,24 @@ public class Train : MonoBehaviour
         //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
     }
 
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Rail);
+            TileMap.Instance.Set(myCoords, eTileType.Train);
+        }
+    }
+
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        // findgameobject rail
-        // desired position finns en rail
+        CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -111,6 +129,14 @@ public class Train : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
     }
 
     private void OnDestroy()
