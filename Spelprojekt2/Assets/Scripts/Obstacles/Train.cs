@@ -3,9 +3,11 @@ using UnityEngine;
 
 public class Train : MonoBehaviour
 {
-
     private Vector3 myDesiredPosition;
+    private Vector3 myDestinationRot;
+    
     private float mySpeed = 5f;
+    private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
     private Coord myPreviousCoords;
 
@@ -16,16 +18,20 @@ public class Train : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        myPreviousMoves = new Stack();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
+        if (gameObject != null)
+        {
+            myDestinationRot = transform.eulerAngles;
+        }
     }
 
     private void Update()
     {
+<<<<<<< HEAD
         //if (transform.position != myDesiredPosition)
         //{
         //    myIsMoving = true;
@@ -53,6 +59,10 @@ public class Train : MonoBehaviour
         bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
 
         return (xDist && yDist && zDist);
+=======
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
+>>>>>>> parent of 2a7b365... Merge branch 'Develop' of https://github.com/morganwaernwickstrom/Spelprojekt2Grupp3 into Develop
     }
 
     private void OnRewind()
@@ -66,14 +76,13 @@ public class Train : MonoBehaviour
             myPreviousMoves.Pop();
 
             TileMap.Instance.Set(myPreviousCoords, eTileType.Rail);
-            TileMap.Instance.Set(myCoords, eTileType.Rock);
+            TileMap.Instance.Set(myCoords, eTileType.Train);
         }
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         CreateMove();
-
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -102,6 +111,7 @@ public class Train : MonoBehaviour
 
     private void Move(Coord aDirection)
     {
+        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
         Coord previousCoords = myCoords;
         Coord desiredTile = myCoords + aDirection;
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
@@ -113,7 +123,31 @@ public class Train : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
             TileMap.Instance.Get(desiredTile) == eTileType.Train)
             return;
-        
+        if (aDirection.x > 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 0, 0);
+            myRotation = Quaternion.Euler(0, 180, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.x < 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 180, 0);
+            myRotation = Quaternion.Euler(0, 0, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.y > 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 270, 0);
+            myRotation = Quaternion.Euler(0, 90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.y < 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 90, 0);
+            myRotation = Quaternion.Euler(0, -90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        // TODO: Add Lookup map of to check if tile is empty!
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rail)
         {
             myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
@@ -121,15 +155,7 @@ public class Train : MonoBehaviour
             TileMap.Instance.Set(previousCoords, eTileType.Rail);
         }
         EventHandler.current.RockMoveEvent(myCoords);
-    }
 
-    private void CreateMove()
-    {
-        var temp = new MoveInfo();
-        temp.coord = myCoords;
-        temp.position = transform.position;
-        //temp.rotation = myRotation;
-        myPreviousMoves.Push(temp);
     }
 
     public Coord GetCoords()
@@ -137,9 +163,16 @@ public class Train : MonoBehaviour
         return myCoords;
     }
 
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
+    }
+
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }
