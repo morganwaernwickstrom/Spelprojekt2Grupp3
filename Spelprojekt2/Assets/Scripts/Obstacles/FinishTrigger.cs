@@ -34,6 +34,7 @@ public class FinishTrigger : MonoBehaviour
         {
             EventHandler.current.GoalReachedEvent(myCoords);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>().enabled = false;
+            GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Animator>().SetTrigger("Dance");
             RotateCamera();
 
             if (!myHasPlayed)
