@@ -57,6 +57,8 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        
+
         VolumeSliderSetup();
     }
 
@@ -64,6 +66,16 @@ public class SoundManager : MonoBehaviour
     {
         ManageMusic();
         SliderManager();
+
+        if(SceneManager.GetActiveScene().buildIndex == 0) 
+        {
+            if (GameObject.FindGameObjectWithTag("SoundEffectSlider")) 
+            {
+                myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
+                myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
+            }
+            
+        }
     }
 
     private void VolumeSliderSetup() 
