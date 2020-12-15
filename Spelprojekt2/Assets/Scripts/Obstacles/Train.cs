@@ -6,7 +6,7 @@ public class Train : MonoBehaviour
     private Vector3 myDesiredPosition;
     private Vector3 myDestinationRot;
     
-    private float mySpeed = 5f;
+    private float mySpeed = 4f;
     private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
     private Coord myPreviousCoords;
@@ -33,18 +33,18 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        myIsMoving = (transform.position != myDesiredPosition);
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.02f))
         {
             transform.position = myDesiredPosition;
-            myIsMoving = false;
         }
-        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        else
         {
-            myIsMoving = true;
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
 
-        //mySnailAnimator.SetBool("Moving", myIsMoving);
+        mySnailAnimator.SetBool("Moving", myIsMoving);
     }
 
     private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
@@ -54,7 +54,7 @@ public class Train : MonoBehaviour
         bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
 
         return (xDist && yDist && zDist);
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
     }
 

@@ -12,9 +12,11 @@ public class PauseMenu : MonoBehaviour
 
     [SerializeField] GameObject myTutorialCards = null;
     [SerializeField] GameObject myHelpButton = null;
+    [SerializeField] GameObject myFieldGuide = null;
     [SerializeField] GameObject myCard1 = null;
     [SerializeField] GameObject myCard2 = null;
     [SerializeField] GameObject myCard3 = null;
+    [SerializeField] GameObject myCard4 = null;
 
     [SerializeField] Slider myEffectsSlider = null;
     [SerializeField] Slider myMusicSlider = null;
@@ -121,7 +123,6 @@ public class PauseMenu : MonoBehaviour
         myInTutorial = true;
         myPauseMenu.SetActive(false);
         myTutorialCards.SetActive(true);
-        myCard1.SetActive(true);
     }
 
     public void BackFromTutorials()
@@ -133,6 +134,8 @@ public class PauseMenu : MonoBehaviour
         myCard1.SetActive(false);
         myCard2.SetActive(false);
         myCard3.SetActive(false);
+        myCard4.SetActive(false);
+        myFieldGuide.SetActive(true);
     }
 
     public void Card1()
@@ -140,17 +143,31 @@ public class PauseMenu : MonoBehaviour
         myCard1.SetActive(true);
         myCard2.SetActive(false);
         myCard3.SetActive(false);
+        myCard4.SetActive(false);
+        myFieldGuide.SetActive(false);
     }
     public void Card2()
     {
         myCard1.SetActive(false);
         myCard2.SetActive(true);
         myCard3.SetActive(false);
+        myCard4.SetActive(false);
+        myFieldGuide.SetActive(false);
     }
     public void Card3()
     {
         myCard1.SetActive(false);
         myCard2.SetActive(false);
         myCard3.SetActive(true);
+        myCard4.SetActive(false);
+        myFieldGuide.SetActive(false);
+    }
+    public void Card4()
+    {
+        myCard1.SetActive(false);
+        myCard2.SetActive(false);
+        myCard3.SetActive(false);
+        myCard4.SetActive(true);
+        myFieldGuide.SetActive(false);
     }
 }
