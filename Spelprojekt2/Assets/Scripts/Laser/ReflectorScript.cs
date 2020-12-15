@@ -263,6 +263,7 @@ public class ReflectorScript : MonoBehaviour
 
     private void OnRewind()
     {
+        UpdateLaser();
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();

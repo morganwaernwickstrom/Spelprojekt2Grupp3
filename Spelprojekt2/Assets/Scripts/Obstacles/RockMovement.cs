@@ -68,12 +68,11 @@ public class RockMovement : MonoBehaviour
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
-            myPreviousMoves.Pop();
-
-            if (myPreviousCoords == myCoords) return;
+            myPreviousMoves.Pop(); 
 
             if (myFellDownAt == myMoves && myFellDownAt != 0)
             {
+                Debug.Log("Hayo!");
                 myFellDownAt = 0;
                 myHasRewindFromHole = true;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
@@ -85,7 +84,7 @@ public class RockMovement : MonoBehaviour
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
 
-            if (myPreviousCoords != myCoords && TileMap.Instance.Get(myCoords) != eTileType.Hole)
+            if (myPreviousCoords == myCoords)
             {
                 TileMap.Instance.Set(myCoords, eTileType.Rock);
             }
