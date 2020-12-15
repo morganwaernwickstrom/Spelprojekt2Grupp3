@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class ReflectorScript : MonoBehaviour
@@ -47,6 +48,8 @@ public class ReflectorScript : MonoBehaviour
     private Coord myCoords;
     private Coord myPreviousCoords;
 
+    private Stack myPreviousMoves;
+
     private Vector3 myDesiredPosition;
     private float mySpeed = 10f;
 
@@ -74,6 +77,7 @@ public class ReflectorScript : MonoBehaviour
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myPreviousCoords = myCoords;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
@@ -255,9 +259,25 @@ public class ReflectorScript : MonoBehaviour
         }
     }
 
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+            TileMap.Instance.Set(myCoords, eTileType.Reflector);
+        }
+    }
+
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         UpdateLaser();
+        CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -326,10 +346,19 @@ public class ReflectorScript : MonoBehaviour
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
     }
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
     }
 }

@@ -1,21 +1,26 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Train : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myDestinationRot;
+    
     private float mySpeed = 5f;
     private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
+    private Coord myPreviousCoords;
+
+    private Stack myPreviousMoves;
 
     // Start is called before the first frame update
     void Start()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         if (gameObject != null)
         {
             myDestinationRot = transform.eulerAngles;
@@ -25,13 +30,27 @@ public class Train : MonoBehaviour
     private void Update()
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
+        //transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
+    }
+
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Rail);
+            TileMap.Instance.Set(myCoords, eTileType.Train);
+        }
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        // findgameobject rail
-        // desired position finns en rail
+        CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
             if (aPlayerPreviousPos.x == myCoords.x - 1)
@@ -72,30 +91,36 @@ public class Train : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
             TileMap.Instance.Get(desiredTile) == eTileType.Train)
             return;
-
+        if (aDirection.x > 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 0, 0);
+            myRotation = Quaternion.Euler(0, 180, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.x < 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 180, 0);
+            myRotation = Quaternion.Euler(0, 0, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.y > 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 270, 0);
+            myRotation = Quaternion.Euler(0, 90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
+        else if (aDirection.y < 0/* && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail*/)
+        {
+            //myDestinationRot = new Vector3(0, 90, 0);
+            myRotation = Quaternion.Euler(0, -90, 0);
+            gameObject.transform.rotation = myRotation;
+        }
         // TODO: Add Lookup map of to check if tile is empty!
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rail)
         {
             myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
             myCoords += aDirection;
             TileMap.Instance.Set(previousCoords, eTileType.Rail);
-
-            if (aDirection.x > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 0, 0);
-            }
-            else if (aDirection.x < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 180, 0);
-            }
-            else if (aDirection.y > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 270, 0); ;
-            }
-            else if (aDirection.y < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 90, 0); ;
-            }
         }
         EventHandler.current.RockMoveEvent(myCoords);
 
@@ -104,6 +129,14 @@ public class Train : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
     }
 
     private void OnDestroy()
