@@ -59,9 +59,9 @@ public class PlayerMovement : MonoBehaviour
     //Quaternion
     private Quaternion myRotation;
 
-    //Transform
-    private Vector3 myPreviousPosition;
-    private Vector3 myPreviousRotation;
+    ////Transform
+    //private Vector3 myPreviousPosition;
+    //private Vector3 myPreviousRotation;
 
     //Misc
     private Animator myAnimator = null;
@@ -128,15 +128,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnRewind()
     {
-        //if (myCoords != myPreviousCoords)
-        //{
-        //    TileMap.Instance.Set(myCoords, eTileType.Empty);
-        //    TileMap.Instance.Set(myPreviousCoords, eTileType.Player);
-        //    myCoords = myPreviousCoords;
-        //    myDesiredPosition = myPreviousPosition;
-        //    transform.eulerAngles = myPreviousRotation;
-        //}
-
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -145,6 +136,11 @@ public class PlayerMovement : MonoBehaviour
             myDesiredPosition = moveInfo.position;
             myCharacterModel.transform.rotation = moveInfo.rotation;
             myPreviousMoves.Pop();
+
+            if (myDesiredPosition != transform.position)
+            {
+                PlayJumpAnimation();
+            }
             
             TileMap.Instance.Set(myCoords, eTileType.Player);
             TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
@@ -157,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = myDesiredPosition;
         }
-        else if (transform.position != myDesiredPosition)
+        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
@@ -334,8 +330,6 @@ public class PlayerMovement : MonoBehaviour
 
         int myRandom = Random.Range(0, 10);
 
-        //Debug.Log("myRandom: " + myRandom);
-
         if(myRandom < 5) 
         {
             myAnimator.SetTrigger("Push");
@@ -403,10 +397,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
-            //myPreviousPosition = transform.position;
-            //myPreviousRotation = transform.eulerAngles;
-            //myPreviousMoves.Push(transform.position);
             CreateMove();
             myDesiredPosition += new Vector3(-1, 0, 0);
             myCoords.x -= 1;
@@ -431,10 +421,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
-            //myPreviousPosition = transform.position;
-            //myPreviousRotation = transform.eulerAngles;
-            //myPreviousMoves.Push(transform.position);
             CreateMove();
             myDesiredPosition += new Vector3(1, 0, 0);
             myCoords.x += 1;
@@ -459,10 +445,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
-            //myPreviousPosition = transform.position;
-            //myPreviousRotation = transform.eulerAngles;
-            //myPreviousMoves.Push(transform.position);
             CreateMove();
             myDesiredPosition += new Vector3(0, 0, 1);
             myCoords.y += 1;
@@ -487,10 +469,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
-            //myPreviousPosition = transform.position;
-            //myPreviousRotation = transform.eulerAngles;
-            //myPreviousMoves.Push(transform.position);
             CreateMove();
             myDesiredPosition += new Vector3(0, 0, -1);
             myCoords.y -= 1;

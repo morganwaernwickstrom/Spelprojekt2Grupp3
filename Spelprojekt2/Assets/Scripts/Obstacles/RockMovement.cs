@@ -5,7 +5,6 @@ public class RockMovement : MonoBehaviour
 {
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
-    private Vector3 myPreviousPosition;
 
     private float mySpeed = 5f;
     private Coord myCoords;
@@ -15,7 +14,6 @@ public class RockMovement : MonoBehaviour
 
     private bool myFallingDown;
     private bool myPlayFallingSound;
-    private bool myHasMoved = false;
 
     private void Start()
     {
@@ -57,20 +55,6 @@ public class RockMovement : MonoBehaviour
 
     private void OnRewind()
     {
-        //if (myHasMoved)
-        //{
-        //    if (transform.position.y < 0)
-        //    {
-        //        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        //        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-        //        TileMap.Instance.Set(myCoords, eTileType.Hole);
-        //    }
-        //    TileMap.Instance.Set(myCoords, eTileType.Empty);
-        //    TileMap.Instance.Set(myPreviousCoords, eTileType.Rock);
-        //    myCoords = myPreviousCoords;
-        //    myDesiredPosition = myPreviousPosition;
-        //}
-
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -96,7 +80,6 @@ public class RockMovement : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        myHasMoved = false;
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
@@ -129,7 +112,6 @@ public class RockMovement : MonoBehaviour
     private bool OnPlayerMoveInHole(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         CreateMove();
-        myHasMoved = false;
         return false;
     }
 
@@ -151,9 +133,7 @@ public class RockMovement : MonoBehaviour
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myPreviousCoords = myCoords;
-        myPreviousPosition = transform.position;
         myCoords += aDirection;
-        myHasMoved = true;
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
