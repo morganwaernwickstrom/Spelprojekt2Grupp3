@@ -14,6 +14,9 @@ public class RockMovement : MonoBehaviour
 
     private bool myFallingDown;
     private bool myPlayFallingSound;
+    private bool myHasRewindFromHole = false;
+
+    private int myMoves = 0;
 
     private void Start()
     {
@@ -29,6 +32,7 @@ public class RockMovement : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y > 0.5f) myHasRewindFromHole = false;
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
 
@@ -51,10 +55,12 @@ public class RockMovement : MonoBehaviour
             }
             
         }
+        if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Rock moves: " + myMoves);
     }
 
     private void OnRewind()
     {
+        if (myMoves > 0) myMoves--;
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -63,8 +69,9 @@ public class RockMovement : MonoBehaviour
             myDesiredPosition = moveInfo.position;
             myPreviousMoves.Pop();
 
-            if (transform.position.y < 0)
+            if (transform.position.y < 0 && !myHasRewindFromHole)
             {
+                myHasRewindFromHole = true;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
@@ -163,9 +170,10 @@ public class RockMovement : MonoBehaviour
 
     private void CreateMove()
     {
+        myMoves++;
         var temp = new MoveInfo();
         temp.coord = myCoords;
-        temp.position = transform.position;
+        temp.position = myCurrentPosition;
         myPreviousMoves.Push(temp);
     }
 }
