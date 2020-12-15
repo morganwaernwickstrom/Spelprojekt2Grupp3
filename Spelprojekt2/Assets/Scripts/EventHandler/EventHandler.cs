@@ -175,15 +175,14 @@ public class EventHandler : MonoBehaviour
 
     public bool PlayerMoveEvent(Coord aPlayerCoord, Coord aPlayerPreviousCoord)
     {
-        bool someOneTrue = false;
         if (onPlayerMoveEvent != null)
         {
             foreach (Func<Coord, Coord, bool> f in onPlayerMoveEvent.GetInvocationList())
             {
-                if (f(aPlayerCoord, aPlayerPreviousCoord)) someOneTrue = true;
+                if (f(aPlayerCoord, aPlayerPreviousCoord)) return true;
             }
         }
-        return someOneTrue;
+        return false;
     }
 
     public bool PlayerInteractEvent(Coord aPlayerCoord, Coord aPlayerPreviousCoord)
