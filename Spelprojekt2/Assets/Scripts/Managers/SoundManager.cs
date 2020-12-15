@@ -9,8 +9,6 @@ public class SoundManager : MonoBehaviour
 
     public static SoundManager myInstance { get; private set; }
 
-    private bool myFirstStart = true;
-
     #region AudioClips
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
@@ -59,29 +57,17 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (myFirstStart) 
-        {
-            PlayerPrefs.SetFloat("MusicVolume", 0.5f);
-            PlayerPrefs.SetFloat("EffectsVolume", 0.5f);
-            myFirstStart = false;
-        }
-
-        
+        VolumeSliderSetup();
     }
 
     public void Update()
     {
         ManageMusic();
         SliderManager();
-        VolumeSliderSetup();
     }
 
     private void VolumeSliderSetup() 
     {
-
-        myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
-        myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
-
         if (myEffectSlider != null && myMusicSlider != null)
         {
             SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
