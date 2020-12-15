@@ -16,6 +16,7 @@ public class TileMap : MonoBehaviour
     {
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         InitializeTileMap();
     }
 
@@ -25,6 +26,7 @@ public class TileMap : MonoBehaviour
         {
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
             EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+            EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         }
 
         InitializeTileMap();
@@ -38,7 +40,7 @@ public class TileMap : MonoBehaviour
             UpdateLaser();
             myHasUpdate = true;
         }
-        UpdateLaser();
+        //UpdateLaser();
         if (Input.GetKeyDown(KeyCode.Space))
             DebugTiles();
     }
@@ -47,8 +49,6 @@ public class TileMap : MonoBehaviour
     {
         UpdateLaser();
         UpdateRail();
-
-        //SetAllTiles();
 
         if (!(Get(aPreviousPos) == eTileType.Rail))
         {
@@ -62,13 +62,17 @@ public class TileMap : MonoBehaviour
         UpdateLaser();
         UpdateRail();
 
-        //SetAllTiles();
-
         Set(aRockPos, eTileType.Rock);
         return false;
     }
 
-    void SetAllTiles()
+    void OnRewind()
+    {
+        UpdateLaser();
+        UpdateRail();
+    }
+
+    public void SetAllTiles()
     {
         // MIGHT NEED REFACTORING
         RockMovement[] allRocks = FindObjectsOfType<RockMovement>();
@@ -187,7 +191,7 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    private void UpdateLaser()
+    public void UpdateLaser()
     {
         Laser[] allLasers = FindObjectsOfType<Laser>();
         HoleBlocking[] allHoles = FindObjectsOfType<HoleBlocking>();
@@ -207,10 +211,6 @@ public class TileMap : MonoBehaviour
             {
                 Set(i.GetCoords(), eTileType.Laser);
             }
-            //if (Get(i.GetCoords()) != eTileType.Hole)
-            //{
-            //    Set(i.GetCoords(), eTileType.Laser);
-            //}
         }
 
         foreach (var i in allHoles)
@@ -343,7 +343,6 @@ public class TileMap : MonoBehaviour
     {
         if (aCoord.x < 0 || aCoord.x > (myColumns - 1) || aCoord.y < 0 || aCoord.y > (myRows - 1))
         {
-            //Debug.LogError("Can't set a Tile that's out of bounds.");
             return;
         }
 
@@ -466,55 +465,10 @@ public class TileMap : MonoBehaviour
         return distance;
     }
 
-    //void PrintTileInfo(int aColumn, int aRow)
-    //{
-    //    string tileName = "Empty";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Rock)
-    //        tileName = "Rock";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Impassable)
-    //        tileName = "Impassable";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Sliding)
-    //        tileName = "Sliding";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Hole)
-    //        tileName = "Hole";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Finish)
-    //        tileName = "Finish";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Button)
-    //        tileName = "Button";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Door)
-    //        tileName = "Door";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Emitter)
-    //        tileName = "Emitter";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Reflector)
-    //        tileName = "Reflector";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Receiver)
-    //        tileName = "Receiver";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Player)
-    //        tileName = "Player";
-
-    //    if (myTileMap[aColumn, aRow].type == eTileType.Laser)
-    //        tileName = "Laser";
-
-    //    int x = myTileMap[aColumn, aRow].coord.x;
-    //    int z = myTileMap[aColumn, aRow].coord.y;
-
-    //    Debug.Log("Type: " + tileName + " - Coord: (" + x + ", " + z + ")");
-    //}
-
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }

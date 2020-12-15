@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+struct MoveInfo
+{
+    public Coord coord;
+    public Vector3 position;
+    public Quaternion rotation;
+}
+
 public class PlayerMovement : MonoBehaviour
 {
 
@@ -30,8 +37,8 @@ public class PlayerMovement : MonoBehaviour
     private Coord myOriginalCoord;
     private Coord myDesiredTile;
 
-    ////GameObject
-    //private GameObject[] myTiles = null;
+    //Stack
+    private Stack myPreviousMoves;
 
     //Bool
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
@@ -51,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
 
     //Quaternion
     private Quaternion myRotation;
+
+    ////Transform
+    //private Vector3 myPreviousPosition;
+    //private Vector3 myPreviousRotation;
 
     //Misc
     private Animator myAnimator = null;
@@ -81,12 +92,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        myPreviousMoves = new Stack();
         mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
         //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
     private void Update()
@@ -105,6 +119,32 @@ public class PlayerMovement : MonoBehaviour
 
         HandleLerpLogic();
 
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EventHandler.current.RewindEvent();
+        }
+
+    }
+
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myCharacterModel.transform.rotation = moveInfo.rotation;
+            myPreviousMoves.Pop();
+
+            if (myDesiredPosition != transform.position)
+            {
+                PlayJumpAnimation();
+            }
+            
+            TileMap.Instance.Set(myCoords, eTileType.Player);
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+        }
     }
 
     private void HandleLerpLogic()
@@ -113,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = myDesiredPosition;
         }
-        else if (transform.position != myDesiredPosition)
+        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
@@ -290,8 +330,6 @@ public class PlayerMovement : MonoBehaviour
 
         int myRandom = Random.Range(0, 10);
 
-        //Debug.Log("myRandom: " + myRandom);
-
         if(myRandom < 5) 
         {
             myAnimator.SetTrigger("Push");
@@ -359,7 +397,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
+            CreateMove();
             myDesiredPosition += new Vector3(-1, 0, 0);
             myCoords.x -= 1;
         }
@@ -383,7 +421,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
+            CreateMove();
             myDesiredPosition += new Vector3(1, 0, 0);
             myCoords.x += 1;
         }
@@ -407,7 +445,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
+            CreateMove();
             myDesiredPosition += new Vector3(0, 0, 1);
             myCoords.y += 1;
         }
@@ -431,7 +469,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (CanMove(myDesiredTile))
         {
-            //percentage = 0;
+            CreateMove();
             myDesiredPosition += new Vector3(0, 0, -1);
             myCoords.y -= 1;
         }
@@ -507,21 +545,30 @@ public class PlayerMovement : MonoBehaviour
         myAnimator.SetTrigger("Whiplash");
     }
 
-    private void AnimationHandler() 
-    {
+    //private void AnimationHandler() 
+    //{
 
-        float distance = Vector3.Distance(transform.position, myDesiredPosition);
+    //    float distance = Vector3.Distance(transform.position, myDesiredPosition);
 
-        if (distance < 0.1)
-        {
-            //myAnimator.SetBool("Walk", false);
+    //    if (distance < 0.1)
+    //    {
+    //        //myAnimator.SetBool("Walk", false);
             
-        }
-        else
-        {
-            //myAnimator.SetBool("Walk", true);
-        }
+    //    }
+    //    else
+    //    {
+    //        //myAnimator.SetBool("Walk", true);
+    //    }
 
+    //}
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        temp.rotation = myRotation;
+        myPreviousMoves.Push(temp);
     }
 
     bool CanMove(Coord aCoord)
@@ -532,5 +579,10 @@ public class PlayerMovement : MonoBehaviour
     public Coord GetCoords()
     {
         return myCoords;
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }

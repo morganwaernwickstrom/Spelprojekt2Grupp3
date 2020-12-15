@@ -10,6 +10,7 @@ public enum eEventType
     RockInteract,
     ButtonPressed,
     ButtonUp,
+    Rewind,
     GoalReached
 }
 
@@ -24,6 +25,7 @@ public class EventHandler : MonoBehaviour
     public event Func<bool> onButtonUp;
     public event Func<Coord, bool> onGoalReachedEvent;
     public event Action onPlayerDeath;
+    public event Action onRewind;
 
     private void Start()
     {
@@ -97,6 +99,9 @@ public class EventHandler : MonoBehaviour
             case eEventType.PlayerDeath:
                 onPlayerDeath += aFunc;
                 break;
+            case eEventType.Rewind:
+                onRewind += aFunc;
+                break;
         }
     }
 
@@ -106,6 +111,9 @@ public class EventHandler : MonoBehaviour
         {
             case eEventType.PlayerDeath:
                 onPlayerDeath -= aFunc;
+                break;
+            case eEventType.Rewind:
+                onRewind -= aFunc;
                 break;
         }
     }
@@ -255,6 +263,17 @@ public class EventHandler : MonoBehaviour
         if (onPlayerDeath != null)
         {
             foreach (Action f in onPlayerDeath.GetInvocationList())
+            {
+                f();
+            }
+        }
+    }
+
+    public void RewindEvent()
+    {
+        if (onRewind != null)
+        {
+            foreach(Action f in onRewind.GetInvocationList())
             {
                 f();
             }
