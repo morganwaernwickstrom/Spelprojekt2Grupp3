@@ -10,6 +10,8 @@ public class Train : MonoBehaviour
     private Coord myPreviousCoords;
 
     private Stack myPreviousMoves;
+    [SerializeField] private Animator mySnailAnimator;
+    bool myIsMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +26,33 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //if (transform.position != myDesiredPosition)
+        //{
+        //    myIsMoving = true;
+        //    transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //}
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        {
+            transform.position = myDesiredPosition;
+            myIsMoving = false;
+        }
+        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        {
+            myIsMoving = true;
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
+
+        mySnailAnimator.SetBool("Moving", myIsMoving);
+    }
+
+    private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
+    {
+        bool xDist = (Mathf.Abs(aPosition.x - aDesiredPosition.x) < aDif);
+        bool yDist = (Mathf.Abs(aPosition.y - aDesiredPosition.y) < aDif);
+        bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
+
+        return (xDist && yDist && zDist);
     }
 
     private void OnRewind()
