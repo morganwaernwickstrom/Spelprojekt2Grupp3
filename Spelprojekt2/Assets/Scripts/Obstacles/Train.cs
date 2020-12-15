@@ -18,6 +18,8 @@ public class Train : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        myPreviousMoves = new Stack();
+
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
@@ -159,7 +161,7 @@ public class Train : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = transform.position;
-        //myPreviousMoves.Push(temp);
+        myPreviousMoves.Push(temp);
     }
 
     private void OnDestroy()
