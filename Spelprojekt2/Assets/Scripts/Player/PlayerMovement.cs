@@ -59,13 +59,11 @@ public class PlayerMovement : MonoBehaviour
     //Quaternion
     private Quaternion myRotation;
 
-    ////Transform
-    //private Vector3 myPreviousPosition;
-    //private Vector3 myPreviousRotation;
-
     //Misc
     private Animator myAnimator = null;
     private Queue myCommandQueue = new Queue();
+
+    private int myMoves = 0;
 
     #endregion
 
@@ -105,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Player moves: " + myMoves);
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
         UpdateMobile();
@@ -128,6 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnRewind()
     {
+        if (myMoves > 0) myMoves--;
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -482,7 +482,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
-            if(TileMap.Instance.Get(myCoords) == eTileType.Laser) 
+            if (TileMap.Instance.Get(myCoords) == eTileType.Laser) 
             {
                 PlayLaserAnimation();
                 SoundManager.myInstance.PlayPlayerBurnedSound();
@@ -564,6 +564,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CreateMove()
     {
+        myMoves++;
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = transform.position;
