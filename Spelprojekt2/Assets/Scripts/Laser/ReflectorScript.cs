@@ -359,6 +359,6 @@ public class ReflectorScript : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = transform.position;
-        myPreviousMoves.Push(temp);
+        //myPreviousMoves.Push(temp);
     }
 }

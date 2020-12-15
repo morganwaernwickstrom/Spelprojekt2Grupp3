@@ -159,7 +159,7 @@ public class Train : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = transform.position;
-        myPreviousMoves.Push(temp);
+        //myPreviousMoves.Push(temp);
     }
 
     private void OnDestroy()
