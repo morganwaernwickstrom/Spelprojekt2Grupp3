@@ -44,14 +44,14 @@ public class SoundManager : MonoBehaviour
         if(myInstance == null) 
         {
             myInstance = this;
-            if (myEffectSlider != null)
-            { 
-                myEffectSlider.value = 0.5f;
-            }
-            if (myMusicSlider != null)
-            {
-                myMusicSlider.value = 0.5f;
-            }
+            //if (myEffectSlider != null)
+            //{ 
+            //    myEffectSlider.value = 0.5f;
+            //}
+            //if (myMusicSlider != null)
+            //{
+            //    myMusicSlider.value = 0.5f;
+            //}
             DontDestroyOnLoad(gameObject);
         }
         else 
