@@ -127,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnRewind()
     {
-        if (myMoves > 0) myMoves--;
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -145,6 +144,7 @@ public class PlayerMovement : MonoBehaviour
             TileMap.Instance.Set(myCoords, eTileType.Player);
             TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
         }
+        if (myMoves > 0) myMoves--;
     }
 
     private void HandleLerpLogic()
