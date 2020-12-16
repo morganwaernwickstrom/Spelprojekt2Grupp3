@@ -97,11 +97,9 @@ public class RockMovement : MonoBehaviour
             }
             else
             {
-                TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+                if (myPreviousCoords != myCoords)
+                    TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
-
-            //if (myCoords == myPreviousCoords && (TileMap.Instance.Get(myCoords) != eTileType.Hole || TileMap.Instance.Get(myCoords) != eTileType.Empty))
-            //    TileMap.Instance.Set(myCoords, eTileType.Rock);
         }
         if (myMoves > 0) myMoves--;
     }
