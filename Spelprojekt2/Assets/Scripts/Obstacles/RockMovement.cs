@@ -49,6 +49,39 @@ public class RockMovement : MonoBehaviour
         return yDist;
     }
 
+    private void LerpXZ()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.y = transform.position.y;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.x, myDesiredPosition.x, 0.1f) && CompareFloat(transform.position.z, myDesiredPosition.z, 0.1f))
+            {
+                transform.position = temp;
+                //myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
+    }
+
+    private void LerpY()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.x = transform.position.x;
+        temp.z = transform.position.z;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * 5 * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.y, myDesiredPosition.y, 0.1f))
+            {
+                transform.position = temp;
+                //myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
+    }
+
     private void Update()
     {       
         if (transform.position == myDesiredPosition && myFallingDown)
@@ -73,41 +106,7 @@ public class RockMovement : MonoBehaviour
             myPlayFallingSound = false;
         }
 
-        //if (!myShouldMoveInY)
-        //{
-        //    Debug.LogError("XZ");
-        //    Vector3 temp = myDesiredPosition;
-        //    temp.y = transform.position.y;
-        //    transform.position = Vector3.Lerp(transform.position, temp, mySpeed * Time.deltaTime);
-
-        //    if (transform.position != myDesiredPosition)
-        //    {
-        //        if (CompareFloat(transform.position.x, myDesiredPosition.x, 0.1f) && CompareFloat(transform.position.z, myDesiredPosition.z, 0.1f))
-        //        {
-        //            transform.position = temp;
-        //            myShouldMoveInY = !myShouldMoveInY;
-        //            Debug.LogError("DONE 1");
-        //        }
-        //    }
-        //}
-        //else
-        //{
-        //    Debug.LogError("Y");
-        //    Vector3 temp = myDesiredPosition;
-        //    temp.x = transform.position.x;
-        //    temp.z = transform.position.z;
-        //    transform.position = Vector3.Lerp(transform.position, temp, mySpeed * 5 * Time.deltaTime);
-
-        //    if (transform.position != myDesiredPosition)
-        //    {
-        //        if (CompareFloat(transform.position.y, myDesiredPosition.y, 0.1f))
-        //        {
-        //            transform.position = temp;
-        //            myShouldMoveInY = !myShouldMoveInY;
-        //            Debug.LogError("DONE 2");
-        //        }
-        //    }
-        //}
+        
 
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
