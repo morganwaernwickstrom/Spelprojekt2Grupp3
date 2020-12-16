@@ -57,7 +57,6 @@ public class RockMovement : MonoBehaviour
             }
             
         }
-        if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Rock moves: " + myMoves);
     }
 
     private void OnRewind()
