@@ -23,6 +23,11 @@ public class PauseMenu : MonoBehaviour
 
     private GameObject myPlayer = null;
 
+    // Rewind
+    private bool myCanRewind = true;
+    private float myRewindCounter = 0.0f;
+    private float myRewindCounterMax = 0.35f;
+
     private float myEffectsDelta;
     private float myMusicDelta;
 
@@ -39,6 +44,12 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        if (!myCanRewind)
+        {
+            myRewindCounter += Time.deltaTime;
+            if (myRewindCounter >= myRewindCounterMax) myCanRewind = true;
+        }
+
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
             myPlayer = GameObject.FindGameObjectWithTag("Player");
@@ -169,5 +180,16 @@ public class PauseMenu : MonoBehaviour
         myCard3.SetActive(false);
         myCard4.SetActive(true);
         myFieldGuide.SetActive(false);
+    }
+
+    public void Rewind()
+    {
+        if (myCanRewind)
+        {
+            // Play Sound
+            EventHandler.current.RewindEvent();
+            myCanRewind = false;
+            myRewindCounter = 0.0f;
+        }
     }
 }
