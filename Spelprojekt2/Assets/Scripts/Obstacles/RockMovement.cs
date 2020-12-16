@@ -14,10 +14,9 @@ public class RockMovement : MonoBehaviour
 
     private bool myFallingDown;
     private bool myPlayFallingSound;
-    private bool myHasRewindFromHole = false;
 
     private int myMoves = 0;
-    private int myFellDownAt = 0;
+    private int myFellDownAt = -1;
 
     private void Start()
     {
@@ -41,23 +40,15 @@ public class RockMovement : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y > 5.3f) myHasRewindFromHole = false;
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
         }
-        //else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
-        //{
-        //    transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-        //}
 
-        myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
-
-        if (myCurrentPosition == myDesiredPosition && myFallingDown)
+        if (transform.position == myDesiredPosition && myFallingDown)
         {
-            myFellDownAt = myMoves;
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
             myDesiredPosition += new Vector3(0, -0.7f, 0);
             myFallingDown = false;
@@ -84,20 +75,19 @@ public class RockMovement : MonoBehaviour
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
             myPreviousMoves.Pop();
-            TileMap.Instance.Set(myCoords, eTileType.Rock);
-
-            if (myFellDownAt == myMoves && myFellDownAt != 0)
+            if (myCoords != myPreviousCoords)
             {
-                myFellDownAt = 0;
-                myHasRewindFromHole = true;
+                TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+                TileMap.Instance.Set(myCoords, eTileType.Rock);
+            }
+
+            if (myFellDownAt == myMoves)
+            {
+                Debug.LogError("DERR!");
+                myFellDownAt = -1;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
-            }
-            else
-            {
-                if (myPreviousCoords != myCoords)
-                    TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
         }
         if (myMoves > 0) myMoves--;
@@ -164,6 +154,7 @@ public class RockMovement : MonoBehaviour
         {
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
             myFallingDown = true;
+            myFellDownAt = myMoves;
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
         TileMap.Instance.Set(previousCoords, eTileType.Empty);
@@ -188,9 +179,9 @@ public class RockMovement : MonoBehaviour
 
     private void CreateMove()
     {
-        Vector3 pos = new Vector3(Mathf.RoundToInt(myCurrentPosition.x),
-                                  myCurrentPosition.y,
-                                  Mathf.RoundToInt(myCurrentPosition.z));
+        Vector3 pos = new Vector3(Mathf.RoundToInt(transform.position.x),
+                                  transform.position.y,
+                                  Mathf.RoundToInt(transform.position.z));
         myMoves++;
         var temp = new MoveInfo();
         temp.coord = myCoords;
