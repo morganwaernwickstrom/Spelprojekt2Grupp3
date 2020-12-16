@@ -29,7 +29,7 @@ public class PauseMenu : MonoBehaviour
     private bool myCanRewind = true;
     private bool myIsRewinding = false;
     private float myRewindCounter = 0.0f;
-    private float myRewindCounterMax = 0.35f;
+    private float myRewindCounterMax = 0.5f;
 
     private float myEffectsDelta;
     private float myMusicDelta;
@@ -48,12 +48,16 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        myFadeAnimator.SetBool("Fade", myCanRewind);
+        myFadeAnimator.SetBool("Fade", myIsRewinding);
 
         if (!myCanRewind)
         {
             myRewindCounter += Time.deltaTime;
-            if (myRewindCounter >= myRewindCounterMax) myCanRewind = true;
+            if (myRewindCounter >= myRewindCounterMax)
+            {
+                myCanRewind = true;
+                myIsRewinding = false;
+            }
         }        
 
         if (GameObject.FindGameObjectWithTag("Player")) 
@@ -195,6 +199,7 @@ public class PauseMenu : MonoBehaviour
             SoundManager.myInstance.PlayRewindSound();
             EventHandler.current.RewindEvent();
             myCanRewind = false;
+            myIsRewinding = true;
             myRewindCounter = 0.0f;
         }
     }

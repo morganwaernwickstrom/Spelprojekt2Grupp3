@@ -43,22 +43,12 @@ public class SoundManager : MonoBehaviour
         if(myInstance == null) 
         {
             myInstance = this;
-            //if (myEffectSlider != null)
-            //{ 
-            //    myEffectSlider.value = 0.5f;
-            //}
-            //if (myMusicSlider != null)
-            //{
-            //    myMusicSlider.value = 0.5f;
-            //}
             DontDestroyOnLoad(gameObject);
         }
         else 
         {
             Destroy(gameObject);
         }
-
-        
 
         VolumeSliderSetup();
     }
@@ -74,8 +64,7 @@ public class SoundManager : MonoBehaviour
             {
                 myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
                 myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
-            }
-            
+            }   
         }
     }
 
