@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -62,14 +60,26 @@ public class SoundManager : MonoBehaviour
         {
             if (GameObject.FindGameObjectWithTag("SoundEffectSlider")) 
             {
-                myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
-                myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
+                myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
+                myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
+               
+                //myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
+                //myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
             }   
         }
     }
 
     private void VolumeSliderSetup() 
     {
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            if (GameObject.FindGameObjectWithTag("SoundEffectSlider"))
+            {
+                myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
+                myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
+            }
+        }
+
         if (myEffectSlider != null && myMusicSlider != null)
         {
             SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
