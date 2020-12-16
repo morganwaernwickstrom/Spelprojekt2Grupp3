@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SlidingRockMovement : MonoBehaviour
 {
@@ -7,15 +8,24 @@ public class SlidingRockMovement : MonoBehaviour
     private float mySpeed = 0.1f;
     private float myLerpSpeed = 0.1f;
     private Coord myCoords;
+    private Coord myPreviousCoords;
     private bool myFallingDown = false;
     private Animator myAnimator;
     private float myPercentage;
 
+    private Stack myPreviousMoves;
+
+    private int myMoves = 0;
+    private int myFellDownAt = 0;
+
     private void Start()
     {
-        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        myPreviousMoves = new Stack();
+
+        myCoords = myPreviousCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         myAnimator = GetComponentInChildren<Animator>();
         myPercentage = 0.0f;
     }
@@ -38,10 +48,10 @@ public class SlidingRockMovement : MonoBehaviour
             myAnimator.SetBool("Walk", false);
         }
 
-
-
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
         {
+            myFellDownAt = myMoves;
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
             myDesiredPosition += new Vector3(0, -0.7f, 0);
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
             myFallingDown = false;
@@ -68,14 +78,38 @@ public class SlidingRockMovement : MonoBehaviour
         }
     }
 
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+
+            if (myFellDownAt == myMoves && myFellDownAt != 0)
+            {
+                myFellDownAt = 0;
+                EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+                EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+                TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
+            }
+            else
+            {
+                TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+            }
+            TileMap.Instance.Set(myCoords, eTileType.Sliding);
+        }
+        if (myMoves > 0) myMoves--;
+    }
+
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
-
             PlaySoundEffect();
-
-
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
@@ -100,13 +134,18 @@ public class SlidingRockMovement : MonoBehaviour
         return true;
     }
 
+    private bool OnPlayerMoveInHole(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
+    {
+        CreateMove();
+        return false;
+    }
+
     private void PlaySoundEffect() 
     {
         if(SoundManager.myInstance != null) 
         {
             SoundManager.myInstance.PlaySlidingSound();
         }
-
     }
 
     private void Move(Coord aDirection)
@@ -125,6 +164,7 @@ public class SlidingRockMovement : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Train ||
             TileMap.Instance.Get(desiredTile) == eTileType.Finish)
             return;
+        
         // Use direction to get the right direction with the GetDistance Function
         if (aDirection.x > 0)
         {
@@ -173,10 +213,20 @@ public class SlidingRockMovement : MonoBehaviour
         return myCoords;
     }
 
+    private void CreateMove()
+    {
+        myMoves++;
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = myCurrentPosition;
+        myPreviousMoves.Push(temp);
+    }
+
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
+
     public static float Round(float value, int digits)
     {
         float mult = Mathf.Pow(10.0f, (float)digits);

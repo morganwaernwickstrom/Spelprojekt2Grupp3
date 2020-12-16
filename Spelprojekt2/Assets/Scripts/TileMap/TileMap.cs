@@ -40,7 +40,6 @@ public class TileMap : MonoBehaviour
             UpdateLaser();
             myHasUpdate = true;
         }
-        //UpdateLaser();
         if (Input.GetKeyDown(KeyCode.Space))
             DebugTiles();
     }
