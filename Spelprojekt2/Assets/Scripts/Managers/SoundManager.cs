@@ -63,28 +63,19 @@ public class SoundManager : MonoBehaviour
         ManageMusic();
         SliderManager();
 
-        if(SceneManager.GetActiveScene().buildIndex == 0) 
+        if (FindObjectsOfType<SFX>().Length > 0)
         {
-            if (FindObjectsOfType<SFX>().Length > 0) 
-            {
-                myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
-                myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
-
-                //myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
-                //myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
-            }   
+            myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
+            myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
         }
     }
 
     private void VolumeSliderSetup() 
     {
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (GameObject.FindGameObjectWithTag("SoundEffectSlider"))
         {
-            if (GameObject.FindGameObjectWithTag("SoundEffectSlider"))
-            {
-                myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
-                myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
-            }
+            myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
+            myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
         }
 
         if (myEffectSlider != null && myMusicSlider != null)
@@ -168,6 +159,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayWinSounds() 
     {
+        myHasFinishedLevel = true;
         myMusicAudioSource.Pause();
         myEffectsAudioSource.PlayOneShot(myWinSound);
         myEffectsAudioSource.PlayOneShot(myWinMusic);
