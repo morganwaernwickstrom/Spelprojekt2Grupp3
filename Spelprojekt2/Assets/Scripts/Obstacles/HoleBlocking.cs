@@ -17,13 +17,6 @@ public class HoleBlocking : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
-    private void Update()
-    {
-        Debug.LogWarning("myMoveCounter: " + myMoveCounter);
-        Debug.LogWarning("myGotFilledAt: " + myGotFilledAt);
-        if (Input.GetKeyDown(KeyCode.F)) Debug.Log("movecounter: " + myMoveCounter);
-    }
-
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         if (myShouldIncrement) myMoveCounter++;
@@ -33,7 +26,7 @@ public class HoleBlocking : MonoBehaviour
 
     private bool OnPlayerMoveInHole(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        if (myShouldIncrement) myMoveCounter++;
+        myMoveCounter++;
         myShouldIncrement = true;
         return false;
     }
@@ -61,7 +54,6 @@ public class HoleBlocking : MonoBehaviour
         if (myMoveCounter > 0) --myMoveCounter;
         if (myGotFilledAt-1 == myMoveCounter)
         {
-            Debug.LogError("!!!");
             myIsFilled = false;
             TileMap.Instance.Set(myCoords, eTileType.Hole);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
