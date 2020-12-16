@@ -83,7 +83,6 @@ public class RockMovement : MonoBehaviour
 
             if (myFellDownAt == myMoves)
             {
-                Debug.LogError("DERR!");
                 myFellDownAt = -1;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
