@@ -88,6 +88,11 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
+    private void Awake()
+    {
+        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+    }
+
     private void Start()
     {
         myPreviousMoves = new Stack();
@@ -95,7 +100,6 @@ public class PlayerMovement : MonoBehaviour
         sqrDeadzone = myDeadzone * myDeadzone;
         //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
-        myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
