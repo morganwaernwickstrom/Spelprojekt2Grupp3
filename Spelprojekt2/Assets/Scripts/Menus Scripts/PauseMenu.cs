@@ -186,7 +186,7 @@ public class PauseMenu : MonoBehaviour
     {
         if (myCanRewind)
         {
-            // Play Sound
+            SoundManager.myInstance.PlayRewindSound();
             EventHandler.current.RewindEvent();
             myCanRewind = false;
             myRewindCounter = 0.0f;
