@@ -163,12 +163,6 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
-                foreach (var i in allPlayer)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Player;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
-
                 foreach (var i in allRails)
                 {
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Rail;

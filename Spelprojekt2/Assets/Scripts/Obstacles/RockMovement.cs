@@ -109,7 +109,7 @@ public class RockMovement : MonoBehaviour
         //    }
         //}
 
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * 5 * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         if (ComparePositions(transform.position, myDesiredPosition, 0.1f))
         {
