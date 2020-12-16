@@ -36,6 +36,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] Slider myMusicSlider = null;
     #endregion
 
+    private bool myHasFinishedLevel = false;
+
     private void Start()
     {
         if(myInstance == null) 
@@ -51,6 +53,11 @@ public class SoundManager : MonoBehaviour
         VolumeSliderSetup();
     }
 
+    private void OnEnable()
+    {
+        VolumeSliderSetup();
+    }
+
     public void Update()
     {
         ManageMusic();
@@ -58,11 +65,11 @@ public class SoundManager : MonoBehaviour
 
         if(SceneManager.GetActiveScene().buildIndex == 0) 
         {
-            if (GameObject.FindGameObjectWithTag("SoundEffectSlider")) 
+            if (FindObjectsOfType<SFX>().Length > 0) 
             {
                 myEffectSlider = FindObjectsOfType<SFX>()[0].gameObject.GetComponent<Slider>();
                 myMusicSlider = FindObjectsOfType<MUSIC>()[0].gameObject.GetComponent<Slider>();
-               
+
                 //myEffectSlider = GameObject.FindGameObjectWithTag("SoundEffectSlider").GetComponent<Slider>();
                 //myMusicSlider = GameObject.FindGameObjectWithTag("MusicSlider").GetComponent<Slider>();
             }   
@@ -101,18 +108,21 @@ public class SoundManager : MonoBehaviour
 
     private void ManageMusic() 
     {
-        if (!myMusicClips[SceneManager.GetActiveScene().buildIndex])
+        if (!myHasFinishedLevel)
         {
-            myMusicAudioSource.clip = myDefaultMusicClip;
-        }
-        else
-        {
-            myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
-        }
+            if (!myMusicClips[SceneManager.GetActiveScene().buildIndex])
+            {
+                myMusicAudioSource.clip = myDefaultMusicClip;
+            }
+            else
+            {
+                myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
+            }
 
-        if (myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying)
-        {
-            myMusicAudioSource.Play();
+            if (myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying)
+            {
+                myMusicAudioSource.Play();
+            }
         }
     }
 
@@ -158,6 +168,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayWinSounds() 
     {
+        myMusicAudioSource.Pause();
         myEffectsAudioSource.PlayOneShot(myWinSound);
         myEffectsAudioSource.PlayOneShot(myWinMusic);
     }

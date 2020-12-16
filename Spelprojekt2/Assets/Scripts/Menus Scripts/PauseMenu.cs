@@ -48,7 +48,7 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        myFadeAnimator.SetBool("Fade", myIsRewinding);
+        //myFadeAnimator.SetBool("Fade", myIsRewinding);
 
         if (!myCanRewind)
         {
