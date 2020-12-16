@@ -263,7 +263,6 @@ public class ReflectorScript : MonoBehaviour
 
     private void OnRewind()
     {
-        UpdateLaser();
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -275,6 +274,7 @@ public class ReflectorScript : MonoBehaviour
             TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             TileMap.Instance.Set(myCoords, eTileType.Reflector);
         }
+        UpdateLaser();
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)

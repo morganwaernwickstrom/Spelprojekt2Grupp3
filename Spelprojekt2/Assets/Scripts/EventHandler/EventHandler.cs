@@ -200,14 +200,15 @@ public class EventHandler : MonoBehaviour
 
     public bool RockMoveEvent(Coord aRockCoord)
     {
+        bool someOneTrue = false;
         if (onRockMoveEvent != null)
         {
             foreach (Func<Coord, bool> f in onRockMoveEvent.GetInvocationList())
             {
-                if (f(aRockCoord)) return true;
+                if (f(aRockCoord)) someOneTrue = true;
             }
         }
-        return false;
+        return someOneTrue;
     }
 
     public bool RockInteractEvent(Coord aRockCoord, Coord aRockPreviousCoord)
