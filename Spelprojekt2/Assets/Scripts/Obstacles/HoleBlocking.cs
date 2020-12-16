@@ -15,12 +15,12 @@ public class HoleBlocking : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
-    private void Update()
-    {
-        Debug.LogWarning("myMoveCounter: " + myMoveCounter);
-        Debug.LogWarning("myGotFilledAt: " + myGotFilledAt);
-        if (Input.GetKeyDown(KeyCode.F)) Debug.Log("movecounter: " + myMoveCounter);
-    }
+    //private void Update()
+    //{
+    //    Debug.LogWarning("myMoveCounter: " + myMoveCounter);
+    //    Debug.LogWarning("myGotFilledAt: " + myGotFilledAt);
+    //    if (Input.GetKeyDown(KeyCode.F)) Debug.Log("movecounter: " + myMoveCounter);
+    //}
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {

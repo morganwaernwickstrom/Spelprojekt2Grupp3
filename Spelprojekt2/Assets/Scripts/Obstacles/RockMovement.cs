@@ -84,7 +84,8 @@ public class RockMovement : MonoBehaviour
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
-            myPreviousMoves.Pop(); 
+            myPreviousMoves.Pop();
+            TileMap.Instance.Set(myCoords, eTileType.Rock);
 
             if (myFellDownAt == myMoves && myFellDownAt != 0)
             {
@@ -98,7 +99,9 @@ public class RockMovement : MonoBehaviour
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
-            TileMap.Instance.Set(myCoords, eTileType.Rock);
+
+            //if (myCoords == myPreviousCoords && (TileMap.Instance.Get(myCoords) != eTileType.Hole || TileMap.Instance.Get(myCoords) != eTileType.Empty))
+            //    TileMap.Instance.Set(myCoords, eTileType.Rock);
         }
         if (myMoves > 0) myMoves--;
     }
