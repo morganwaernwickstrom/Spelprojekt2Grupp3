@@ -51,8 +51,7 @@ public class HoleBlocking : MonoBehaviour
 
     private void OnRewind()
     {
-        if (myMoveCounter > 0) --myMoveCounter;
-        if (myGotFilledAt-1 == myMoveCounter)
+        if (myGotFilledAt == myMoveCounter)
         {
             myIsFilled = false;
             TileMap.Instance.Set(myCoords, eTileType.Hole);
@@ -61,6 +60,7 @@ public class HoleBlocking : MonoBehaviour
             EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
             myGotFilledAt = -1;
         }
+        if (myMoveCounter > 0) --myMoveCounter;
     }
     
     public bool IsFilled()

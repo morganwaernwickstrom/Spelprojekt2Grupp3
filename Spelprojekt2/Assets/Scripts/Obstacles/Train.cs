@@ -7,12 +7,12 @@ public class Train : MonoBehaviour
     private Vector3 myDestinationRot;
     
     private float mySpeed = 4f;
-    private float myRotationLerpSpeed = 0.05f;
+    //private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
     private Coord myPreviousCoords;
 
     private Stack myPreviousMoves;
-    [SerializeField] private Animator mySnailAnimator;
+    [SerializeField] private Animator mySnailAnimator = null;
     bool myIsMoving = false;
 
     // Start is called before the first frame update
