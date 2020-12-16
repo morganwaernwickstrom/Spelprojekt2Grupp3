@@ -25,6 +25,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClip myMenuButtonSound = null;
     [SerializeField] AudioClip myWinSound = null;
     [SerializeField] AudioClip myWinMusic = null;
+    [SerializeField] AudioClip myRewindSound = null;
     #endregion
 
     #region AudioSources
@@ -176,6 +177,10 @@ public class SoundManager : MonoBehaviour
     {
         myEffectsAudioSource.PlayOneShot(myPlayerBurnedSounds[Random.Range(0, myPlayerBurnedSounds.Length)]);
     }
+    public void PlayRewindSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myRewindSound);
+    }
 
     public void SetMusicVolume(float anAmount) 
     {
@@ -190,6 +195,7 @@ public class SoundManager : MonoBehaviour
         PlayerPrefs.Save();
         myEffectsAudioSource.volume = anAmount;
     }
+
 
     public float GetCurrentEffectsVolume() 
     {
