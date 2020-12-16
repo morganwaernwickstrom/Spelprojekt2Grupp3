@@ -42,16 +42,16 @@ public class RockMovement : MonoBehaviour
     private void Update()
     {
         if (transform.position.y > 5.3f) myHasRewindFromHole = false;
-        //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
         if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
         }
-        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
-        {
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-        }
+        //else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //}
 
         myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
 
@@ -60,7 +60,6 @@ public class RockMovement : MonoBehaviour
             myFellDownAt = myMoves;
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
             myDesiredPosition += new Vector3(0, -0.7f, 0);
-            //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * 5 * Time.deltaTime);
             myFallingDown = false;
         }
 
