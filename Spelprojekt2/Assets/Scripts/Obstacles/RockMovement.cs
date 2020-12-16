@@ -12,7 +12,7 @@ public class RockMovement : MonoBehaviour
 
     private Stack myPreviousMoves;
 
-    private bool myFallingDown;
+    private bool myFallingDown = false;
     private bool myPlayFallingSound;
 
     private int myMoves = 0;
@@ -20,12 +20,15 @@ public class RockMovement : MonoBehaviour
 
     private bool myHasSubscribed = false;
     private float myOriginalY;
+    private float myYOffset;
 
     private void Start()
     {
         myPreviousMoves = new Stack();
 
-        myOriginalY = transform.localPosition.y - 0.05f;
+        myOriginalY = transform.position.y;
+        //Debug.Log(myOriginalY);
+
 
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myPreviousCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -45,13 +48,20 @@ public class RockMovement : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-
-        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
-        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        if (transform.position == myDesiredPosition && myFallingDown)
         {
-            transform.position = myDesiredPosition;
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
+            myDesiredPosition += new Vector3(0, -0.7f, 0);
+            myFallingDown = false;
         }
+
+        if (/*transform.position.y < myOriginalY && */!myHasSubscribed && myFallingDown)
+        {
+            Debug.LogError("OK!K!KK!");
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+            myHasSubscribed = true;
+        }
+
 
         if (myFallingDown)
         {
@@ -63,23 +73,20 @@ public class RockMovement : MonoBehaviour
             myPlayFallingSound = false;
         }
 
-        if (transform.position.y < myOriginalY && !myHasSubscribed && myFallingDown)
+        //Debug.LogError("Y: " + transform.position.y);
+        //Debug.LogError("Sub:" + myHasSubscribed);
+        //Debug.LogError("Fall:" + myFallingDown);
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
-            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-            myHasSubscribed = true;
+            transform.position = myDesiredPosition;
         }
-        if (transform.localPosition.y > myOriginalY && myHasSubscribed && !myFallingDown)
+        else
         {
-            EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-            myHasSubscribed = false;
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
 
-        if (transform.position == myDesiredPosition && myFallingDown)
-        {
-            TileMap.Instance.Set(myCoords, eTileType.Empty);
-            myDesiredPosition += new Vector3(0, -0.7f, 0);
-            myFallingDown = false;
-        }
+        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
     }
 
     private void OnRewind()
@@ -100,12 +107,15 @@ public class RockMovement : MonoBehaviour
             if (myFellDownAt == myMoves)
             {
                 myFellDownAt = -1;
+                myHasSubscribed = false;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
             }
         }
         if (myMoves > 0) myMoves--;
+
+        TileMap.Instance.Set(myCoords, eTileType.Empty);
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
