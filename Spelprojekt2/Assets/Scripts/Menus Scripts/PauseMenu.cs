@@ -17,6 +17,8 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myCard2 = null;
     [SerializeField] GameObject myCard3 = null;
     [SerializeField] GameObject myCard4 = null;
+    [SerializeField] GameObject myFade = null;
+    private Animator myFadeAnimator;
 
     [SerializeField] Slider myEffectsSlider = null;
     [SerializeField] Slider myMusicSlider = null;
@@ -25,6 +27,7 @@ public class PauseMenu : MonoBehaviour
 
     // Rewind
     private bool myCanRewind = true;
+    private bool myIsRewinding = false;
     private float myRewindCounter = 0.0f;
     private float myRewindCounterMax = 0.35f;
 
@@ -36,6 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
+        myFadeAnimator = GetComponent<Animator>();
         myEffectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
         myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         myEffectsDelta = myEffectsSlider.value;
@@ -49,6 +53,8 @@ public class PauseMenu : MonoBehaviour
             myRewindCounter += Time.deltaTime;
             if (myRewindCounter >= myRewindCounterMax) myCanRewind = true;
         }
+
+        myFadeAnimator.SetBool("Fading", myCanRewind);
 
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
