@@ -39,7 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        myFadeAnimator = GetComponent<Animator>();
+        myFadeAnimator = myFade.GetComponent<Animator>();
         myEffectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
         myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         myEffectsDelta = myEffectsSlider.value;
@@ -48,13 +48,13 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
+        myFadeAnimator.SetBool("Fade", myCanRewind);
+
         if (!myCanRewind)
         {
             myRewindCounter += Time.deltaTime;
             if (myRewindCounter >= myRewindCounterMax) myCanRewind = true;
-        }
-
-        myFadeAnimator.SetBool("Fading", myCanRewind);
+        }        
 
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
