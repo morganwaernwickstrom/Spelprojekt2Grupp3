@@ -26,7 +26,7 @@ public class HoleBlocking : MonoBehaviour
 
     private bool OnPlayerMoveInHole(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        myMoveCounter++;
+        if (myShouldIncrement) myMoveCounter++;
         myShouldIncrement = true;
         return false;
     }

@@ -18,9 +18,14 @@ public class RockMovement : MonoBehaviour
     private int myMoves = 0;
     private int myFellDownAt = -1;
 
+    private bool myHasSubscribed = false;
+    private float myOriginalY;
+
     private void Start()
     {
         myPreviousMoves = new Stack();
+
+        myOriginalY = transform.localPosition.y - 0.05f;
 
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myPreviousCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
@@ -42,27 +47,38 @@ public class RockMovement : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
 
+        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
         if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
         }
 
-        if (transform.position == myDesiredPosition && myFallingDown)
-        {
-            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-            myDesiredPosition += new Vector3(0, -0.7f, 0);
-            myFallingDown = false;
-        }
-
         if (myFallingDown)
         {
-            TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
-            if (myPlayFallingSound) 
+            if (myPlayFallingSound)
             {
-                myPlayFallingSound = false;
                 SoundManager.myInstance.PlayRockFallingSound();
             }
+            myPlayFallingSound = false;
+        }
+
+        if (transform.position.y < myOriginalY && !myHasSubscribed && myFallingDown)
+        {
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+            myHasSubscribed = true;
+        }
+        if (transform.localPosition.y > myOriginalY && myHasSubscribed && !myFallingDown)
+        {
+            EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+            myHasSubscribed = false;
+        }
+
+        if (transform.position == myDesiredPosition && myFallingDown)
+        {
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
+            myDesiredPosition += new Vector3(0, -0.7f, 0);
+            myFallingDown = false;
         }
     }
 

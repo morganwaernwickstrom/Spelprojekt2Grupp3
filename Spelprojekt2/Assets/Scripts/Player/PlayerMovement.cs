@@ -112,8 +112,6 @@ public class PlayerMovement : MonoBehaviour
 
         WasdMovement();
 
-        //AnimationHandler();
-
         HandleCommandQueue();
 
         HandleLerpLogic();
@@ -157,18 +155,6 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
-        
-        //percentage += Time.fixedDeltaTime * mySpeed;
-
-
-        //if (percentage > 1.0f)
-        //{
-        //    //transform.position = myDesiredPosition;
-        //}
-        //else
-        //{
-            
-        //}
     }
 
     private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
@@ -544,23 +530,6 @@ public class PlayerMovement : MonoBehaviour
     {
         myAnimator.SetTrigger("Whiplash");
     }
-
-    //private void AnimationHandler() 
-    //{
-
-    //    float distance = Vector3.Distance(transform.position, myDesiredPosition);
-
-    //    if (distance < 0.1)
-    //    {
-    //        //myAnimator.SetBool("Walk", false);
-            
-    //    }
-    //    else
-    //    {
-    //        //myAnimator.SetBool("Walk", true);
-    //    }
-
-    //}
 
     private void CreateMove()
     {
