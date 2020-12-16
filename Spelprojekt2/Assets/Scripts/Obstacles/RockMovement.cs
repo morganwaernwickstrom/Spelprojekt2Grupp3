@@ -30,11 +30,29 @@ public class RockMovement : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         myPlayFallingSound = true;
     }
+    private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
+    {
+        bool xDist = (Mathf.Abs(aPosition.x - aDesiredPosition.x) < aDif);
+        bool yDist = (Mathf.Abs(aPosition.y - aDesiredPosition.y) < aDif);
+        bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
+
+        return (xDist && yDist && zDist);
+    }
 
     private void Update()
     {
         if (transform.position.y > 5.3f) myHasRewindFromHole = false;
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        {
+            transform.position = myDesiredPosition;
+        }
+        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
+        {
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
+
         myCurrentPosition = new Vector3(Round(transform.position.x, 1), transform.position.y, Round(transform.position.z, 1));
 
         if (myCurrentPosition == myDesiredPosition && myFallingDown)
@@ -42,7 +60,7 @@ public class RockMovement : MonoBehaviour
             myFellDownAt = myMoves;
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
             myDesiredPosition += new Vector3(0, -0.7f, 0);
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * 5 * Time.deltaTime);
+            //transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * 5 * Time.deltaTime);
             myFallingDown = false;
         }
 
@@ -55,7 +73,6 @@ public class RockMovement : MonoBehaviour
                 myPlayFallingSound = false;
                 SoundManager.myInstance.PlayRockFallingSound();
             }
-            
         }
     }
 
