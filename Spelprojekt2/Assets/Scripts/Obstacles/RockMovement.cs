@@ -161,8 +161,6 @@ public class RockMovement : MonoBehaviour
             }
         }
         if (myMoves > 0) myMoves--;
-
-        //TileMap.Instance.Set(myCoords, eTileType.Empty);
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)

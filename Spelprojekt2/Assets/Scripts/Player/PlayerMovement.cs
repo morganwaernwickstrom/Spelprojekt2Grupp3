@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
     //Float
     private float lastTap;
     private float sqrDeadzone;
-    private float myRewindTimerMax;
+    private float myRewindTimerMax = 0f;
     private float myRewindTimer;
 
     //private float percentage;
@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     private Queue myCommandQueue = new Queue();
 
     private int myMoves = 0;
+    private float myDisableTime = 0.5f;
 
     #endregion
 
@@ -99,7 +100,6 @@ public class PlayerMovement : MonoBehaviour
         myPreviousMoves = new Stack();
         mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
-        //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
@@ -111,12 +111,17 @@ public class PlayerMovement : MonoBehaviour
     {
         if (myRewindTimerMax != 0)
         {
+            Debug.LogError("Should start!");
+            Debug.LogError("rewindtimermax: " + myRewindTimerMax);
+            EventHandler.isRewinding = true;
             myRewindTimer += Time.deltaTime;
-            //EventHandler.canRewind = false;
 
             if (myRewindTimer >= myRewindTimerMax)
             {
+                Debug.LogError("Finished!");
+                myCanControl = true;
                 EventHandler.canRewind = true;
+                EventHandler.isRewinding = false;
                 myRewindTimer = 0;
                 myRewindTimerMax = 0;
             }
@@ -150,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (myPreviousMoves.Count > 0)
         {
+            EventHandler.isRewinding = true;
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
@@ -492,6 +498,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
+            myRewindTimerMax = 1.0f;
+
             if (TileMap.Instance.Get(myCoords) == eTileType.Laser) 
             {
                 PlayLaserAnimation();
@@ -509,6 +517,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else 
         {
+            myRewindTimerMax = 0.3f;
+
             SoundManager.myInstance.PlayPlayerDashSound();
             PlayJumpAnimation();
         }
@@ -563,7 +573,7 @@ public class PlayerMovement : MonoBehaviour
         temp.position = transform.position;
         temp.rotation = myRotation;
         temp.rotation = myRotation;
-        temp.duration = 0.7f;
+        temp.duration = myDisableTime;
         myPreviousMoves.Push(temp);
     }
 

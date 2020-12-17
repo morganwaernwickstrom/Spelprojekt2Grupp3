@@ -56,26 +56,15 @@ public class PauseMenu : MonoBehaviour
     {
         //Debug.LogError("Mult. " + EventHandler.speedMultiplier);
         myFadeAnimator.SetBool("Fade", myIsRewinding);
-
-        if (!myCanRewind)
-        {
-            myRewindCounter += Time.deltaTime;
-            if (myRewindCounter >= myRewindCounterMax)
-            {
-                myCanRewind = true;
-                myIsRewinding = false;
-                //EventHandler.canRewind = true;
-            }
-        }
         
-        if (myIsRewinding)
+        if (EventHandler.isRewinding)
         {
-            myPlayerMovement.myCanControl = false;
+            //myPlayerMovement.myCanControl = false;
             EventHandler.speedMultiplier = 5.0f;
         }
         else
         {
-            myPlayerMovement.myCanControl = true;
+            //myPlayerMovement.myCanControl = true;
             EventHandler.speedMultiplier = 1.0f;
         }
 
@@ -213,13 +202,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Rewind()
     {
-        if (myCanRewind && EventHandler.canRewind)
+        if (EventHandler.canRewind && !EventHandler.isRewinding)
         {
             SoundManager.myInstance.PlayRewindSound();
             EventHandler.current.RewindEvent();
-            myCanRewind = false;
             EventHandler.canRewind = false;
-            myIsRewinding = true;
+            EventHandler.isRewinding = true;
             myRewindCounter = 0.0f;
         }
     }
