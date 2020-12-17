@@ -121,8 +121,6 @@ public class RockMovement : MonoBehaviour
         {
             transform.position = myDesiredPosition;
         }
-
-        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
     }
 
     private void OnRewind()
@@ -163,7 +161,6 @@ public class RockMovement : MonoBehaviour
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
         myShouldMoveInY = false;
-
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {

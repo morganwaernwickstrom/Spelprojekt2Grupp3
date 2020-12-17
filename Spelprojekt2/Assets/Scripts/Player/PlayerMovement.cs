@@ -124,8 +124,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
        
-
-        if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Player moves: " + myMoves);
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
         if (myCanControl)
