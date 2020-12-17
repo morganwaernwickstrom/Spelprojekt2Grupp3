@@ -157,6 +157,7 @@ public class RockMovement : MonoBehaviour
                     TileMap.Instance.Set(myCoords, eTileType.Rock);
                 }
             }
+            EventHandler.current.RockMoveEvent(myCoords);
             EventHandler.current.RockInteractEvent(myCoords, myPreviousCoords);
         }
         if (myMoves > 0) myMoves--;
