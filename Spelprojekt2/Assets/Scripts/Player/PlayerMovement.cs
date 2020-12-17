@@ -167,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
             }
             
             TileMap.Instance.Set(myCoords, eTileType.Player);
-            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
         }
         if (myMoves > 0) myMoves--;
     }

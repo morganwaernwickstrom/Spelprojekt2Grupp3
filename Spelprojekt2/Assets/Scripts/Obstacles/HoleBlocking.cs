@@ -4,7 +4,6 @@ public class HoleBlocking : MonoBehaviour
 {
     private Coord myCoords;
     private bool myIsFilled;
-    private bool myShouldIncrement = true;
     private int myGotFilledAt = -1;
     private int myMoveCounter = 0;
 
@@ -17,17 +16,20 @@ public class HoleBlocking : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Hole movecounter: " + myMoveCounter);
+    }
+
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        if (myShouldIncrement) myMoveCounter++;
-        myShouldIncrement = true;
+        myMoveCounter++;
         return (aPlayerCurrentPos == myCoords);
     }
 
     private bool OnPlayerMoveInHole(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        if (myShouldIncrement) myMoveCounter++;
-        myShouldIncrement = true;
+        myMoveCounter++;
         return false;
     }
 
@@ -42,7 +44,6 @@ public class HoleBlocking : MonoBehaviour
                 EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
                 myGotFilledAt = myMoveCounter;
-                myShouldIncrement = false;
                 return true;
             }
         }  
@@ -60,7 +61,7 @@ public class HoleBlocking : MonoBehaviour
             EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
             myGotFilledAt = -1;
         }
-        if (myMoveCounter > 0) --myMoveCounter;
+        if (myMoveCounter > 0) myMoveCounter--;
     }
     
     public bool IsFilled()

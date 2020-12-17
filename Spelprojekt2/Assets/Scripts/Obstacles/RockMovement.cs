@@ -21,10 +21,6 @@ public class RockMovement : MonoBehaviour
 
     private bool myHasSubscribed = false;
     private bool myShouldMoveInY = false;
-    private bool myIsRewinding = false;
-
-    private float myRewindTimerMax;
-    private float myRewindTimer;
 
     private void Start()
     {
@@ -124,7 +120,6 @@ public class RockMovement : MonoBehaviour
         if (ComparePositions(transform.position, myDesiredPosition, 0.1f))
         {
             transform.position = myDesiredPosition;
-            myIsRewinding = false;
         }
 
         if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
@@ -132,7 +127,6 @@ public class RockMovement : MonoBehaviour
 
     private void OnRewind()
     {
-        myIsRewinding = true;
         myShouldMoveInY = true;
 
         if (myPreviousMoves.Count > 0)
@@ -141,9 +135,8 @@ public class RockMovement : MonoBehaviour
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
-            myRewindTimerMax = moveInfo.duration;
             myPreviousMoves.Pop();
-           
+
             if (myCoords != myPreviousCoords)
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
@@ -156,8 +149,11 @@ public class RockMovement : MonoBehaviour
                 myHasSubscribed = false;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-                TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
-                TileMap.Instance.Set(myCoords, eTileType.Rock);
+                if (myCoords != myPreviousCoords)
+                {
+                    TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
+                    TileMap.Instance.Set(myCoords, eTileType.Rock);
+                }
             }
         }
         if (myMoves > 0) myMoves--;
@@ -255,7 +251,6 @@ public class RockMovement : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = myDesiredPosition;
-        temp.duration = 2f;
         myPreviousMoves.Push(temp);
     }
 }
