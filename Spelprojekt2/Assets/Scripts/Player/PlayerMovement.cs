@@ -496,6 +496,11 @@ public class PlayerMovement : MonoBehaviour
         {
             myRewindTimerMax = 1.0f;
 
+            if (TileMap.Instance.Get(myCoords) == eTileType.Sliding)
+            {
+                myRewindTimerMax = 1.3f;
+            }
+
             if (TileMap.Instance.Get(myCoords) == eTileType.Laser) 
             {
                 PlayLaserAnimation();
@@ -503,7 +508,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else 
             {
-
                 Push();
             }
 
