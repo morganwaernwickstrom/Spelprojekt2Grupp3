@@ -6,6 +6,7 @@ public class HoleBlocking : MonoBehaviour
     private bool myIsFilled;
     private int myGotFilledAt = -1;
     private int myMoveCounter = 0;
+    private bool myHasSubscribed = false;
 
     private void Start()
     {
@@ -18,7 +19,18 @@ public class HoleBlocking : MonoBehaviour
 
     private void Update()
     {
+        //if (myIsFilled)
+        //{
+        //    EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+        //    EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        //}
+        //else
+        //{
+        //    EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+        //    EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        //}
         if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Hole movecounter: " + myMoveCounter);
+        if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Got Filled at: " + myGotFilledAt);
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
@@ -41,8 +53,8 @@ public class HoleBlocking : MonoBehaviour
             {
                 myIsFilled = true;
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
-                EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+                EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
                 myGotFilledAt = myMoveCounter;
                 return true;
             }
@@ -55,6 +67,7 @@ public class HoleBlocking : MonoBehaviour
         if (myGotFilledAt == myMoveCounter)
         {
             myIsFilled = false;
+            Debug.LogError("DRR");
             TileMap.Instance.Set(myCoords, eTileType.Hole);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
             EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
