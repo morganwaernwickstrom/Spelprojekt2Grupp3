@@ -13,6 +13,9 @@ public class FinishTrigger : MonoBehaviour
 
     private bool myMakeSound;
     private bool myPlayVictorySound;
+    private float myWinSoundTimer = 0f;
+    private float myWinSoundTimeMax = 8f;
+    private bool myHasPlayedOnce = false;
 
     [SerializeField] Camera myCamera = null;
 
@@ -42,12 +45,27 @@ public class FinishTrigger : MonoBehaviour
 
             if (myPlayVictorySound) 
             {
-                SoundManager.myInstance.PlayWinSounds();
-                myPlayVictorySound = false;
+                if (!myHasPlayedOnce)
+                {
+                    SoundManager.myInstance.PlayWinSounds();
+                    myHasPlayedOnce = true;
+                }
+
+                myWinSoundTimer += Time.deltaTime;
+
+                if (myWinSoundTimer >= myWinSoundTimeMax)
+                {
+                    SoundManager.myInstance.PlayWinSounds();
+                    myWinSoundTimer = 0;
+                    //myPlayVictorySound = false;
+                }
+
             }
 
             if (!myHasPlayed)
             {
+                HideUI();
+
                 CreateConfetti();
                 myHasPlayed = true;
             }
@@ -113,5 +131,10 @@ public class FinishTrigger : MonoBehaviour
             confetti.gameObject.SetActive(true);
             confetti.Play();
         }
+    }
+
+    private void HideUI()
+    {
+        FindObjectsOfType<PauseMenu>()[0].gameObject.SetActive(false);
     }
 }

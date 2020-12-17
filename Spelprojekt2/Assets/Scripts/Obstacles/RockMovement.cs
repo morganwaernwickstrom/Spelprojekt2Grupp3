@@ -14,7 +14,7 @@ public class RockMovement : MonoBehaviour
     private Stack myPreviousMoves;
 
     private bool myFallingDown = false;
-    private bool myPlayFallingSound;
+    private bool myPlayFallingSound = false;
 
     private int myMoves = 0;
     private int myFellDownAt = -1;
@@ -100,12 +100,13 @@ public class RockMovement : MonoBehaviour
 
         if (myFallingDown)
         {
+
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
             if (myPlayFallingSound)
             {
                 SoundManager.myInstance.PlayRockFallingSound();
+                myPlayFallingSound = false;
             }
-            myPlayFallingSound = false;
         }
 
         if (!myShouldMoveInY)
@@ -220,6 +221,7 @@ public class RockMovement : MonoBehaviour
         {
             myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y - 0.7f, Mathf.RoundToInt(myDesiredPosition.z));
             myFallingDown = true;
+            myPlayFallingSound = true;
             myFellDownAt = myMoves;
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);

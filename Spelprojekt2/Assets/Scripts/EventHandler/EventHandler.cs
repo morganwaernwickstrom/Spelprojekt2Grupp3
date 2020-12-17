@@ -259,7 +259,6 @@ public class EventHandler : MonoBehaviour
                 if(f(aGoalCoord)) return true;
             }
         }
-        Debug.Log("No Canvas?");
         return false;
     }
 

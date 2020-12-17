@@ -38,14 +38,17 @@ public class SoundManager : MonoBehaviour
 
     private bool myHasFinishedLevel = false;
 
+    int myPreSceneIndex = 0;
+    int myCurrentSceneIndex = 0;
+
     private void Start()
     {
-        if(myInstance == null) 
+        if (myInstance == null)
         {
             myInstance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else 
+        else
         {
             Destroy(gameObject);
         }
@@ -55,8 +58,40 @@ public class SoundManager : MonoBehaviour
 
     private void OnEnable()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        myCurrentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         VolumeSliderSetup();
     }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        myPreSceneIndex = myCurrentSceneIndex;
+        myCurrentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (myEffectsAudioSource != null)
+        {
+            myEffectsAudioSource.Stop();
+        }
+
+        if (myMusicAudioSource != null)
+        {
+            if (myPreSceneIndex == 0 || myPreSceneIndex >= 2 && myPreSceneIndex <= 7)
+            {
+                if (myCurrentSceneIndex == 0 || myCurrentSceneIndex >= 2 && myCurrentSceneIndex <= 7)
+                {
+                    myMusicAudioSource.Play();
+                }
+            }
+
+            if (myCurrentSceneIndex != 1)
+            {
+                myMusicAudioSource.clip = myMusicClips[myCurrentSceneIndex];
+                myMusicAudioSource.Play();
+            }
+
+        }
+    }
+
 
     public void Update()
     {
@@ -70,7 +105,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void VolumeSliderSetup() 
+    private void VolumeSliderSetup()
     {
         if (GameObject.FindGameObjectWithTag("SoundEffectSlider"))
         {
@@ -88,7 +123,7 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void SliderManager() 
+    private void SliderManager()
     {
         if (myEffectSlider != null && myMusicSlider != null)
         {
@@ -97,27 +132,27 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void ManageMusic() 
+    private void ManageMusic()
     {
         if (!myHasFinishedLevel)
         {
-            if (!myMusicClips[SceneManager.GetActiveScene().buildIndex])
+            if (!myMusicClips[myCurrentSceneIndex])
             {
                 myMusicAudioSource.clip = myDefaultMusicClip;
             }
             else
             {
-                myMusicAudioSource.clip = myMusicClips[SceneManager.GetActiveScene().buildIndex];
+                myMusicAudioSource.clip = myMusicClips[myCurrentSceneIndex];
             }
 
-            if (myMusicAudioSource.clip != myMusicClips[SceneManager.GetActiveScene().buildIndex] || !myMusicAudioSource.isPlaying)
+            if (myMusicAudioSource.clip != myMusicClips[myCurrentSceneIndex] || !myMusicAudioSource.isPlaying)
             {
                 myMusicAudioSource.Play();
             }
         }
     }
 
-    public void PlayRockSound() 
+    public void PlayRockSound()
     {
         myEffectsAudioSource.PlayOneShot(myRockSound);
     }
@@ -132,45 +167,45 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(myRockFallingSound);
     }
 
-    public void PlayDoorOpenSound() 
+    public void PlayDoorOpenSound()
     {
         myEffectsAudioSource.PlayOneShot(myDoorOpenSound);
     }
 
-    public void PlayMenuButtonSound() 
+    public void PlayMenuButtonSound()
     {
         myEffectsAudioSource.PlayOneShot(myMenuButtonSound);
     }
 
-    public void PlayLaserSound() 
+    public void PlayLaserSound()
     {
         myEffectsAudioSource.PlayOneShot(myLaserSound);
     }
 
-    public void PlayPlayerDashSound() 
+    public void PlayPlayerDashSound()
     {
         myEffectsAudioSource.PlayOneShot(myPlayerDashSounds[Random.Range(0, myPlayerDashSounds.Length)]);
     }
 
-    public void PlayPlayerKickSound() 
+    public void PlayPlayerKickSound()
     {
         myEffectsAudioSource.PlayOneShot(myPlayerKickSounds[Random.Range(0, myPlayerKickSounds.Length)]);
     }
 
-    public void PlayWinSounds() 
+    public void PlayWinSounds()
     {
         myHasFinishedLevel = true;
-        myMusicAudioSource.Pause();
+        myMusicAudioSource.Stop();
         myEffectsAudioSource.PlayOneShot(myWinSound);
         myEffectsAudioSource.PlayOneShot(myWinMusic);
     }
 
-    public void PlayFiddeSounds() 
+    public void PlayFiddeSounds()
     {
         myEffectsAudioSource.PlayOneShot(myFiddeSounds[Random.Range(0, myFiddeSounds.Length)]);
     }
 
-    public void PlayPlayerPushSound() 
+    public void PlayPlayerPushSound()
     {
         myEffectsAudioSource.PlayOneShot(myPlayerPushSounds[Random.Range(0, myPlayerPushSounds.Length)]);
     }
@@ -184,14 +219,14 @@ public class SoundManager : MonoBehaviour
         myEffectsAudioSource.PlayOneShot(myRewindSound);
     }
 
-    public void SetMusicVolume(float anAmount) 
+    public void SetMusicVolume(float anAmount)
     {
         PlayerPrefs.SetFloat("MusicVolume", anAmount);
         PlayerPrefs.Save();
         myMusicAudioSource.volume = anAmount;
     }
 
-    public void SetEffectsVolume(float anAmount) 
+    public void SetEffectsVolume(float anAmount)
     {
         PlayerPrefs.SetFloat("EffectsVolume", anAmount);
         PlayerPrefs.Save();
@@ -199,12 +234,12 @@ public class SoundManager : MonoBehaviour
     }
 
 
-    public float GetCurrentEffectsVolume() 
+    public float GetCurrentEffectsVolume()
     {
         return PlayerPrefs.GetFloat("EffectsVolume");
     }
 
-    public float GetCurrentMusicVolume() 
+    public float GetCurrentMusicVolume()
     {
         return PlayerPrefs.GetFloat("MusicVolume");
     }
