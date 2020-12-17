@@ -6,7 +6,8 @@ public class RockMovement : MonoBehaviour
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
 
-    private float mySpeed = 5f;
+    private float mySpeed = 0;
+    private float myBaseSpeed = 5f;
     private Coord myCoords;
     private Coord myPreviousCoords;
 
@@ -20,7 +21,10 @@ public class RockMovement : MonoBehaviour
 
     private bool myHasSubscribed = false;
     private bool myShouldMoveInY = false;
-    private bool myCorrectOrder = true;
+    private bool myIsRewinding = false;
+
+    private float myRewindTimerMax;
+    private float myRewindTimer;
 
     private void Start()
     {
@@ -60,7 +64,7 @@ public class RockMovement : MonoBehaviour
             if (CompareFloat(transform.position.x, myDesiredPosition.x, 0.1f) && CompareFloat(transform.position.z, myDesiredPosition.z, 0.1f))
             {
                 transform.position = temp;
-                //myShouldMoveInY = !myShouldMoveInY;
+                myShouldMoveInY = !myShouldMoveInY;
             }
         }
     }
@@ -77,13 +81,15 @@ public class RockMovement : MonoBehaviour
             if (CompareFloat(transform.position.y, myDesiredPosition.y, 0.1f))
             {
                 transform.position = temp;
-                //myShouldMoveInY = !myShouldMoveInY;
+                myShouldMoveInY = !myShouldMoveInY;
             }
         }
     }
 
     private void Update()
-    {       
+    {
+        mySpeed = myBaseSpeed * EventHandler.speedMultiplier;
+
         if (transform.position == myDesiredPosition && myFallingDown)
         {
             TileMap.Instance.Set(myCoords, eTileType.Empty);
@@ -106,22 +112,28 @@ public class RockMovement : MonoBehaviour
             myPlayFallingSound = false;
         }
 
-        
-
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        if (!myShouldMoveInY)
+        {
+            LerpXZ();
+        }
+        else
+        {
+            LerpY();
+        }
 
         if (ComparePositions(transform.position, myDesiredPosition, 0.1f))
         {
             transform.position = myDesiredPosition;
+            myIsRewinding = false;
         }
-
 
         if (Input.GetKeyDown(KeyCode.G)) Debug.LogError("Rock Moves: " + myMoves);
     }
 
     private void OnRewind()
     {
-        myShouldMoveInY = !myShouldMoveInY;
+        myIsRewinding = true;
+        myShouldMoveInY = true;
 
         if (myPreviousMoves.Count > 0)
         {
@@ -129,6 +141,7 @@ public class RockMovement : MonoBehaviour
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
+            myRewindTimerMax = moveInfo.duration;
             myPreviousMoves.Pop();
            
             if (myCoords != myPreviousCoords)
@@ -146,6 +159,7 @@ public class RockMovement : MonoBehaviour
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
             }
         }
+
         if (myMoves > 0) myMoves--;
 
         TileMap.Instance.Set(myCoords, eTileType.Empty);
@@ -153,6 +167,8 @@ public class RockMovement : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        myShouldMoveInY = false;
+
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
@@ -241,6 +257,7 @@ public class RockMovement : MonoBehaviour
         var temp = new MoveInfo();
         temp.coord = myCoords;
         temp.position = myDesiredPosition;
+        temp.duration = 2f;
         myPreviousMoves.Push(temp);
     }
 }

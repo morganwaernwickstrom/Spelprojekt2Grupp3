@@ -31,6 +31,9 @@ public class PauseMenu : MonoBehaviour
     private float myRewindCounter = 0.0f;
     private float myRewindCounterMax = 0.5f;
 
+    private PlayerMovement myPlayerMovement = null;
+    private Animator myPlayerAnimator = null;
+
     private float myEffectsDelta;
     private float myMusicDelta;
 
@@ -44,10 +47,14 @@ public class PauseMenu : MonoBehaviour
         myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         myEffectsDelta = myEffectsSlider.value;
         myMusicDelta = myMusicSlider.value;
+
+        myPlayerMovement = FindObjectOfType<PlayerMovement>();
+        myPlayerAnimator = myPlayerMovement.gameObject.GetComponent<Animator>();
     }
 
     void Update()
     {
+        //Debug.LogError("Mult. " + EventHandler.speedMultiplier);
         myFadeAnimator.SetBool("Fade", myIsRewinding);
 
         if (!myCanRewind)
@@ -57,8 +64,20 @@ public class PauseMenu : MonoBehaviour
             {
                 myCanRewind = true;
                 myIsRewinding = false;
+                //EventHandler.canRewind = true;
             }
-        }        
+        }
+        
+        if (myIsRewinding)
+        {
+            myPlayerMovement.myCanControl = false;
+            EventHandler.speedMultiplier = 5.0f;
+        }
+        else
+        {
+            myPlayerMovement.myCanControl = true;
+            EventHandler.speedMultiplier = 1.0f;
+        }
 
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
@@ -194,11 +213,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Rewind()
     {
-        if (myCanRewind)
+        if (myCanRewind && EventHandler.canRewind)
         {
             SoundManager.myInstance.PlayRewindSound();
             EventHandler.current.RewindEvent();
             myCanRewind = false;
+            EventHandler.canRewind = false;
             myIsRewinding = true;
             myRewindCounter = 0.0f;
         }

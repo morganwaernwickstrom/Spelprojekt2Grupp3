@@ -6,6 +6,7 @@ struct MoveInfo
     public Coord coord;
     public Vector3 position;
     public Quaternion rotation;
+    public float duration;
 }
 
 public class PlayerMovement : MonoBehaviour
@@ -52,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
     //Float
     private float lastTap;
     private float sqrDeadzone;
+    private float myRewindTimerMax;
+    private float myRewindTimer;
+
     //private float percentage;
     private float mySpeed = 0f;
     private float myMovementSpeed = 15f;
@@ -83,6 +87,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool SwipeLeft { get { return swipeLeft; } }
 
+    public bool myCanControl = true;
+
     //Vector
     public Vector2 SwipeDelta { get { return swipeDelta; } }
 
@@ -103,16 +109,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+        if (myRewindTimerMax != 0)
+        {
+            myRewindTimer += Time.deltaTime;
+            //EventHandler.canRewind = false;
+
+            if (myRewindTimer >= myRewindTimerMax)
+            {
+                EventHandler.canRewind = true;
+                myRewindTimer = 0;
+                myRewindTimerMax = 0;
+            }
+        }
+       
+
         if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Player moves: " + myMoves);
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
-        UpdateMobile();
+        if (myCanControl)
+        {
+            UpdateMobile();
 
-        UpdateStandalone();
+            UpdateStandalone();
 
-        WasdMovement();
+            WasdMovement();
 
-        HandleCommandQueue();
+            HandleCommandQueue();
+        }
 
         HandleLerpLogic();
 
@@ -132,6 +155,7 @@ public class PlayerMovement : MonoBehaviour
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
             myCharacterModel.transform.rotation = moveInfo.rotation;
+            myRewindTimerMax = moveInfo.duration;
             myPreviousMoves.Pop();
 
             if (myDesiredPosition != transform.position)
@@ -538,6 +562,8 @@ public class PlayerMovement : MonoBehaviour
         temp.coord = myCoords;
         temp.position = transform.position;
         temp.rotation = myRotation;
+        temp.rotation = myRotation;
+        temp.duration = 0.7f;
         myPreviousMoves.Push(temp);
     }
 
