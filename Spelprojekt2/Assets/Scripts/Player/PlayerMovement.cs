@@ -111,14 +111,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (myRewindTimerMax != 0)
         {
-            Debug.LogError("Should start!");
-            Debug.LogError("rewindtimermax: " + myRewindTimerMax);
             EventHandler.isRewinding = true;
             myRewindTimer += Time.deltaTime;
 
             if (myRewindTimer >= myRewindTimerMax)
             {
-                Debug.LogError("Finished!");
                 myCanControl = true;
                 EventHandler.canRewind = true;
                 EventHandler.isRewinding = false;
