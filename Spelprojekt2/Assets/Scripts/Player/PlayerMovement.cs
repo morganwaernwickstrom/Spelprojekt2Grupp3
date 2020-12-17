@@ -6,6 +6,7 @@ struct MoveInfo
     public Coord coord;
     public Vector3 position;
     public Quaternion rotation;
+    public float duration;
 }
 
 public class PlayerMovement : MonoBehaviour
@@ -52,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
     //Float
     private float lastTap;
     private float sqrDeadzone;
+    private float myRewindTimerMax = 0f;
+    private float myRewindTimer;
+
     //private float percentage;
     private float mySpeed = 0f;
     private float myMovementSpeed = 15f;
@@ -64,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     private Queue myCommandQueue = new Queue();
 
     private int myMoves = 0;
+    private float myDisableTime = 0.5f;
 
     #endregion
 
@@ -83,6 +88,8 @@ public class PlayerMovement : MonoBehaviour
 
     public bool SwipeLeft { get { return swipeLeft; } }
 
+    public bool myCanControl = true;
+
     //Vector
     public Vector2 SwipeDelta { get { return swipeDelta; } }
 
@@ -98,7 +105,6 @@ public class PlayerMovement : MonoBehaviour
         myPreviousMoves = new Stack();
         mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
-        //percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
         myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
         myDesiredPosition = transform.position;
@@ -107,18 +113,33 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G)) Debug.Log("Player moves: " + myMoves);
+        if (myRewindTimerMax != 0)
+        {
+            EventHandler.isRewinding = true;
+            myRewindTimer += Time.deltaTime;
+
+            if (myRewindTimer >= myRewindTimerMax)
+            {
+                myCanControl = true;
+                EventHandler.canRewind = true;
+                EventHandler.isRewinding = false;
+                myRewindTimer = 0;
+                myRewindTimerMax = 0;
+            }
+        }
+       
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
-        UpdateMobile();
+        if (myCanControl)
+        {
+            UpdateMobile();
 
-        UpdateStandalone();
+            UpdateStandalone();
 
-        WasdMovement();
+            WasdMovement();
 
-        //AnimationHandler();
-
-        HandleCommandQueue();
+            HandleCommandQueue();
+        }
 
         HandleLerpLogic();
 
@@ -133,11 +154,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (myPreviousMoves.Count > 0)
         {
+            EventHandler.isRewinding = true;
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
             myPreviousCoords = myCoords;
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
             myCharacterModel.transform.rotation = moveInfo.rotation;
+            myRewindTimerMax = moveInfo.duration;
             myPreviousMoves.Pop();
 
             if (myDesiredPosition != transform.position)
@@ -146,7 +169,6 @@ public class PlayerMovement : MonoBehaviour
             }
             
             TileMap.Instance.Set(myCoords, eTileType.Player);
-            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
         }
         if (myMoves > 0) myMoves--;
     }
@@ -161,18 +183,6 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
         }
-        
-        //percentage += Time.fixedDeltaTime * mySpeed;
-
-
-        //if (percentage > 1.0f)
-        //{
-        //    //transform.position = myDesiredPosition;
-        //}
-        //else
-        //{
-            
-        //}
     }
 
     private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
@@ -486,6 +496,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
         {
+            myRewindTimerMax = 1.0f;
+
+            if (TileMap.Instance.Get(myCoords) == eTileType.Sliding)
+            {
+                myRewindTimerMax = 1.3f;
+            }
+
             if (TileMap.Instance.Get(myCoords) == eTileType.Laser) 
             {
                 PlayLaserAnimation();
@@ -493,7 +510,6 @@ public class PlayerMovement : MonoBehaviour
             }
             else 
             {
-
                 Push();
             }
 
@@ -503,6 +519,8 @@ public class PlayerMovement : MonoBehaviour
         }
         else 
         {
+            myRewindTimerMax = 0.3f;
+
             SoundManager.myInstance.PlayPlayerDashSound();
             PlayJumpAnimation();
         }
@@ -549,23 +567,6 @@ public class PlayerMovement : MonoBehaviour
         myAnimator.SetTrigger("Whiplash");
     }
 
-    //private void AnimationHandler() 
-    //{
-
-    //    float distance = Vector3.Distance(transform.position, myDesiredPosition);
-
-    //    if (distance < 0.1)
-    //    {
-    //        //myAnimator.SetBool("Walk", false);
-            
-    //    }
-    //    else
-    //    {
-    //        //myAnimator.SetBool("Walk", true);
-    //    }
-
-    //}
-
     private void CreateMove()
     {
         myMoves++;
@@ -573,6 +574,8 @@ public class PlayerMovement : MonoBehaviour
         temp.coord = myCoords;
         temp.position = transform.position;
         temp.rotation = myRotation;
+        temp.rotation = myRotation;
+        temp.duration = myDisableTime;
         myPreviousMoves.Push(temp);
     }
 

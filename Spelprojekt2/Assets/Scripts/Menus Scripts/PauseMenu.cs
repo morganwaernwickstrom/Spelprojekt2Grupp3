@@ -18,48 +18,23 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myCard3 = null;
     [SerializeField] GameObject myCard4 = null;
     [SerializeField] GameObject myFade = null;
-    private Animator myFadeAnimator;
 
     [SerializeField] Slider myEffectsSlider = null;
     [SerializeField] Slider myMusicSlider = null;
 
     private GameObject myPlayer = null;
 
-    // Rewind
-    private bool myCanRewind = true;
-    private bool myIsRewinding = false;
-    private float myRewindCounter = 0.0f;
-    private float myRewindCounterMax = 0.5f;
-
-    private float myEffectsDelta;
-    private float myMusicDelta;
-
     bool myGamePaused = false;
     bool myInTutorial = false;
 
     private void Start()
     {
-        myFadeAnimator = myFade.GetComponent<Animator>();
         myEffectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
         myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        myEffectsDelta = myEffectsSlider.value;
-        myMusicDelta = myMusicSlider.value;
     }
 
     void Update()
     {
-        //myFadeAnimator.SetBool("Fade", myIsRewinding);
-
-        if (!myCanRewind)
-        {
-            myRewindCounter += Time.deltaTime;
-            if (myRewindCounter >= myRewindCounterMax)
-            {
-                myCanRewind = true;
-                myIsRewinding = false;
-            }
-        }        
-
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
             myPlayer = GameObject.FindGameObjectWithTag("Player");
@@ -194,13 +169,12 @@ public class PauseMenu : MonoBehaviour
 
     public void Rewind()
     {
-        if (myCanRewind)
+        if (EventHandler.canRewind && !EventHandler.isRewinding)
         {
             SoundManager.myInstance.PlayRewindSound();
             EventHandler.current.RewindEvent();
-            myCanRewind = false;
-            myIsRewinding = true;
-            myRewindCounter = 0.0f;
+            EventHandler.canRewind = false;
+            EventHandler.isRewinding = true;
         }
     }
 }

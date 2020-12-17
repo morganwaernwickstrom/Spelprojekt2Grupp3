@@ -114,11 +114,6 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
 
-                foreach (var i in allPlayer)
-                {
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Player;
-                    myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
-                }
 
                 foreach (var i in allRocks)
                 {
@@ -167,7 +162,6 @@ public class TileMap : MonoBehaviour
                     myTileMap[i.GetCoords().x, i.GetCoords().y].type = eTileType.Receiver;
                     myTileMap[i.GetCoords().x, i.GetCoords().y].coord = i.GetCoords();
                 }
-
 
                 foreach (var i in allRails)
                 {
@@ -414,7 +408,7 @@ public class TileMap : MonoBehaviour
         }
         else
         {
-            eTileType[] slidingTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Player, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train };
+            eTileType[] slidingTargets = { eTileType.Emitter, eTileType.Door, eTileType.Impassable, eTileType.Receiver, eTileType.Reflector, eTileType.Rock, eTileType.Sliding, eTileType.Train };
             targets.AddRange(slidingTargets);
 
             // --- Check for all tiles in the direction --- //

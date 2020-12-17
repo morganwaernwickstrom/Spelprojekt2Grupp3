@@ -16,7 +16,9 @@ public class SlidingRockMovement : MonoBehaviour
     private Stack myPreviousMoves;
 
     private int myMoves = 0;
-    private int myFellDownAt = 0;
+    private int myFellDownAt = -1;
+    private bool myHasSubscribed = false;
+    private bool myShouldMoveInY = false;
 
     private void Start()
     {
@@ -28,6 +30,55 @@ public class SlidingRockMovement : MonoBehaviour
         EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
         myAnimator = GetComponentInChildren<Animator>();
         myPercentage = 0.0f;
+    }
+
+    private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
+    {
+        bool xDist = (Mathf.Abs(aPosition.x - aDesiredPosition.x) < aDif);
+        bool yDist = (Mathf.Abs(aPosition.y - aDesiredPosition.y) < aDif);
+        bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
+
+        return (xDist && yDist && zDist);
+    }
+
+    private bool CompareFloat(float aMyFloat, float aMyDesired, float aDif)
+    {
+        bool yDist = (Mathf.Abs(aMyFloat - aMyDesired) < aDif);
+
+        return yDist;
+    }
+
+    private void LerpXZ()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.y = transform.position.y;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.x, myDesiredPosition.x, 0.1f) && CompareFloat(transform.position.z, myDesiredPosition.z, 0.1f))
+            {
+                transform.position = temp;
+                myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
+    }
+
+    private void LerpY()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.x = transform.position.x;
+        temp.z = transform.position.z;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * 5 * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.y, myDesiredPosition.y, 0.1f))
+            {
+                transform.position = temp;
+                myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
     }
 
     private void Update()
@@ -48,19 +99,51 @@ public class SlidingRockMovement : MonoBehaviour
             myAnimator.SetBool("Walk", false);
         }
 
-        if (myCurrentPosition == myDesiredPosition && myFallingDown)
+        // OLD
+        //if (myCurrentPosition == myDesiredPosition && myFallingDown)
+        //{
+        //    myFellDownAt = myMoves;
+        //    EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+        //    myDesiredPosition += new Vector3(0, -0.7f, 0);
+        //    transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        //    myFallingDown = false;
+        //}
+
+        //if (myFallingDown)
+        //{
+        //    TileMap.Instance.Set(myCoords, eTileType.Empty);
+        //    EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        //}
+
+        if (transform.position == myDesiredPosition && myFallingDown)
         {
-            myFellDownAt = myMoves;
-            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-            myDesiredPosition += new Vector3(0, -0.7f, 0);
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
             myFallingDown = false;
+        }
+
+        if (!myHasSubscribed && myFallingDown)
+        {
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+            myHasSubscribed = true;
         }
 
         if (myFallingDown)
         {
-            TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        }
+
+        if (!myShouldMoveInY)
+        {
+            LerpXZ();
+        }
+        else
+        {
+            LerpY();
+        }
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.1f))
+        {
+            transform.position = myDesiredPosition;
         }
     }
 
@@ -88,9 +171,10 @@ public class SlidingRockMovement : MonoBehaviour
             myDesiredPosition = moveInfo.position;
             myPreviousMoves.Pop();
 
-            if (myFellDownAt == myMoves && myFellDownAt != 0)
+            if (myFellDownAt == myMoves)
             {
-                myFellDownAt = 0;
+                myFellDownAt = -1;
+                myHasSubscribed = false;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
@@ -99,13 +183,14 @@ public class SlidingRockMovement : MonoBehaviour
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
-            TileMap.Instance.Set(myCoords, eTileType.Sliding);
+            //TileMap.Instance.Set(myCoords, eTileType.Sliding);
         }
         if (myMoves > 0) myMoves--;
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        myShouldMoveInY = false;
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
@@ -201,8 +286,9 @@ public class SlidingRockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
+            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y - 0.7f, Mathf.RoundToInt(myDesiredPosition.z));
             myFallingDown = true;
+            myFellDownAt = myMoves;
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
         TileMap.Instance.Set(previousCoords, eTileType.Empty);

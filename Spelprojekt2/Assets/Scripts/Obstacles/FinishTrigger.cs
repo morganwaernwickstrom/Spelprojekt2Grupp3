@@ -14,9 +14,9 @@ public class FinishTrigger : MonoBehaviour
     private bool myMakeSound;
     private bool myPlayVictorySound;
 
-    [SerializeField] Camera myCamera;
+    [SerializeField] Camera myCamera = null;
 
-    [SerializeField] List<ParticleSystem> myConfettiEffects;
+    [SerializeField] List<ParticleSystem> myConfettiEffects = null;
 
     private void Start()
     {

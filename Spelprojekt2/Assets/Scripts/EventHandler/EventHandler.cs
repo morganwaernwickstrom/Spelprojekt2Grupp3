@@ -27,6 +27,10 @@ public class EventHandler : MonoBehaviour
     public event Action onPlayerDeath;
     public event Action onRewind;
 
+    public static float speedMultiplier = 1.0f;
+    public static bool canRewind = true;
+    public static bool isRewinding = false;
+
     private void Start()
     {
         current = this;

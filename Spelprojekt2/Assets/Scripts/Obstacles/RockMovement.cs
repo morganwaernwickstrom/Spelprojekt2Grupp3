@@ -6,17 +6,21 @@ public class RockMovement : MonoBehaviour
     private Vector3 myDesiredPosition;
     private Vector3 myCurrentPosition;
 
-    private float mySpeed = 5f;
+    private float mySpeed = 0;
+    private float myBaseSpeed = 5f;
     private Coord myCoords;
     private Coord myPreviousCoords;
 
     private Stack myPreviousMoves;
 
-    private bool myFallingDown;
+    private bool myFallingDown = false;
     private bool myPlayFallingSound;
 
     private int myMoves = 0;
     private int myFellDownAt = -1;
+
+    private bool myHasSubscribed = false;
+    private bool myShouldMoveInY = false;
 
     private void Start()
     {
@@ -38,36 +42,91 @@ public class RockMovement : MonoBehaviour
         return (xDist && yDist && zDist);
     }
 
+    private bool CompareFloat(float aMyFloat, float aMyDesired, float aDif)
+    {
+        bool yDist = (Mathf.Abs(aMyFloat - aMyDesired) < aDif);
+
+        return yDist;
+    }
+
+    private void LerpXZ()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.y = transform.position.y;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.x, myDesiredPosition.x, 0.1f) && CompareFloat(transform.position.z, myDesiredPosition.z, 0.1f))
+            {
+                transform.position = temp;
+                myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
+    }
+
+    private void LerpY()
+    {
+        Vector3 temp = myDesiredPosition;
+        temp.x = transform.position.x;
+        temp.z = transform.position.z;
+        transform.position = Vector3.Lerp(transform.position, temp, mySpeed * 5 * Time.deltaTime);
+
+        if (transform.position != myDesiredPosition)
+        {
+            if (CompareFloat(transform.position.y, myDesiredPosition.y, 0.1f))
+            {
+                transform.position = temp;
+                myShouldMoveInY = !myShouldMoveInY;
+            }
+        }
+    }
+
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
-
-        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
-        {
-            transform.position = myDesiredPosition;
-        }
+        mySpeed = myBaseSpeed * EventHandler.speedMultiplier;
 
         if (transform.position == myDesiredPosition && myFallingDown)
         {
-            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-            myDesiredPosition += new Vector3(0, -0.7f, 0);
+            TileMap.Instance.Set(myCoords, eTileType.Empty);
             myFallingDown = false;
+        }
+
+        if (!myHasSubscribed && myFallingDown)
+        {
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
+            myHasSubscribed = true;
         }
 
         if (myFallingDown)
         {
-            TileMap.Instance.Set(myCoords, eTileType.Empty);
             EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
-            if (myPlayFallingSound) 
+            if (myPlayFallingSound)
             {
-                myPlayFallingSound = false;
                 SoundManager.myInstance.PlayRockFallingSound();
             }
+            myPlayFallingSound = false;
+        }
+
+        if (!myShouldMoveInY)
+        {
+            LerpXZ();
+        }
+        else
+        {
+            LerpY();
+        }
+
+        if (ComparePositions(transform.position, myDesiredPosition, 0.1f))
+        {
+            transform.position = myDesiredPosition;
         }
     }
 
     private void OnRewind()
     {
+        myShouldMoveInY = true;
+
         if (myPreviousMoves.Count > 0)
         {
             var moveInfo = (MoveInfo)myPreviousMoves.Peek();
@@ -75,6 +134,7 @@ public class RockMovement : MonoBehaviour
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
             myPreviousMoves.Pop();
+
             if (myCoords != myPreviousCoords)
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
@@ -84,16 +144,23 @@ public class RockMovement : MonoBehaviour
             if (myFellDownAt == myMoves)
             {
                 myFellDownAt = -1;
+                myHasSubscribed = false;
                 EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
                 EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMoveInHole);
-                TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
+                if (myCoords != myPreviousCoords)
+                {
+                    TileMap.Instance.Set(myPreviousCoords, eTileType.Hole);
+                    TileMap.Instance.Set(myCoords, eTileType.Rock);
+                }
             }
+            EventHandler.current.RockInteractEvent(myCoords, myPreviousCoords);
         }
         if (myMoves > 0) myMoves--;
     }
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        myShouldMoveInY = false;
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
@@ -151,7 +218,7 @@ public class RockMovement : MonoBehaviour
 
         if (EventHandler.current.RockMoveEvent(myCoords))
         {
-            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y, Mathf.RoundToInt(myDesiredPosition.z));
+            myDesiredPosition = new Vector3(Mathf.RoundToInt(myDesiredPosition.x), myDesiredPosition.y - 0.7f, Mathf.RoundToInt(myDesiredPosition.z));
             myFallingDown = true;
             myFellDownAt = myMoves;
         }
@@ -178,13 +245,10 @@ public class RockMovement : MonoBehaviour
 
     private void CreateMove()
     {
-        Vector3 pos = new Vector3(Mathf.RoundToInt(transform.position.x),
-                                  transform.position.y,
-                                  Mathf.RoundToInt(transform.position.z));
         myMoves++;
         var temp = new MoveInfo();
         temp.coord = myCoords;
-        temp.position = pos;
+        temp.position = myDesiredPosition;
         myPreviousMoves.Push(temp);
     }
 }

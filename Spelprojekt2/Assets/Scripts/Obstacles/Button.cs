@@ -3,7 +3,6 @@
 public class Button : MonoBehaviour
 {
     private Coord myCoords;
-    //private bool myIsPressed = false;
 
     private void Start()
     {
