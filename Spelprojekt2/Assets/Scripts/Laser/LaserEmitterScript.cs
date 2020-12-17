@@ -38,6 +38,13 @@ public class LaserEmitterScript : MonoBehaviour
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
+    }
+
+    private void OnRewind()
+    {
+        UpdateLaser();
+        DrawLaser();
     }
 
     private void Update()
@@ -137,5 +144,6 @@ public class LaserEmitterScript : MonoBehaviour
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
         EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }
