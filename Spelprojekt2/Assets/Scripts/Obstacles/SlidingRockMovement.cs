@@ -183,7 +183,7 @@ public class SlidingRockMovement : MonoBehaviour
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
             }
-            TileMap.Instance.Set(myCoords, eTileType.Sliding);
+            //TileMap.Instance.Set(myCoords, eTileType.Sliding);
         }
         if (myMoves > 0) myMoves--;
     }

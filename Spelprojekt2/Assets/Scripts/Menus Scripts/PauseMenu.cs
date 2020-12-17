@@ -18,7 +18,6 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] GameObject myCard3 = null;
     [SerializeField] GameObject myCard4 = null;
     [SerializeField] GameObject myFade = null;
-    private Animator myFadeAnimator;
 
     [SerializeField] Slider myEffectsSlider = null;
     [SerializeField] Slider myMusicSlider = null;
@@ -30,15 +29,12 @@ public class PauseMenu : MonoBehaviour
 
     private void Start()
     {
-        myFadeAnimator = myFade.GetComponent<Animator>();
         myEffectsSlider.value = PlayerPrefs.GetFloat("EffectsVolume");
         myMusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
     }
 
     void Update()
     {
-        myFadeAnimator.SetBool("Fade", EventHandler.isRewinding);
-
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
             myPlayer = GameObject.FindGameObjectWithTag("Player");
