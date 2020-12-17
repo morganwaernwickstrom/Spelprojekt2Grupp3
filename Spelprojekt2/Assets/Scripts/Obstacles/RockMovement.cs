@@ -143,7 +143,7 @@ public class RockMovement : MonoBehaviour
             }
 
             // Might break shit!
-            if (TileMap.Instance.Get(myCoords) == eTileType.Rock) TileMap.Instance.Set(myCoords, eTileType.Rock);
+            if (TileMap.Instance.Get(myCoords) != eTileType.Hole) TileMap.Instance.Set(myCoords, eTileType.Rock);
 
             if (myFellDownAt == myMoves)
             {
