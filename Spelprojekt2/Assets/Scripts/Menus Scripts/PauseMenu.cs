@@ -54,19 +54,19 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        //Debug.LogError("Mult. " + EventHandler.speedMultiplier);
+        Debug.LogError("Mult. " + EventHandler.speedMultiplier);
         myFadeAnimator.SetBool("Fade", myIsRewinding);
         
-        if (EventHandler.isRewinding)
-        {
-            //myPlayerMovement.myCanControl = false;
-            EventHandler.speedMultiplier = 5.0f;
-        }
-        else
-        {
-            //myPlayerMovement.myCanControl = true;
-            EventHandler.speedMultiplier = 1.0f;
-        }
+        //if (EventHandler.isRewinding)
+        //{
+        //    //Debug.LogError("Rewinding");
+        //    EventHandler.speedMultiplier = 5.0f;
+        //}
+        //else
+        //{
+        //    //Debug.LogError("Normal");
+        //    EventHandler.speedMultiplier = 1.0f;
+        //}
 
         if (GameObject.FindGameObjectWithTag("Player")) 
         {
