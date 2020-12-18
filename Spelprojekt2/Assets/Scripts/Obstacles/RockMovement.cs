@@ -135,15 +135,13 @@ public class RockMovement : MonoBehaviour
             myCoords = moveInfo.coord;
             myDesiredPosition = moveInfo.position;
             myPreviousMoves.Pop();
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
 
             if (myCoords != myPreviousCoords)
             {
                 TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
                 TileMap.Instance.Set(myCoords, eTileType.Rock);
             }
-
-            // Might break shit!
-            if (TileMap.Instance.Get(myCoords) != eTileType.Hole) TileMap.Instance.Set(myCoords, eTileType.Rock);
 
             if (myFellDownAt == myMoves)
             {
@@ -157,7 +155,8 @@ public class RockMovement : MonoBehaviour
                     TileMap.Instance.Set(myCoords, eTileType.Rock);
                 }
             }
-            EventHandler.current.RockMoveEvent(myCoords);
+            if (myCoords != myPreviousCoords) 
+                EventHandler.current.RockMoveEvent(myCoords);
             EventHandler.current.RockInteractEvent(myCoords, myPreviousCoords);
         }
         if (myMoves > 0) myMoves--;
