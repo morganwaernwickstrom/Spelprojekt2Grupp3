@@ -22,10 +22,13 @@ public class RockMovement : MonoBehaviour
     private bool myHasSubscribed = false;
     private bool myShouldMoveInY = false;
 
+    private float myOriginalY;
+
     private void Start()
     {
         myPreviousMoves = new Stack();
 
+        myOriginalY = transform.position.y;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myPreviousCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         myDesiredPosition = transform.position;
@@ -155,7 +158,7 @@ public class RockMovement : MonoBehaviour
                     TileMap.Instance.Set(myCoords, eTileType.Rock);
                 }
             }
-            EventHandler.current.RockMoveEvent(myCoords);
+            if (transform.position.y >= myOriginalY) EventHandler.current.RockMoveEvent(myCoords);
             EventHandler.current.RockInteractEvent(myCoords, myPreviousCoords);
         }
         if (myMoves > 0) myMoves--;
