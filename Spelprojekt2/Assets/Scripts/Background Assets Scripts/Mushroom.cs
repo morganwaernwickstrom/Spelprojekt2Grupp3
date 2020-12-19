@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class Mushroom : MonoBehaviour
 {
-    private Animator myAnimator = null;
+    [SerializeField] private Animator myAnimator = null;
     [SerializeField] private ParticleSystem mySporeParticles = null;
 
+    private bool myShake = false;
     private float mySporeTimer = 0f;
     [SerializeField] private float myMaxTime = 15f;
 
-    private void Start()
-    {
-        //myAnimator = GetComponent<Animator>();
-    }
-
     private void Update()
     {
+        myShake = false;
+
         if (!mySporeParticles.isPlaying)
         {
             mySporeTimer += Time.deltaTime;
 
             if (mySporeTimer >= myMaxTime)
             {
-                //myAnimator.SetTrigger("Spores");
+                myShake = true;
                 mySporeParticles.Play();
                 mySporeTimer = 0;
-                Debug.LogError("PLAY");
             }
         }
+
+        myAnimator.SetBool("Shake", myShake);
+
     }
 }
