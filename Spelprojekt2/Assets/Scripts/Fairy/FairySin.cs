@@ -6,7 +6,7 @@ public class FairySin : MonoBehaviour
     void Update()
     {
         Vector3 pos = transform.position;
-        pos.y += Mathf.Sin(Time.time) * offset;
+        pos.y += Mathf.Sin(Time.deltaTime) * offset;
         transform.position = pos;
     }
 }
