@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -49931,6 +49931,16 @@ PrefabInstance:
       propertyPath: mySpeed
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 222899965528134511, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc4c6403a81d924b81ac4304232c919, type: 2}
+    - target: {fileID: 222899965528134511, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc4c6403a81d924b81ac4304232c919, type: 2}
     - target: {fileID: 1113586939093919236, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -49944,7 +49954,7 @@ PrefabInstance:
     - target: {fileID: 1113586939093919236, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 10.05
+      value: 10.866
       objectReference: {fileID: 0}
     - target: {fileID: 1113586939093919236, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
         type: 3}
@@ -49986,11 +49996,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3454369983087275006, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc4c6403a81d924b81ac4304232c919, type: 2}
+    - target: {fileID: 5473653629751487410, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc4c6403a81d924b81ac4304232c919, type: 2}
     - target: {fileID: 5625587613298589854, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
         type: 3}
       propertyPath: m_Name
       value: FlyingFairy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8882614090403826903, guid: a2fc20f6a5c8ea64a95cc637fe45d391,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: acc4c6403a81d924b81ac4304232c919, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2fc20f6a5c8ea64a95cc637fe45d391, type: 3}
 --- !u!1 &1406600929
