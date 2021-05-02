@@ -90,10 +90,10 @@ public class Tile : MonoBehaviour
 
     public void PlaceSlidingBlock()
     {
-        float slidingBlockSize = mySlidingBlock.GetComponent<Renderer>().bounds.size.y;
-        float tileSize = GetComponent<Renderer>().bounds.size.y;
+        float slidingBlockSize = mySlidingBlock.GetComponentInChildren<SkinnedMeshRenderer>().bounds.size.y;
+        float tileSize = mySlidingBlock.GetComponentInChildren<SkinnedMeshRenderer>().bounds.size.y;
 
-        float tileTop = transform.position.y + tileSize / 2;
+        float tileTop = transform.position.y + tileSize / 4;
         Vector3 newPosition = new Vector3(transform.position.x, tileTop + slidingBlockSize / 2, transform.position.z);
 
         myCurrent = Instantiate(mySlidingBlock, newPosition, transform.rotation);
