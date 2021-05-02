@@ -347,12 +347,12 @@ public class PlayerMovement : MonoBehaviour
         if(myRandom < 5) 
         {
             myAnimator.SetTrigger("Push");
-            SoundManager.myInstance.PlayPlayerPushSound();
+            //SoundManager.myInstance.PlayPlayerPushSound();
         }
         else 
         {
             myAnimator.SetTrigger("Kick");
-            SoundManager.myInstance.PlayPlayerKickSound();
+            //SoundManager.myInstance.PlayPlayerKickSound();
         }
         
     }
