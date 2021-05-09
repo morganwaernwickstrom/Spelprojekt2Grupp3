@@ -14,13 +14,14 @@ public class LevelSelectManager : MonoBehaviour
     GameObject[] myCanvases;
 
     private int myCanvasIndex = 0;
-    private const int myCanvasIndexMax = 1;
+    private const int myCanvasIndexMax = 2;
 
     private void Start()
     {
-        myCanvases = new GameObject[2];
+        myCanvases = new GameObject[3];
         myCanvases[0] = GameObject.Find("Levels1");
         myCanvases[1] = GameObject.Find("Levels2");
+        myCanvases[2] = GameObject.Find("Levels3");
 
         myRightArrow = GameObject.Find("Right Arrow");
         myLeftArrow = GameObject.Find("Left Arrow");
@@ -30,6 +31,7 @@ public class LevelSelectManager : MonoBehaviour
 
         myCanvases[0].SetActive(true);
         myCanvases[1].SetActive(false);
+        myCanvases[2].SetActive(false);
     }
 
     public void GoRight()
