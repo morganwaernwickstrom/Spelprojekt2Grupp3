@@ -27,7 +27,6 @@ public class Laser : MonoBehaviour
     {
         if (myCoords == aPlayerCurrentPos && aPlayerCurrentPos != aPlayerPreviousPos)
         {
-            Debug.Log("Die!");
             EventHandler.current.PlayerDeathEvent();
         }
         return (aPlayerCurrentPos == myCoords);

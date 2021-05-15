@@ -10,9 +10,11 @@ public class SoundManager : MonoBehaviour
     #region AudioClips
     [SerializeField] AudioClip[] myMusicClips = null;
     [SerializeField] AudioClip myDefaultMusicClip = null;
+    [SerializeField] AudioClip mySnailSound = null;
     [SerializeField] AudioClip myRockSound = null;
     [SerializeField] AudioClip[] mySlidingSounds = null;
     [SerializeField] AudioClip myLaserSound = null;
+    [SerializeField] AudioClip myReceiverSound = null;
     [SerializeField] AudioClip[] myPlayerDashSounds = null;
     [SerializeField] AudioClip[] myPlayerPushSounds = null;
     [SerializeField] AudioClip[] myPlayerKickSounds = null;
@@ -115,11 +117,22 @@ public class SoundManager : MonoBehaviour
 
         if (myEffectSlider != null && myMusicSlider != null)
         {
-            SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
-            SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
+            if (PlayerPrefs.HasKey("EffectsVolume") && PlayerPrefs.HasKey("MusicVolume"))
+            {
+                SetEffectsVolume(PlayerPrefs.GetFloat("EffectsVolume"));
+                SetMusicVolume(PlayerPrefs.GetFloat("MusicVolume"));
 
-            myEffectSlider.value = GetCurrentEffectsVolume();
-            myMusicSlider.value = GetCurrentMusicVolume();
+                myEffectSlider.value = GetCurrentEffectsVolume();
+                myMusicSlider.value = GetCurrentMusicVolume();
+            }
+            else
+            {
+                SetEffectsVolume(1.0f);
+                SetMusicVolume(1.0f);
+
+                myEffectSlider.value = GetCurrentEffectsVolume();
+                myMusicSlider.value = GetCurrentMusicVolume();
+            }
         }
     }
 
@@ -152,6 +165,11 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    public void PlaySnailSound()
+    {
+        myEffectsAudioSource.PlayOneShot(mySnailSound);
+    }
+
     public void PlayRockSound()
     {
         myEffectsAudioSource.PlayOneShot(myRockSound);
@@ -175,6 +193,11 @@ public class SoundManager : MonoBehaviour
     public void PlayMenuButtonSound()
     {
         myEffectsAudioSource.PlayOneShot(myMenuButtonSound);
+    }
+
+    public void PlayReceiverSound()
+    {
+        myEffectsAudioSource.PlayOneShot(myReceiverSound);
     }
 
     public void PlayLaserSound()

@@ -56,7 +56,7 @@ public class Tile : MonoBehaviour
         float tileSize = GetComponent<Renderer>().bounds.size.y;
 
         float tileTop = transform.position.y + tileSize / 2;
-        Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2, transform.position.z);
+        Vector3 newPosition = new Vector3(transform.position.x, tileTop + rockSize / 2.5f, transform.position.z);
 
         myCurrent = Instantiate(myTrain, newPosition, transform.rotation);
         myType = eTileType.Train;

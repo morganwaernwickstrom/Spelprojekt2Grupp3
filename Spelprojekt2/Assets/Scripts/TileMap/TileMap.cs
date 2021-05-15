@@ -295,7 +295,7 @@ public class TileMap : MonoBehaviour
             }
             map += "\n";
         }
-        Debug.Log(map);
+       // Debug.Log(map);
     }
 
     private void InitializeTileMap()

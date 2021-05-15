@@ -176,6 +176,8 @@ public class ReflectorScript : MonoBehaviour
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
+        SoundManager.myInstance.PlayLaserSound();
+
         ClearLaser();
         int amount = Mathf.RoundToInt(myLaserDistance);
 
@@ -283,6 +285,7 @@ public class ReflectorScript : MonoBehaviour
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
+            SoundManager.myInstance.PlayRockSound();
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));

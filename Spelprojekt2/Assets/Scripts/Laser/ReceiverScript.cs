@@ -24,6 +24,7 @@ public class ReceiverScript : MonoBehaviour
     {
         if (anOther.CompareTag("Laser"))
         {
+            SoundManager.myInstance.PlayReceiverSound();
             myIsActivated = true;
             myHasOpenedDoor = false;
             myIncomingLaserCollider = anOther;

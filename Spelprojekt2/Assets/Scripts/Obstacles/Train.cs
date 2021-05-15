@@ -7,13 +7,12 @@ public class Train : MonoBehaviour
     private Vector3 myDestinationRot;
 
     private float mySpeed = 4f;
+    private float myRotationSpeed = 2500.0f;
     private float myRotationLerpSpeed = 0.05f;
     private Coord myCoords;
     private Coord myPreviousCoords;
 
     private Stack myPreviousMoves;
-    [SerializeField] private Animator mySnailAnimator = null;
-    bool myIsMoving = false;
 
     // Start is called before the first frame update
     void Start()
@@ -33,8 +32,6 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-        myIsMoving = (transform.position != myDesiredPosition);
-
         if (ComparePositions(transform.position, myDesiredPosition, 0.02f))
         {
             transform.position = myDesiredPosition;
@@ -42,9 +39,13 @@ public class Train : MonoBehaviour
         else
         {
             transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+            
+            float currentRotY = transform.localEulerAngles.y;
+            myDestinationRot = new Vector3(0, currentRotY + myRotationSpeed * Time.deltaTime, 0);
+
+            transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
         }
-        transform.eulerAngles = Vector3.Lerp(transform.eulerAngles, myDestinationRot, myRotationLerpSpeed);
-        mySnailAnimator.SetBool("Moving", myIsMoving);
+
     }
 
     private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
@@ -78,6 +79,8 @@ public class Train : MonoBehaviour
         CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
+            SoundManager.myInstance.PlaySnailSound();
+
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
@@ -116,36 +119,36 @@ public class Train : MonoBehaviour
             TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
             TileMap.Instance.Get(desiredTile) == eTileType.Train)
             return;
-        // TODO: Add Lookup map of to check if tile is empty!
+
         if (TileMap.Instance.Get(desiredTile) == eTileType.Rail)
         {
             myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
             myCoords += aDirection;
             TileMap.Instance.Set(previousCoords, eTileType.Rail);
-            if (aDirection.x > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 0, 0);
-                //myRotation = Quaternion.Euler(0, 180, 0);
-                //gameObject.transform.rotation = myRotation;
-            }
-            else if (aDirection.x < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 180, 0);
-                //myRotation = Quaternion.Euler(0, 0, 0);
-                //gameObject.transform.rotation = myRotation;
-            }
-            else if (aDirection.y > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 270, 0);
-                //myRotation = Quaternion.Euler(0, 90, 0);
-                //gameObject.transform.rotation = myRotation;
-            }
-            else if (aDirection.y < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
-            {
-                myDestinationRot = new Vector3(0, 90, 0);
-                //myRotation = Quaternion.Euler(0, -90, 0);
-                //gameObject.transform.rotation = myRotation;
-            }
+            //if (aDirection.x > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
+            //{
+            //    myDestinationRot = new Vector3(0, 0, 0);
+            //    //myRotation = Quaternion.Euler(0, 180, 0);
+            //    //gameObject.transform.rotation = myRotation;
+            //}
+            //else if (aDirection.x < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
+            //{
+            //    myDestinationRot = new Vector3(0, 180, 0);
+            //    //myRotation = Quaternion.Euler(0, 0, 0);
+            //    //gameObject.transform.rotation = myRotation;
+            //}
+            //else if (aDirection.y > 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
+            //{
+            //    myDestinationRot = new Vector3(0, 270, 0);
+            //    //myRotation = Quaternion.Euler(0, 90, 0);
+            //    //gameObject.transform.rotation = myRotation;
+            //}
+            //else if (aDirection.y < 0 && TileMap.Instance.Get(myCoords + aDirection) != eTileType.Rail)
+            //{
+            //    myDestinationRot = new Vector3(0, 90, 0);
+            //    //myRotation = Quaternion.Euler(0, -90, 0);
+            //    //gameObject.transform.rotation = myRotation;
+            //}
         }
         EventHandler.current.RockMoveEvent(myCoords);
 
