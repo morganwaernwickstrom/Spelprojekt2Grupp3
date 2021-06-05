@@ -8,6 +8,7 @@ public class Door : MonoBehaviour
     private Coord myCoords;
     private bool myIsOpened = false;
     private bool myShouldClose = true;
+    bool myHasSubscribed = false;
 
     private void Start()
     {
@@ -41,14 +42,21 @@ public class Door : MonoBehaviour
         TileMap.Instance.Set(myCoords, eTileType.Empty);
         myIsOpened = true;
         SoundManager.myInstance.PlayDoorOpenSound();
+        myHasSubscribed = false;
         return true;
     }
 
     private bool OnButtonUp()
-    {
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+    {        
+        if (!myHasSubscribed)
+        {
+            EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+            EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
+        }
+
+
         TileMap.Instance.Set(myCoords, eTileType.Door);
+        myHasSubscribed = true;
         if (myShouldClose)
         {
             myDesiredPosition = myOriginalPosition;
