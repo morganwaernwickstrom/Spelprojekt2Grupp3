@@ -243,59 +243,59 @@ public class TileMap : MonoBehaviour
 
     public void DebugTiles()
     {
-        string map = "\n";
-        for (int i = myRows - 1; i >= 0; --i)
-        {
-            for (int j = 0; j < myColumns; ++j)
-            {
-                if (myTileMap[j, i].type == eTileType.Rock)
-                    map += " R ";
+       // string map = "\n";
+       // for (int i = myRows - 1; i >= 0; --i)
+       // {
+       //     for (int j = 0; j < myColumns; ++j)
+       //     {
+       //         if (myTileMap[j, i].type == eTileType.Rock)
+       //             map += " R ";
 
-                else if (myTileMap[j, i].type == eTileType.Impassable)
-                    map += " W ";
+       //         else if (myTileMap[j, i].type == eTileType.Impassable)
+       //             map += " W ";
 
-                else if (myTileMap[j, i].type == eTileType.Sliding)
-                    map += " S ";
+       //         else if (myTileMap[j, i].type == eTileType.Sliding)
+       //             map += " S ";
 
-                else if (myTileMap[j, i].type == eTileType.Hole)
-                    map += " O ";
+       //         else if (myTileMap[j, i].type == eTileType.Hole)
+       //             map += " O ";
 
-                else if (myTileMap[j, i].type == eTileType.Finish)
-                    map += " F ";
+       //         else if (myTileMap[j, i].type == eTileType.Finish)
+       //             map += " F ";
 
-                else if (myTileMap[j, i].type == eTileType.Button)
-                    map += " B ";
+       //         else if (myTileMap[j, i].type == eTileType.Button)
+       //             map += " B ";
 
-                else if (myTileMap[j, i].type == eTileType.Door)
-                    map += " D ";
+       //         else if (myTileMap[j, i].type == eTileType.Door)
+       //             map += " D ";
 
-                else if (myTileMap[j, i].type == eTileType.Emitter)
-                    map += " E ";
+       //         else if (myTileMap[j, i].type == eTileType.Emitter)
+       //             map += " E ";
 
-                else if (myTileMap[j, i].type == eTileType.Reflector)
-                    map += " rf ";
+       //         else if (myTileMap[j, i].type == eTileType.Reflector)
+       //             map += " rf ";
 
-                else if (myTileMap[j, i].type == eTileType.Receiver)
-                    map += " re ";
+       //         else if (myTileMap[j, i].type == eTileType.Receiver)
+       //             map += " re ";
 
-                else if (myTileMap[j, i].type == eTileType.Player)
-                    map += " p ";
+       //         else if (myTileMap[j, i].type == eTileType.Player)
+       //             map += " p ";
 
-                else if (myTileMap[j, i].type == eTileType.Laser)
-                    map += " L ";
+       //         else if (myTileMap[j, i].type == eTileType.Laser)
+       //             map += " L ";
 
-                else if (myTileMap[j, i].type == eTileType.Rail)
-                    map += " ra ";
+       //         else if (myTileMap[j, i].type == eTileType.Rail)
+       //             map += " ra ";
 
-                else if (myTileMap[j, i].type == eTileType.Train)
-                    map += " Tr ";
+       //         else if (myTileMap[j, i].type == eTileType.Train)
+       //             map += " Tr ";
 
-                else
-                    map += " # ";
-            }
-            map += "\n";
-        }
-       Debug.Log(map);
+       //         else
+       //             map += " # ";
+       //     }
+       //     map += "\n";
+       // }
+       //Debug.Log(map);
     }
 
     private void InitializeTileMap()

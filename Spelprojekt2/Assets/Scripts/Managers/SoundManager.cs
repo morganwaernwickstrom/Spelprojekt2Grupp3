@@ -3,9 +3,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
-{
-
-    public static SoundManager myInstance { get; private set; }
+{    public static SoundManager myInstance { get; private set; }
 
     #region AudioClips
     [SerializeField] AudioClip[] myMusicClips = null;

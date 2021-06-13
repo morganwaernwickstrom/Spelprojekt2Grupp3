@@ -49,6 +49,18 @@ public class SceneChange : MonoBehaviour
     }
 
     // --- Level Select Buttons --- //
+
+    public void TutorialOne()
+    {
+        SoundManager.myInstance.PlayMenuButtonSound();
+        SceneManager.LoadScene("TutorialLevel1");
+    }
+
+    public void TutorialTwo()
+    {
+        SoundManager.myInstance.PlayMenuButtonSound();
+        SceneManager.LoadScene("TutorialLevel2");
+    }
     public void LevelOne()
     {
         SoundManager.myInstance.PlayMenuButtonSound();
