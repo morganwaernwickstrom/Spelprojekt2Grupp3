@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class ReflectorScript : MonoBehaviour
@@ -10,6 +11,12 @@ public class ReflectorScript : MonoBehaviour
         Right
     }
 
+    public GameObject myLaserObject1;
+    public GameObject myLaserObject2;
+    public GameObject myLaserObject3;
+    public GameObject myLaserObject4;
+    public GameObject myParticles;
+
     // --- Laser Object pool --- //
     public GameObject myLaser;
     private List<GameObject> myLaserPool;
@@ -18,10 +25,6 @@ public class ReflectorScript : MonoBehaviour
     // --- Distances to draw laser with --- //
     private float myPreviousLaserDistance = 0;
     private float myLaserDistance = 0;
-
-    // --- Transforms used to determine where raycasts should originate from --- //
-    [SerializeField] private Transform myRaycastOriginLeft = null;
-    [SerializeField] private Transform myRaycastOriginRight = null;
 
     // --- Origin points for lasers --- //
     [SerializeField] private Transform myOrigin = null;            // The moving origin point from which lasers instantiate. Both myOrigin and myFirstOrigin depend on myLeftOrigin & myRighOrigin
@@ -38,17 +41,29 @@ public class ReflectorScript : MonoBehaviour
     [SerializeField] private LaserDetectionScript myRightDetectionBox = null;
 
     // --- Is the reflector hit by laser as well as which direction it should take --- //
-    [SerializeField] private bool myIsHit;
+    public bool myIsHit = false;
     private Direction myDirection = Direction.Null;
 
     // Coordinates to use for collision checking
     private Coord myCoords;
+    private Coord myPreviousCoords;
+
+    private Stack myPreviousMoves;
 
     private Vector3 myDesiredPosition;
-    private float mySpeed = 0.1f;
+    private float mySpeed = 10f;
 
     void Start()
     {
+        myPreviousMoves = new Stack();
+
+        myLaserObject1.SetActive(false);
+        myLaserObject2.SetActive(false);
+        myLaserObject3.SetActive(false);
+        myLaserObject4.SetActive(false);
+        myParticles.SetActive(false);
+        myParticles.GetComponent<ParticleSystem>().Pause();
+
         myLaserPool = new List<GameObject>();
 
         for (int i = 0; i < myAmountOfLasers; ++i)
@@ -58,21 +73,36 @@ public class ReflectorScript : MonoBehaviour
             myLaserPool.Add(temp);
         }
 
+        UpdateLaser();
+
         myDesiredPosition = transform.position;
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+        myPreviousCoords = myCoords;
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
+        EventHandler.current.Subscribe(eEventType.RockMove, OnRockMove);
     }
 
-    // --- Every frame the reflector checks if it is hit by a laser and if so do everything needed for laser to go the correct way --- //
     private void Update()
     {
-        bool leftHit = myLeftDetectionBox.myIsHit;
-        bool rightHit = myRightDetectionBox.myIsHit;
-         
+        if (transform.position != myDesiredPosition)
+        {
+            myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
+
         myLeftDetectionBox.CheckIfExited();
         myRightDetectionBox.CheckIfExited();
 
-        myIsHit = (leftHit || rightHit) ? true : false;
+        UpdateLaser();
+    }
+
+    private void UpdateLaser()
+    {
+        bool leftHit = myLeftDetectionBox.myIsHit;
+        bool rightHit = myRightDetectionBox.myIsHit;
+
+        myIsHit = (leftHit || rightHit);
 
         myPreviousLaserDistance = myLaserDistance;
 
@@ -98,31 +128,60 @@ public class ReflectorScript : MonoBehaviour
 
             CheckDistance();
 
-            if ((myPreviousLaserDistance != myLaserDistance))     // Only draw laser if the distance has changed
+            // Only draw laser (once) if the distance or position has changed
+            if (myPreviousLaserDistance != myLaserDistance || myPreviousCoords != myCoords)
             {
-                DrawLaser();
+                if (transform.position == myDesiredPosition)
+                {
+                    DrawLaser();
+                    myPreviousCoords = myCoords;
+                }
+
             }
+
+            if (myLeftDetectionBox.myIsHit)
+            {
+                myLaserObject1.SetActive(true);
+                myLaserObject2.SetActive(true);
+                myLaserObject3.SetActive(false);
+                myLaserObject4.SetActive(false);
+            }
+            else if (myRightDetectionBox.myIsHit)
+            {
+                myLaserObject1.SetActive(false);
+                myLaserObject2.SetActive(false);
+                myLaserObject3.SetActive(true);
+                myLaserObject4.SetActive(true);
+            }
+
+           
+            myParticles.SetActive(true);
+            myParticles.GetComponent<ParticleSystem>().Play();
         }
         else
         {
             CheckDistance();
             myDirection = Direction.Null;
             ClearLaser();
-        }
-        transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed);
-        if (transform.position.y <= 0)
-        {
-            Destroy(gameObject);
+
+            myLaserObject1.SetActive(false);
+            myLaserObject2.SetActive(false);
+            myLaserObject3.SetActive(false);
+            myLaserObject4.SetActive(false);
+            myParticles.SetActive(false);
+            myParticles.GetComponent<ParticleSystem>().Pause();
         }
     }
 
     // --- Draws the laser based on information gathered from Raycast and more in Update function --- //
     private void DrawLaser()
     {
-        ClearLaser();       
+        SoundManager.myInstance.PlayLaserSound();
+
+        ClearLaser();
         int amount = Mathf.RoundToInt(myLaserDistance);
 
-        if ((myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation))
+        if (myLaserRotation == myLeftLaserRotation || myLaserRotation == myRightLaserRotation)
         {
             for (int count = 0; count < amount; ++count)
             {
@@ -144,37 +203,59 @@ public class ReflectorScript : MonoBehaviour
 
     private void CheckDistance()
     {
-        // --- Layermask for raycast to ignore collision with laser-layer --- //
-        int layerMask = 1 << 8;
-        layerMask = ~layerMask;
-
-        RaycastHit hit;
-
+        // --- If hit by laser, decide the direction the laser is being drawn towards, based on object rotation --- //
         if (myIsHit)
         {
-            // --- If reflector is hit by a laser then send out a raycast to determine length to draw laser with --- //
+            Coord direction = new Coord(0, 0);
+
             if (myDirection == Direction.Left)
             {
-                if (Physics.Raycast(myRaycastOriginLeft.position, myRaycastOriginLeft.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 0;
+                    direction.y = 1;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
                 }
             }
             else if (myDirection == Direction.Right)
             {
-                if (Physics.Raycast(myRaycastOriginRight.position, myRaycastOriginRight.forward, out hit, Mathf.Infinity, layerMask))
+                if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 0)
                 {
-                    myLaserDistance = hit.distance;
+                    direction.x = 1;
+                    direction.y = 0;
                 }
-                else
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 90)
                 {
-                    myLaserDistance = 0f;
+                    direction.x = 0;
+                    direction.y = -1;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -180 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 180)
+                {
+                    direction.x = -1;
+                    direction.y = 0;
+                }
+                else if (Mathf.RoundToInt(transform.rotation.eulerAngles.y) == -90 || Mathf.RoundToInt(transform.rotation.eulerAngles.y) == 270)
+                {
+                    direction.x = 0;
+                    direction.y = 1;
                 }
             }
+
+            myLaserDistance = TileMap.Instance.GetDistance(myCoords, direction);
         }
         else
         {
@@ -182,10 +263,29 @@ public class ReflectorScript : MonoBehaviour
         }
     }
 
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myPreviousMoves.Pop();
+
+            TileMap.Instance.Set(myPreviousCoords, eTileType.Empty);
+            TileMap.Instance.Set(myCoords, eTileType.Reflector);
+        }
+        UpdateLaser();
+    }
+
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
+        UpdateLaser();
+        CreateMove();
         if (myCoords == aPlayerCurrentPos)
         {
+            SoundManager.myInstance.PlayRockSound();
             if (aPlayerPreviousPos.x == myCoords.x - 1)
             {
                 Move(new Coord(1, 0));
@@ -210,34 +310,33 @@ public class ReflectorScript : MonoBehaviour
         return true;
     }
 
+    private bool OnRockMove(Coord aRockPos)
+    {
+        if (TileMap.Instance.Get(aRockPos) == eTileType.Laser || TileMap.Instance.Get(aRockPos) == eTileType.Hole)
+        {
+            UpdateLaser();
+        }
+        UpdateLaser();
+        return false;
+    }
+
     private void Move(Coord aDirection)
     {
         Coord previousCoords = myCoords;
-        RockMovement[] otherRocks = FindObjectsOfType<RockMovement>();
-        Door[] otherDoors = FindObjectsOfType<Door>();
-        Impassable[] otherWalls = FindObjectsOfType<Impassable>();
-        // TODO: Add Lookup map of to check if tile is empty!
-        foreach (var rock in otherRocks)
-        {
-            if ((myCoords + aDirection) == rock.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var door in otherDoors)
-        {
-            if ((myCoords + aDirection) == door.GetCoords())
-            {
-                return;
-            }
-        }
-        foreach (var wall in otherWalls)
-        {
-            if ((myCoords + aDirection) == wall.GetCoords())
-            {
-                return;
-            }
-        }
+        myPreviousCoords = myCoords;
+        Coord desiredTile = myCoords + aDirection;
+        if (TileMap.Instance.Get(desiredTile) == eTileType.Rock ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Door ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Hole ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Emitter ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Reflector ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Receiver ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Impassable ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Sliding ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Train ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Null ||
+            TileMap.Instance.Get(desiredTile) == eTileType.Finish)
+            return;
 
         myDesiredPosition += new Vector3(aDirection.x, 0, aDirection.y);
         myCoords += aDirection;
@@ -247,10 +346,25 @@ public class ReflectorScript : MonoBehaviour
             myDesiredPosition += new Vector3(0, -1f, 0);
         }
         EventHandler.current.RockInteractEvent(myCoords, previousCoords);
+        TileMap.Instance.Set(previousCoords, eTileType.Empty);
     }
 
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
+        EventHandler.current.UnSubscribe(eEventType.RockMove, OnRockMove);
+    }
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
+
+    private void CreateMove()
+    {
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        myPreviousMoves.Push(temp);
     }
 }

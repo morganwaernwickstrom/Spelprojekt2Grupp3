@@ -1,34 +1,17 @@
-﻿using UnityEngine.SceneManagement;
-using UnityEngine;
-using System.Collections;
+﻿using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
     private Coord myCoords;
-    private bool myShouldReset = false;
-    private bool myCoroutineRunning = false;
-    private GameObject myPlayer;
 
     private void Start()
     {
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
-        EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
-        EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
     private void Update()
     {
-
-        myPlayer = GameObject.FindGameObjectWithTag("Player");
-
-        if (myShouldReset)
-        {
-            if(!myCoroutineRunning)
-            {
-                StartCoroutine(RestartAfterDeath());
-                myCoroutineRunning = true;
-            }
-        }
+        myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
     }
 
     private void OnEnable()
@@ -42,7 +25,10 @@ public class Laser : MonoBehaviour
 
     private bool OnPlayerMove(Coord aPlayerCurrentPos, Coord aPlayerPreviousPos)
     {
-        myShouldReset = (myCoords == aPlayerCurrentPos);
+        if (myCoords == aPlayerCurrentPos && aPlayerCurrentPos != aPlayerPreviousPos)
+        {
+            EventHandler.current.PlayerDeathEvent();
+        }
         return (aPlayerCurrentPos == myCoords);
     }
 
@@ -56,12 +42,8 @@ public class Laser : MonoBehaviour
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);
     }
 
-    private IEnumerator RestartAfterDeath() 
+    public Coord GetCoords()
     {
-        myPlayer.GetComponentInChildren<Animator>().SetBool("Die", true);
-        myPlayer.GetComponent<PlayerMovement>().enabled = false;
-        Debug.Log("Working");
-        yield return new WaitForSeconds(5);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        return myCoords;
     }
 }

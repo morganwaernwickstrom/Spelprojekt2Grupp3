@@ -10,8 +10,8 @@ public class TileGUI : Editor
         SerializedObject tileInstance = new SerializedObject(myTile);
 
         myTile.GetComponent<Transform>().hideFlags = HideFlags.HideInInspector;
-        myTile.GetComponent<Renderer>().hideFlags = HideFlags.HideInInspector;
-        myTile.GetComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
+        //myTile.GetComponent<Renderer>().hideFlags = HideFlags.HideInInspector;
+        //myTile.GetComponent<MeshFilter>().hideFlags = HideFlags.HideInInspector;
 
         tileInstance.Update();
 
@@ -66,6 +66,15 @@ public class TileGUI : Editor
         if (GUILayout.Button("Place Laser Receiver"))
         {
             myTile.PlaceLaserReceiver();
+        }
+        if (GUILayout.Button("Place Rail"))
+        {
+            myTile.PlaceRail();
+        }
+
+        if (GUILayout.Button("Place Train"))
+        {
+            myTile.PlaceTrain();
         }
 
         if (GUILayout.Button("Remove"))

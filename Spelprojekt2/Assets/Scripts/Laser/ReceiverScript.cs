@@ -2,16 +2,20 @@
 
 public class ReceiverScript : MonoBehaviour
 {
-    //public GameObject myConnectedObject;
     public bool myIsActivated = false;
     private bool myHasOpenedDoor = false;
-    private Collider myIncomingLaserCollider;
+    private Collider myIncomingLaserCollider = null;
+
+    public GameObject myLaserObject = null;
+    [SerializeField] private GameObject myObject = null;
+    private Animator myAnimator = null;
 
     // Coordinates to use for collision checking
     private Coord myCoords;
 
     private void Start()
     {
+        myAnimator = myObject.GetComponent<Animator>();
         myCoords = new Coord(Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.z));
         EventHandler.current.Subscribe(eEventType.PlayerMove, OnPlayerMove);
     }
@@ -20,6 +24,7 @@ public class ReceiverScript : MonoBehaviour
     {
         if (anOther.CompareTag("Laser"))
         {
+            SoundManager.myInstance.PlayReceiverSound();
             myIsActivated = true;
             myHasOpenedDoor = false;
             myIncomingLaserCollider = anOther;
@@ -34,6 +39,9 @@ public class ReceiverScript : MonoBehaviour
             EventHandler.current.ButtonUpEvent();
             myHasOpenedDoor = true;
         }
+
+        myLaserObject.SetActive(myIsActivated);
+        myAnimator.SetBool("Hit", myIsActivated);
     }
 
     private bool CheckIfExited()
@@ -50,7 +58,10 @@ public class ReceiverScript : MonoBehaviour
     {
         return (myCoords == aPlayerCurrentPos);
     }
-
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
     private void OnDestroy()
     {
         EventHandler.current.UnSubscribe(eEventType.PlayerMove, OnPlayerMove);

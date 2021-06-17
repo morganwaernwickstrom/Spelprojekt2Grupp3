@@ -5,10 +5,12 @@ public enum eEventType
 {
     PlayerMove,
     PlayerInteract,
+    PlayerDeath,
     RockMove,
     RockInteract,
     ButtonPressed,
     ButtonUp,
+    Rewind,
     GoalReached
 }
 
@@ -22,15 +24,21 @@ public class EventHandler : MonoBehaviour
     public event Func<bool> onButtonPressed;
     public event Func<bool> onButtonUp;
     public event Func<Coord, bool> onGoalReachedEvent;
+    public event Action onPlayerDeath;
+    public event Action onRewind;
+
+    public static float speedMultiplier = 1.0f;
+    public static bool canRewind = true;
+    public static bool isRewinding = false;
 
     private void Start()
     {
-        if (current == null) current = this;
+        current = this;
     }
 
     private void OnEnable()
     {
-        if (current == null) current = this;
+        current = this;
     }
 
     public void Subscribe(eEventType aType, Func<Coord, Coord, bool> aFunc)
@@ -88,6 +96,32 @@ public class EventHandler : MonoBehaviour
         }
     }
 
+    public void Subscribe(eEventType aType, Action aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath += aFunc;
+                break;
+            case eEventType.Rewind:
+                onRewind += aFunc;
+                break;
+        }
+    }
+
+    public void UnSubscribe(eEventType aType, Action aFunc)
+    {
+        switch (aType)
+        {
+            case eEventType.PlayerDeath:
+                onPlayerDeath -= aFunc;
+                break;
+            case eEventType.Rewind:
+                onRewind -= aFunc;
+                break;
+        }
+    }
+
     public void UnSubscribe(eEventType aType, Func<bool> aFunc)
     {
         switch (aType)
@@ -130,6 +164,10 @@ public class EventHandler : MonoBehaviour
                 {
                     onRockMoveEvent -= aFunc;
                 }
+                foreach (SlidingRockMovement _ in FindObjectsOfType<SlidingRockMovement>())
+                {
+                    onRockMoveEvent -= aFunc;
+                }
                 break;
             case eEventType.GoalReached:
                 onGoalReachedEvent -= aFunc;
@@ -141,14 +179,15 @@ public class EventHandler : MonoBehaviour
 
     public bool PlayerMoveEvent(Coord aPlayerCoord, Coord aPlayerPreviousCoord)
     {
+        bool someOneTrue = false;
         if (onPlayerMoveEvent != null)
         {
             foreach (Func<Coord, Coord, bool> f in onPlayerMoveEvent.GetInvocationList())
             {
-                if (f(aPlayerCoord, aPlayerPreviousCoord)) return true;
+                if (f(aPlayerCoord, aPlayerPreviousCoord)) someOneTrue = true;
             }
         }
-        return false;
+        return someOneTrue;
     }
 
     public bool PlayerInteractEvent(Coord aPlayerCoord, Coord aPlayerPreviousCoord)
@@ -220,7 +259,28 @@ public class EventHandler : MonoBehaviour
                 if(f(aGoalCoord)) return true;
             }
         }
-        Debug.Log("No Canvas?");
         return false;
+    }
+
+    public void PlayerDeathEvent()
+    {
+        if (onPlayerDeath != null)
+        {
+            foreach (Action f in onPlayerDeath.GetInvocationList())
+            {
+                f();
+            }
+        }
+    }
+
+    public void RewindEvent()
+    {
+        if (onRewind != null)
+        {
+            foreach(Action f in onRewind.GetInvocationList())
+            {
+                f();
+            }
+        }
     }
 }

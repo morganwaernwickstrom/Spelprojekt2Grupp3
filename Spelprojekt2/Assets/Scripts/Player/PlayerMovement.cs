@@ -1,75 +1,214 @@
 ﻿using UnityEngine;
+using System.Collections;
+
+struct MoveInfo
+{
+    public Coord coord;
+    public Vector3 position;
+    public Quaternion rotation;
+    public float duration;
+}
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Vector3 myDesiredPosition;
-    private Coord myCoords;
-    private Coord myPreviousCoords;
 
-    private Animator myAnimator;
+    #region serializefields
+    //SerializeFields
 
-    [SerializeField]
-    GameObject myCharacterModel;
+    //GameObject
+    [SerializeField] private GameObject myCharacterModel = null;
 
-    [SerializeField]
-    float mySpeed = 0.1f;
-
+    //Float
     [SerializeField] private float myDeadzone = 100.0f;
     [SerializeField] private float doubleTapDelta = 0.5f;
 
+    //Int
     [SerializeField] private int myMaxXCoordinate;
     [SerializeField] private int myMaxZCoordinate;
     [SerializeField] private int myMinXCoordinate;
     [SerializeField] private int myMinZCoordinate;
+    #endregion
 
-    private GameObject[] myTiles;
+    #region private variables
+    //Private Variables
 
+    //Coord
+    private Coord myCoords;
+    private Coord myPreviousCoords;
+    private Coord myOriginalCoord;
+    private Coord myDesiredTile;
+
+    //Stack
+    private Stack myPreviousMoves;
+
+    //Bool
     private bool tap, doubleTap, swipeLeft, swipeRight, swipeUp, swipeDown;
+
+    //Vector3
+    private Vector3 myDesiredPosition;
+
+    //Vector2
     private Vector2 swipeDelta, startTouch;
+
+    //Float
     private float lastTap;
     private float sqrDeadzone;
-    private float percentage;
+    private float myRewindTimerMax = 0f;
+    private float myRewindTimer;
 
+    //private float percentage;
+    private float mySpeed = 0f;
+    private float myMovementSpeed = 15f;
+
+    //Quaternion
+    private Quaternion myRotation;
+
+    //Misc
+    private Animator myAnimator = null;
+    private Queue myCommandQueue = new Queue();
+
+    private int myMoves = 0;
+    private float myDisableTime = 0.5f;
+
+    #endregion
+
+    #region public variables
+    //public variables
+
+    //Bool
     public bool Tap { get { return tap; } }
+
     public bool DoubleTap { get { return doubleTap; } }
-    public Vector2 SwipeDelta { get { return swipeDelta; } }
-    public bool SwipeLeft { get { return swipeLeft; } }
+
     public bool SwipeRight { get { return swipeRight; } }
+
     public bool SwipeUp { get { return swipeUp; } }
+
     public bool SwipeDown { get { return swipeDown; } }
+
+    public bool SwipeLeft { get { return swipeLeft; } }
+
+    public bool myCanControl = true;
+
+    //Vector
+    public Vector2 SwipeDelta { get { return swipeDelta; } }
+
+    #endregion
 
     private void Awake()
     {
         myCoords = new Coord((int)transform.position.x, (int)transform.position.z);
-        myDesiredPosition = transform.position;
     }
 
     private void Start()
     {
+        myPreviousMoves = new Stack();
+        mySpeed = myMovementSpeed;
         sqrDeadzone = myDeadzone * myDeadzone;
-        percentage = 0.0f;
         myAnimator = GetComponentInChildren<Animator>();
-        myTiles = GameObject.FindGameObjectsWithTag("Tile");
+        myPreviousCoords = new Coord((int)transform.position.x, (int)transform.position.z);
+        myDesiredPosition = transform.position;
+        EventHandler.current.Subscribe(eEventType.Rewind, OnRewind);
     }
 
     private void Update()
     {
+        if (myRewindTimerMax != 0)
+        {
+            EventHandler.isRewinding = true;
+            myRewindTimer += Time.deltaTime;
+
+            if (myRewindTimer >= myRewindTimerMax)
+            {
+                myCanControl = true;
+                EventHandler.canRewind = true;
+                EventHandler.isRewinding = false;
+                myRewindTimer = 0;
+                myRewindTimerMax = 0;
+            }
+        }
+       
         tap = doubleTap = swipeLeft = swipeRight = swipeUp = swipeDown = false;
 
-        UpdateMobile();
-        UpdateStandalone();
-        Movement();
-        WasdMovement();
+        if (myCanControl)
+        {
+            UpdateMobile();
 
-        if (percentage > 1.0f)
+            UpdateStandalone();
+
+            WasdMovement();
+
+            HandleCommandQueue();
+        }
+
+        HandleLerpLogic();
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            EventHandler.current.RewindEvent();
+        }
+
+    }
+
+    private void OnRewind()
+    {
+        if (myPreviousMoves.Count > 0)
+        {
+            EventHandler.isRewinding = true;
+            var moveInfo = (MoveInfo)myPreviousMoves.Peek();
+            myPreviousCoords = myCoords;
+            myCoords = moveInfo.coord;
+            myDesiredPosition = moveInfo.position;
+            myCharacterModel.transform.rotation = moveInfo.rotation;
+            myRewindTimerMax = moveInfo.duration;
+            myPreviousMoves.Pop();
+
+            if (myDesiredPosition != transform.position)
+            {
+                PlayJumpAnimation();
+            }
+            
+            TileMap.Instance.Set(myCoords, eTileType.Player);
+        }
+        if (myMoves > 0) myMoves--;
+    }
+
+    private void HandleLerpLogic()
+    {
+        if (ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
             transform.position = myDesiredPosition;
         }
-        else 
+        else if (!ComparePositions(transform.position, myDesiredPosition, 0.01f))
         {
-            percentage += Time.fixedDeltaTime * mySpeed;
+            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, mySpeed * Time.deltaTime);
+        }
+    }
 
-            transform.position = Vector3.Lerp(transform.position, myDesiredPosition, percentage);
+    private bool ComparePositions(Vector3 aPosition, Vector3 aDesiredPosition, float aDif)
+    {
+        bool xDist = (Mathf.Abs(aPosition.x - aDesiredPosition.x) < aDif);
+        bool yDist = (Mathf.Abs(aPosition.y - aDesiredPosition.y) < aDif);
+        bool zDist = (Mathf.Abs(aPosition.z - aDesiredPosition.z) < aDif);
+
+        return (xDist && yDist && zDist);
+    }
+
+    private bool CanAddCommand()
+    {
+        if(myCommandQueue.Count == 0)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    private void HandleCommandQueue()
+    {
+        if (myCommandQueue.Count != 0)
+        {
+            ExecuteCommands();
         }
     }
 
@@ -104,25 +243,37 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
+                    if (CanAddCommand())
+                        AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
+                    if (CanAddCommand())
+                        AddCommand("right");
                 }
             }
             else
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
+                    if (CanAddCommand())
+                        AddCommand("down");
                 }
                 else
                 {
-                    swipeUp = true;
+                    if (CanAddCommand())
+                        AddCommand("up");
                 }
             }
             startTouch = swipeDelta = Vector2.zero;
+        }
+    }
+
+    private void AddCommand<T>(T aCommand) 
+    {
+        if (transform.position == myDesiredPosition)
+        {
+            myCommandQueue.Enqueue(aCommand);
         }
     }
 
@@ -161,216 +312,285 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (x < 0)
                 {
-                    swipeLeft = true;
+                    if (CanAddCommand())
+                        AddCommand("left");
                 }
                 else
                 {
-                    swipeRight = true;
+                    if (CanAddCommand())
+                        AddCommand("right");
                 }
             }
             else
             {
                 if (y < 0)
                 {
-                    swipeDown = true;
+                    if (CanAddCommand())
+                        AddCommand("down");
                 }
                 else
                 {
-                    swipeUp = true;
+                    if (CanAddCommand())
+                        AddCommand("up");
                 }
+
+                startTouch = swipeDelta = Vector2.zero;
             }
-            startTouch = swipeDelta = Vector2.zero;
         }
     }
 
-    //Movement using WASD 
-    private void WasdMovement()
+    public void Push()
     {
-        Coord originalCoord = myCoords;
 
-        myPreviousCoords = myCoords;
+        int myRandom = Random.Range(0, 10);
 
-        float distance = Vector3.Distance(transform.position, myDesiredPosition);
-
-        Vector3 myPlayerPosition = transform.position;
-
-        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
-
-        if (transform.position == myDesiredPosition)
+        if(myRandom < 5) 
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-
-                if (TileAhead(myPlayerPosition += new Vector3(0, 0, 1)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, 1);
-                    myRotation = Quaternion.Euler(0, 0, 0);
-                    myCoords.y += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.S))
-            {
-
-                if (TileAhead(myPlayerPosition += new Vector3(0, 0, -1)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, -1);
-                    myCoords.y -= 1;
-                    myRotation = Quaternion.Euler(0, 180, 0);
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-
-                if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(-1, 0, 0);
-                    myRotation = Quaternion.Euler(0, -90, 0);
-                    myCoords.x -= 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-
-                if (TileAhead(myPlayerPosition += new Vector3(1, 0, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(1, 0, 0);
-                    myRotation = Quaternion.Euler(0, 90, 0);
-                    myCoords.x += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-            }
-
-
-        }
-
-
-        if (distance < 0.1) 
-        {
-            myAnimator.SetBool("Walk", false);
+            myAnimator.SetTrigger("Push");
+            //SoundManager.myInstance.PlayPlayerPushSound();
         }
         else 
         {
-            myAnimator.SetBool("Walk", true);
+            myAnimator.SetTrigger("Kick");
+            //SoundManager.myInstance.PlayPlayerKickSound();
         }
-            
         
-
-
-        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
-        {
-            myDesiredPosition = transform.position;
-            myCoords = originalCoord;
-        }
-        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
-
-        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 
-    private void Movement()
+    private void ExecuteCommands()
     {
-        Coord originalCoord = myCoords;
-
-        myPreviousCoords = myCoords;
-
-        Quaternion myRotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
-
-        Vector3 myPlayerPosition = transform.position;
-
-        if (transform.position == myDesiredPosition)
+        if (IsPlayerAtDestination()) 
         {
-            if (swipeUp)
+            switch (myCommandQueue.Peek()) 
             {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(0, 0, 1))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, 1);
-                    myRotation = Quaternion.Euler(0, 0, 0);
-                    myCoords.y += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-            }
-            if (swipeDown)
-            {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(0, 0, -1))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(0, 0, -1);
-                    myCoords.y -= 1;
-                    myRotation = Quaternion.Euler(0, 180, 0);
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-               
-            }
-            if (swipeLeft)
-            {
-                
-                if (TileAhead(myPlayerPosition += new Vector3(-1, 0, 0)))
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(-1, 0, 0);
-                    myRotation = Quaternion.Euler(0, -90, 0);
-                    myCoords.x -= 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
-               
-            }
-            if (swipeRight)
-            {
-                
-                if(TileAhead(myPlayerPosition += new Vector3(1, 0, 0))) 
-                {
-                    percentage = 0;
-                    myDesiredPosition += new Vector3(1, 0, 0);
-                    myRotation = Quaternion.Euler(0, 90, 0);
-                    myCoords.x += 1;
-                    myCharacterModel.transform.rotation = myRotation;
-                }
+                case "left":
+                    MoveLeft();
+                    break;
+                case "right":
+                    MoveRight();
+                    break;
+                case "up":
+                    MoveUp();
+                    break;
+                case "down":
+                    MoveDown();
+                    break;
             }
 
-            
+            myCommandQueue.Dequeue();
         }
-
-
-        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
-        {
-            myDesiredPosition = transform.position;
-            myCoords = originalCoord;
-        }
-        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
-
-        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
     }
 
-    bool TileAhead(Vector3 aPosition)
+    private Quaternion GetPlayerRotation()
     {
+        return Quaternion.Euler(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+    }
 
-        print(aPosition);
-
-        Vector3 myDesPos = new Vector3(aPosition.x, transform.position.y - 1, aPosition.z);
-
-
-        foreach(GameObject aTile in myTiles)
+    private bool IsPlayerAtDestination() 
+    {
+        if(transform.position == myDesiredPosition) 
         {
-            float myDistance = Vector3.Distance(myDesPos, aTile.transform.position);
-            if (myDistance <= 0.1f) 
-            {
-                return true;
-                
-            }
+            return true;
         }
 
         return false;
+    }
+
+    private void MoveLeft()
+    {
+        myOriginalCoord = myCoords;
+
+        myRotation = GetPlayerRotation();
+
+        myPreviousCoords = myCoords;
+
+        myDesiredTile = myCoords + new Coord(-1, 0);
+
+        myRotation = Quaternion.Euler(0, -90, 0);
+        myCharacterModel.transform.rotation = myRotation;
+
+        if (CanMove(myDesiredTile))
+        {
+            CreateMove();
+            myDesiredPosition += new Vector3(-1, 0, 0);
+            myCoords.x -= 1;
+        }
+
+        EventHandlerManager();
         
+    }
+
+    private void MoveRight() 
+    {
+        myOriginalCoord = myCoords;
+
+        myRotation = GetPlayerRotation();
+
+        myPreviousCoords = myCoords;
+
+        myDesiredTile = myCoords + new Coord(1, 0);
+
+        myRotation = Quaternion.Euler(0, 90, 0);
+        myCharacterModel.transform.rotation = myRotation;
+
+        if (CanMove(myDesiredTile))
+        {
+            CreateMove();
+            myDesiredPosition += new Vector3(1, 0, 0);
+            myCoords.x += 1;
+        }
+
+        EventHandlerManager();
+
+    }
+
+    private void MoveUp()
+    {
+        myOriginalCoord = myCoords;
+
+        myRotation = GetPlayerRotation();
+
+        myPreviousCoords = myCoords;
+
+        myDesiredTile = myCoords + new Coord(0, 1);
+
+        myRotation = Quaternion.Euler(0, 0, 0);
+        myCharacterModel.transform.rotation = myRotation;
+
+        if (CanMove(myDesiredTile))
+        {
+            CreateMove();
+            myDesiredPosition += new Vector3(0, 0, 1);
+            myCoords.y += 1;
+        }
+
+        EventHandlerManager();
+
+    }
+
+    private void MoveDown()
+    {
+        myOriginalCoord = myCoords;
+
+        myRotation = GetPlayerRotation();
+
+        myPreviousCoords = myCoords;
+
+        myDesiredTile = myCoords + new Coord(0, -1);
+
+        myRotation = Quaternion.Euler(0, 180, 0);
+        myCharacterModel.transform.rotation = myRotation;
+
+        if (CanMove(myDesiredTile))
+        {
+            CreateMove();
+            myDesiredPosition += new Vector3(0, 0, -1);
+            myCoords.y -= 1;
+        }
+
+        EventHandlerManager();
+
+    }
+
+    private void EventHandlerManager()
+    {
+        if (EventHandler.current.PlayerMoveEvent(myCoords, myPreviousCoords))
+        {
+            myRewindTimerMax = 1.0f;
+
+            if (TileMap.Instance.Get(myCoords) == eTileType.Sliding)
+            {
+                myRewindTimerMax = 1.3f;
+            }
+
+            if (TileMap.Instance.Get(myCoords) == eTileType.Laser) 
+            {
+                PlayLaserAnimation();
+                SoundManager.myInstance.PlayPlayerBurnedSound();
+            }
+            else 
+            {
+                Push();
+            }
+
+            myDesiredPosition = transform.position;
+            myCoords = myOriginalCoord;
+
+        }
+        else 
+        {
+            myRewindTimerMax = 0.3f;
+
+            SoundManager.myInstance.PlayPlayerDashSound();
+            PlayJumpAnimation();
+        }
+        EventHandler.current.PlayerInteractEvent(myCoords, myPreviousCoords);
+
+        TileMap.Instance.Set(myCoords, eTileType.Player);
+        myDesiredPosition = new Vector3(Mathf.Round(myDesiredPosition.x), myDesiredPosition.y, Mathf.Round(myDesiredPosition.z));
+    }
+
+    private void WasdMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.W)) 
+        {
+            if (CanAddCommand())
+                AddCommand("up");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) 
+        {
+            if (CanAddCommand())
+                AddCommand("down");
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (CanAddCommand())
+                AddCommand("left");
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            if (CanAddCommand())
+                AddCommand("right");
+        }
+    }
+
+    private void PlayJumpAnimation() 
+    {
+        myAnimator.SetTrigger("Jump");
+    }
+
+    private void PlayLaserAnimation() 
+    {
+        myAnimator.SetTrigger("Whiplash");
+    }
+
+    private void CreateMove()
+    {
+        myMoves++;
+        var temp = new MoveInfo();
+        temp.coord = myCoords;
+        temp.position = transform.position;
+        temp.rotation = myRotation;
+        temp.rotation = myRotation;
+        temp.duration = myDisableTime;
+        myPreviousMoves.Push(temp);
+    }
+
+    bool CanMove(Coord aCoord)
+    {
+        return (TileMap.Instance.Get(aCoord) != eTileType.Null);
+    }
+
+    public Coord GetCoords()
+    {
+        return myCoords;
+    }
+
+    private void OnDestroy()
+    {
+        EventHandler.current.UnSubscribe(eEventType.Rewind, OnRewind);
     }
 }

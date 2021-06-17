@@ -1,11 +1,14 @@
 ﻿// All structs for tiles
 public enum eTileType
 {
+    Null,
     Empty,
     Rock,
     Hole,
     Laser,
     Finish,
+    Rail,
+    Train,
     Button,
     Door,
     Emitter,
@@ -47,10 +50,22 @@ public struct _Tile
 {
     public Coord coord;
     public eTileType type;
+    public bool myIsAssigned;
 
-    public _Tile(Coord _coord, eTileType _type)
+    public _Tile(Coord _coord, eTileType _type, bool isActive = false)
     {
         coord = _coord;
         type = _type;
+        myIsAssigned = isActive;
+    }
+
+    public static bool operator !(_Tile t1)
+    {
+        if (t1.type == eTileType.Null)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

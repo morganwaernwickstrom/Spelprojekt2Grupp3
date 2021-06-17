@@ -4,7 +4,7 @@ public class ObjectOnTile : MonoBehaviour
 {
     public void Remove()
     {
-        DestroyImmediate(gameObject);
+        DestroyImmediate(gameObject, true);
     }
 
     public void Rotate()
